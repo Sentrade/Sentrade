@@ -1,6 +1,6 @@
 # Sentiment Analysis on Financial News
 
-An algo-trading product for faciliating investors on stock trading based on sentiment analyais of relavant financial news.
+An algo-trading product for faciliating investors on stock trading based on sentiment analyais of relevant financial news.
 
 ## Getting Started
 
@@ -52,5 +52,3 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Acknowledgments
 
 * This project is supervised by [Dr Anandha Gopalan](https://www.imperial.ac.uk/people/a.gopalan): a visionary, experienced and helpful mentor.
-
-
