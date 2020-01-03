@@ -1,5 +1,5 @@
 # from stock_price import *
-# from sentiment import *
+from sentiment import *
 
 """
 PREREQUISITE 1: 
