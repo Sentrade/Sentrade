@@ -38,7 +38,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Authors
 
 (Alphabetical order --- we are democratic! :wink:)
-* **Davide Locatelli** - *Sentiment analysis and machine learning* - [LinkedIn](https://www.linkedin.com/in/ziyou-zhang/)
+* **Davide Locatelli** - *Sentiment analysis and machine learning* - [LinkedIn](https://www.linkedin.com/in/davide-locatelli-02011998/)
 * **Fengming Liu** - *Online publication business news scraping* - [LinkedIn](https://www.linkedin.com/in/%E4%B8%B0%E9%93%AD-%E5%88%98-a10632118/)
 * **Nora Li** - *Financial data scraping and front end design* - [LinkedIn](https://www.linkedin.com/in/longzhen-nora-li-bb8a9312a/)
 * **Sara Yin** - *Social media business news scraping* - [LinkedIn](https://www.linkedin.com/in/shaomiao%EF%BC%88sara-y-1a44b7170/)
