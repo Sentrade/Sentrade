@@ -24,9 +24,26 @@ def linear_plot():
     with open("sentiment.json", "r") as f:
         sentiment_data = json.load(f)
 
+    dates = []
+    price_changes = []
+    sentiment_scores = []
     
-    print(stock_data)
-    print(sentiment_data)
+    for stock_entry in stock_data:
+        date = stock_entry["date"]
+        open_price = stock_entry["open"]
+        close_price = stock_entry["close"]
+        for sentiment_entry in sentiment_data:
+            if (sentiment_entry["date"] == date):
+                dates.append(date)
+                price_changes.append(close_price-open_price)
+                sentiment_scores.append(sentiment_entry["polarity"])
 
+    print (dates)
+    print (price_changes)
+    print (sentiment_scores)
+
+    plt.plot(sentiment_scores, price_changes, '.')
+    plt.show()
+                
 if __name__ == "__main__":
     linear_plot()
