@@ -102,7 +102,18 @@ def get_date(source, url=None, soup=None):
         return None
     else:
         pass
-
+    
+def get_FNdata(FN_data, source, main_url):
+    sublinks = get_sub_links(source, main_url)
+    for link in sublinks:
+        soup = download_page(link)
+        title, text = get_title_text(soup)
+        FN_data = FN_data.append({"source": source, 
+                                  "url": link,
+                                  "title": title, 
+                                  "text": text, 
+                                  "date": get_date(source, link, soup)}, ignore_index=True)
+    return FN_data
 ########################################################
 ##################### Main Program #####################
 ########################################################
@@ -117,33 +128,11 @@ def get_date(source, url=None, soup=None):
 
 
 FN_data = pd.DataFrame(columns=["source", "url", "title", "text", "date"])
+FN_source = {"Economist": "https://www.economist.com/finance-and-economics", 
+ 			 "Yahoo_Finance": "https://finance.yahoo.com/news"}
+#             "Financial_Times": "https://www.ft.com/world/uk"}
 
-#sublinks_economist = get_sub_links("Economist", "https://www.economist.com/finance-and-economics")
-#for link in sublinks_economist:
-#    soup = download_page(link)
-#    title, text = get_title_text(soup)
-#    FN_data = FN_data.append({"source": "Economist", 
-#                              "url": link,
-#                              "title": title, 
-#                              "text": text, 
-#                              "date": get_date("Economist", link, soup)}, ignore_index=True)
-
-#sublinks_FT = get_sub_links("Financial_Times", "https://www.ft.com")
-#for link in sublinks_FT:
-#    soup = download_page(link)
-#    title, text = get_title_text(soup)
-#    FN_data = FN_data.append({"source": "Financial_Times", 
-#                              "url": link,
-#                              "title": title, 
-#                              "text": text, 
-#                              "date": get_date("Financial_Times", link, soup)}, ignore_index=True)
-
-sublinks_FT = get_sub_links("Yahoo_Finance", "https://finance.yahoo.com/news")
-for link in sublinks_FT:
-    soup = download_page(link)
-    title, text = get_title_text(soup)
-    FN_data = FN_data.append({"source": "Yahoo_Finance", 
-                              "url": link,
-                              "title": title, 
-                              "text": text, 
-                              "date": get_date("Yahoo_Finance", link, soup)}, ignore_index=True)
+for source, main_url in FN_source.items():
+    FN_data = get_FNdata(FN_data, source, main_url)
+    
+FN_data.to_json("./result/FN_data.json", orient='records')
