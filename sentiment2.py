@@ -27,21 +27,21 @@ def is_org(news,index):
                 return True
     return False
 
-def analyze_sent(file):
-    with open(file) as news_file:
+def analyze_sent(inputfile,outputfile):
+    with open(inputfile) as news_file:
         input_data= json.load(news_file)
 
-#Integrating @Ziyou's TextBlob
+    #Integrating @Ziyou's TextBlob
     for news in input_data:
         if is_org(news,index):
             blob = TextBlob(news["text"])
             news["polarity"] = blob.sentiment.polarity
             news["subjectivity"] = blob.sentiment.subjectivity
 
-    with open("sentiment2.json", "w") as results:
+    with open(outputfile, "w") as results:
         json.dump(input_data, results)
 
 if __name__ == "__main__":
-    analyze_sent("newsorg.json")
+    analyze_sent("FN_data.json", "FN_data_results.json")
 
             
