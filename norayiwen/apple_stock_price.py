@@ -10,10 +10,9 @@ import json
 
 def show_cominfo(aapl):
     """
-	acquire company information
+    acquire company information
     
-	:param aapl:
-    :return:
+    :param aapl:stock ticker
     """
     cominfo = aapl.info  
     print('AAPL cominfo:')
@@ -26,13 +25,13 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     """
 	get historical stock price 
 
-    :param stock_name:
-    :param period:
-    :param json_name:
-    :return: results(historical values)
+    :param stock_name:stock ticker
+    :param period:time period from 1d to max (1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max)
+    :param json_name: name of the output file
+    :return: json file including 'Date', 'Open','High','Low','Close','Volume'
     """
     stock = yf.Ticker("AAPL")  
-    hist = stock.history(period=period)  # time period from 1d to max (1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max)
+    hist = stock.history(period=period)  
 
     # create the temp list dictionary
     temp = {}
