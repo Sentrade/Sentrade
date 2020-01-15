@@ -8,6 +8,8 @@ import json
 import spacy
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+company = "apple"
+
 def is_org(news,company):
     """
     Function to check if a company is named in a piece of news

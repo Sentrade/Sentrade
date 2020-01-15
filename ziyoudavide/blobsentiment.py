@@ -47,4 +47,4 @@ def blob_analyse(inputfile,outputfile):
         json.dump(input_data, results)
 
 if __name__ == "__main__":
-    blob_analyse("newsorg.json", "newsorg_sent.json")
+    blob_analyse("newsorg.json", "blob_sent.json")
