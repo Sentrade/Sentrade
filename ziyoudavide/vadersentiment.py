@@ -47,4 +47,4 @@ def vader_analyse(inputfile,outputfile):
         json.dump(input_data, results)
 
 if __name__ == "__main__":
-    vader_analyse("newsorg.json", "vader_sent.json")
+    vader_analyse("BI_data.json", "BI_vader_sent.json")
