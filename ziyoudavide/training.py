@@ -7,21 +7,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-"""
-PREREQUISITE 1: 
-calling functions from sentiment analysis here to sentiment.json
-e.g. sentiment_analysis("news.json")
-"""
+__author__ = "Ziyou Zhang"
+__status__ = "Prototype"
 
-"""
-PREREQUISITE 2:
-calling functions from news scraping here to generate stock_price.json
-"""
-
-"""
-analyse the relavance here
-"""
 def linear_plot():
+    """
+    Initial plot about the stock price and sentiment for figuring out the pattern.
+    """
     with open("stock_price.json", "r") as f:
         stock_data = json.load(f)
     
@@ -50,6 +42,9 @@ def linear_plot():
     plt.show()
 
 def volumn_study():
+    """
+    Plot the hisorical apple stock price change data and volume to study the correlation.
+    """
     with open("AAPL_max_stock_price_data.json", "r") as f:
         stock_data = json.load(f)
     date = stock_data["Date"]
