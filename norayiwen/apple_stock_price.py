@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Dec 31 09:25:52 2019
 
-@author: Nora and Yiwen Sun
-"""
+__author__= "Nora&Yiwen"
+__status__ = "Prototype"
+
 import yfinance as yf  # pip install yfinance
 import json
 
 
 def show_cominfo(aapl):
     """
-
-    :param aapl:
+	acquire company information
+    
+	:param aapl:
     :return:
     """
-    cominfo = aapl.info  # 取得公司信息
+    cominfo = aapl.info  
     print('AAPL cominfo:')
     for key, value in cominfo.items():
         print('{} : {}'.format(key, value))
@@ -24,14 +24,15 @@ def show_cominfo(aapl):
 
 def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     """
+	get historical stock price 
 
     :param stock_name:
     :param period:
     :param json_name:
     :return: results(historical values)
     """
-    stock = yf.Ticker("AAPL")  ##soybean=yf.Ticker("SX19.CBT")   #期货
-    hist = stock.history(period=period)  # 取最长时间的历史价格数据    #1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+    stock = yf.Ticker("AAPL")  
+    hist = stock.history(period=period)  # time period from 1d to max (1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max)
 
     # create the temp list dictionary
     temp = {}
