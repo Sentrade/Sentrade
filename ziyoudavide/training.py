@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from stock_price import *
 from sentiment import *
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
 """
@@ -44,6 +48,24 @@ def linear_plot():
 
     plt.plot(sentiment_scores, price_changes, '.')
     plt.show()
+
+def volumn_study():
+    with open("AAPL_max_stock_price_data.json", "r") as f:
+        stock_data = json.load(f)
+    date = stock_data["Date"]
+    open_price = stock_data["Open"]
+    close_price = stock_data["Close"]
+    volume = stock_data["Volume"]
+
+    print(len(open_price))
+
+    stock_price_change = []
+    for i in range(len(open_price)):
+        stock_price_change.append(open_price[i] - close_price[i])
+
+    plt.plot(stock_price_change, volume, '.')
+    plt.show()
+    
                 
 if __name__ == "__main__":
-    linear_plot()
+    volumn_study()
