@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jan 13 19:52:30 2020
+#!/usr/bin/env python3
+# _*_ coding: utf-8 _*_
 
-@author: Fengming Liu
-"""
+__author__ = "Fengming Liu"
+__status__ = "prototype"
 
 import urllib3 
 import json
@@ -17,52 +16,51 @@ print("Crawling starts!")
 import warnings
 warnings.filterwarnings("ignore")
 
-"""
-remove_control_characters() removes the control characters in the url 
-so as to smooth the crawling
-
-s: the string where the control characters are removed
-returns: the string with control characters removed
-"""
 def remove_control_characters(s):
+	"""
+	remove_control_characters() removes the control characters in the url 
+	so as to smooth the crawling
+
+	s: the string where the control characters are removed
+	returns: the string with control characters removed
+	"""
     return "".join(ch for ch in s if unicodedata.category(ch)[0]!="C")
 
-
-"""
-download_page() downloads the page referenced by the url
-and stores it in a BeautifulSoup object
-
-url: the url of the page
-returns: a BeautifulSoup object representing the page
-"""
 def download_page(url):
+	"""
+	download_page() downloads the page referenced by the url
+	and stores it in a BeautifulSoup object
+
+	url: the url of the page
+	returns: a BeautifulSoup object representing the page
+	"""
     print("Crawl the url:", url)
     url = remove_control_characters(url)
     response = urllib3.PoolManager().request('GET', url)
     print("Status of the response:", response.status)
     return BeautifulSoup(response.data, features='lxml')
 
-"""
-write_prettified_html() writes the well-formated html code
-in to a file {file_basename}.txt
-
-file_basename: the base name of the txt file
-soup: the BeautifulSoup object representing the page
-returns: a BeautifulSoup object representing the page
-"""
 def write_prettified_html(file_basename, soup):
+	"""
+	write_prettified_html() writes the well-formated html code
+	in to a file {file_basename}.txt
+
+	file_basename: the base name of the txt file
+	soup: the BeautifulSoup object representing the page
+	returns: a BeautifulSoup object representing the page
+	"""
     with open("./result/html_{0}.txt".format(file_basename), 'w', encoding = 'utf-8') as f:
         f.write(soup.prettify())
 
-"""
-get_title_text() gets the title and the text of the news webpage
-with respect to the specified source
-
-source: the website of the webpage (e.g. Economist, Yahoo Finance)
-soup: the BeautifulSoup object representing the page
-returns: [the title of the page, the text of the page]
-"""
 def get_title_text(source, soup):
+	"""
+	get_title_text() gets the title and the text of the news webpage
+	with respect to the specified source
+
+	source: the website of the webpage (e.g. Economist, Yahoo Finance)
+	soup: the BeautifulSoup object representing the page
+	returns: [the title of the page, the text of the page]
+	"""
     text = ''
     if source == "Business_Insider":
         for paragraph in soup.find_all(lambda tag: tag.name == 'p'):
@@ -81,37 +79,37 @@ def get_title_text(source, soup):
         title = None
     return title, text
 
-"""
-data_to_json() writes utf-8 data to a json file in json format
-
-file_basename: the base name of the txt file
-data: the data to be written down
-returns: void
-"""
 def data_to_json(file_basename, data):
+	"""
+	data_to_json() writes utf-8 data to a json file in json format
+
+	file_basename: the base name of the txt file
+	data: the data to be written down
+	returns: void
+	"""
     with open("./result/json_{0}.json".format(file_basename), 'w', encoding = 'utf-8') as json_file:	
         json.dump(data, json_file, ensure_ascii=False, indent=4)
 
-"""
-remove_last_dir() removes the lowest layer of directory in the url
-(e.g. /dir/folder --> /dir)
-
-url: the url to be processed
-returns: the processed url
-"""
 def remove_last_dir(url):
+	"""
+	remove_last_dir() removes the lowest layer of directory in the url
+	(e.g. /dir/folder --> /dir)
+
+	url: the url to be processed
+	returns: the processed url
+	"""
     return url[:url.rfind('/')]
 
-"""
-get_sub_links() gets the links embedded in the webpage, so as to
-direct to further webpages
-
-source: the website of the webpage
-url: the url of the main webpage which contains the links to other
-     pages
-returns: a List of the sublinks
-"""
 def get_sub_links(source, url):
+	"""
+	get_sub_links() gets the links embedded in the webpage, so as to
+	direct to further webpages
+
+	source: the website of the webpage
+	url: the url of the main webpage which contains the links to other
+	     pages
+	returns: a List of the sublinks
+	"""
     soup = download_page(url)
     sublinks = []
     if source == "Economist":
@@ -131,16 +129,16 @@ def get_sub_links(source, url):
 
     return sublinks
 
-"""
-get_date() gets the date of the news, either from the url
-or from the the BeautifulSoup object
-
-source: the website of the webpage
-url: the url of the new page
-soup: the BeautifulSoup object representing the page
-returns: the date of the news in a string of form yyyy-mm-dd
-"""
 def get_date(source, url=None, soup=None):
+	"""
+	get_date() gets the date of the news, either from the url
+	or from the the BeautifulSoup object
+
+	source: the website of the webpage
+	url: the url of the new page
+	soup: the BeautifulSoup object representing the page
+	returns: the date of the news in a string of form yyyy-mm-dd
+	"""
     if source == "Economist":
         if (url):
            pattern = re.compile(r'\d\d\d\d/\d\d/\d\d')
@@ -185,21 +183,21 @@ def get_date(source, url=None, soup=None):
     else:
         pass
 
-"""
-get_FNdata() gets the financial news data (title, text, date) and 
-stores them in a Dictionanry FN_data
-(e.g. FN_data["Economist"] == {"source": "Economist",
-                               "title": Big news,
-                               "text": hello world,
-                               "date": 9999-02-28})
-
-FN_data: the Dictionary storing the data
-source: the website of the webpage
-main_url: the url of the main page where further links (sublinks) 
-		  are embedded
-returns: FN_data with appended data
-"""
 def get_FNdata(FN_data, source, main_url):
+	"""
+	get_FNdata() gets the financial news data (title, text, date) and 
+	stores them in a Dictionanry FN_data
+	(e.g. FN_data["Economist"] == {"source": "Economist",
+	                               "title": Big news,
+	                               "text": hello world,
+	                               "date": 9999-02-28})
+
+	FN_data: the Dictionary storing the data
+	source: the website of the webpage
+	main_url: the url of the main page where further links (sublinks) 
+			  are embedded
+	returns: FN_data with appended data
+	"""
     sublinks = list(set(get_sub_links(source, main_url)))
     for link in sublinks:
         soup = download_page(link)
@@ -210,6 +208,7 @@ def get_FNdata(FN_data, source, main_url):
                                   "text": text, 
                                   "date": get_date(source, link, soup)}, ignore_index=True)
     return FN_data
+    
 ########################################################
 ##################### Main Program #####################
 ########################################################

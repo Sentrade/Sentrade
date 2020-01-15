@@ -1,89 +1,50 @@
-"""
-This package contains sentiment_analysis(filename) function, which takes in the
-news.json file and generate a sentiment.json file with updated entries.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-e.g.
+__author__ = "Davide Locatelli, Ziyou Zhang"
+__status__ = "Prototype"
 
-Original news.json:
-[
-    {
-        "title": "Amazing news of Apple",
-        "date": "2019-12-26",
-        "text": "Apple is performing amazingly good. Now it's the time to invest.",
-        "source": "twitter"
-    },
-    {
-        "title": "Another amazing news of Apple",
-        "date": "2019-12-27",
-        "text": "Apple is performing amazingly good again! Now it's the time to invest! Great return.",
-        "source": "twitter"
-    },
-    {
-        "title": "And another amazing news of Apple",
-        "date": "2019-12-30",
-        "text": "Apple is performing amazingly good again! Now it's the time to invest! Great return. Invest now.",
-        "source": "Business Insider"
-    }
-]
-
-Generated sentiment.json:
-[
-    {
-        "polarity": 0.7,
-        "title": "Amazing news of Apple",
-        "text": "Apple is performing amazingly good. Now it's the time to invest.",
-        "source": "twitter",
-        "subjectivity": 0.6000000000000001,
-        "date": "2019-12-26"
-    },
-    {
-        "polarity": 0.9,
-        "title": "Another amazing news of Apple",
-        "text": "Apple is performing amazingly good again! Now it's the time to invest! Great return.",
-        "source": "twitter",
-        "subjectivity": 0.675,
-        "date": "2019-12-27"
-    },
-    {
-        "polarity": 0.9,
-        "title": "And another amazing news of Apple",
-        "text": "Apple is performing amazingly good again! Now it's the time to invest! Great return. Invest now.",
-        "source": "Business Insider",
-        "subjectivity": 0.675,
-        "date": "2019-12-30"
-    }
-]
-
-"""
-
-from textblob import TextBlob
 import json
-# from social_news import *
-# from business_news import *
+import spacy
+from textblob import TextBlob
 
-def sentiment_analysis(filename):
+company = "apple"
 
+def is_org(news,company):
     """
-    PREREQUISITE: 
-    calling functions from news scraping here to generate json files here
-    e.g. scrap_twitter()
+    Function to check if a company is named in a piece of news
+
+    :param news: the news being checked (in JSON format)
+    :param company: the name of the company (lowercase)
+    :returns: true if the company is named, false otherwise
     """
+    nlp = spacy.load("en_core_web_sm") #create a spaCy Language object
+    doc = nlp(news["text"]) #select text of the news
+    for t in doc.ents:
+        if t.lower_ == company: #if company name is called
+            if t.label_ == "ORG": #check they actually mean the company
+                return True
+    return False
 
-    # Open and load the news json file.
-    with open(filename) as input_file:
-        news = json.load(input_file)
+def analyze_sent(inputfile,outputfile):
+    """
+    Function to analyze the sentiment of news about a company
+    For each news about the company, a polarity and subjectivity score is added
 
-    # Iterate through the news file, add sentiment analysis result to each entry.
-    for item in news:
-        blob = TextBlob(item["text"])
-        # Property "polarity" and "subjectivity" doesn't exist in the original json file entries,
-        # they will be added automatically.
-        item["polarity"] = blob.sentiment.polarity
-        item["subjectivity"] = blob.sentiment.subjectivity
-    
-    # Write the updated information to the 
-    with open("sentiment.json", "w") as output_file:
-        json.dump(news, output_file)
+    :param inputfile: JSON file containing the news to be analyzed
+    :param outputfile: JSON file where polarity and subjectivity is outputted
+    """    
+    with open(inputfile) as news_file:
+        input_data= json.load(news_file)
+
+    for news in input_data:
+        if is_org(news,company): #if news is about company
+            blob = TextBlob(news["text"])
+            news["polarity"] = blob.sentiment.polarity
+            news["subjectivity"] = blob.sentiment.subjectivity
+
+    with open(outputfile, "w") as results:
+        json.dump(input_data, results)
 
 if __name__ == "__main__":
-    sentiment_analysis("news.json")
+    analyze_sent("newsorg.json", "newsorg_sent.json")
