@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import json
 import unicodedata
 import re
+import pandas as pd
 print("Crawling starts!")
 
 import warnings
@@ -70,5 +71,16 @@ def get_sub_links(source, url):
 
 	return sublinks
 
-# print(get_sub_links("Financial_Times", "https://www.ft.com"))
-print(get_sub_links("Yahoo_Finance", "https://finance.yahoo.com/news"))
+# write_prettified_html("Yahoo_Finance", download_page("https://finance.yahoo.com/news"))
+# print(get_sub_links("Yahoo_Finance", "https://finance.yahoo.com/news"))
+
+FN_data = pd.DataFrame(columns=["Source", "URL", "Title", "Text", "Date"])
+sublinks_economist = get_sub_links("Economist", "https://www.economist.com/finance-and-economics")
+# sublinks_FT = get_sub_links("Financial_Times", "https://www.ft.com")
+
+for link in sublinks_economist:
+	soup = download_page(link)
+	text_title = get_title_text(soup)
+	FN_data.append({"Source": "Economist",
+					"URL": link,
+					"Title": text_title})

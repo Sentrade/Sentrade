@@ -22,21 +22,15 @@ print("Crawl the url:", url)
 http = urllib3.PoolManager()
 response1 = http.request('GET', url)
 print("Status of the response:", response1.status)
+
+# parse the text
 soup = BeautifulSoup(response1.data, features='lxml')
 with open('./htmlcode.txt', 'w', encoding = 'utf-8') as f:
     f.write(soup.prettify())
 
-# parse the text
-result = {}
-result["title"] = str(soup.title.string)
-result["text"]  = ''
+f = open('./result.txt', 'w', encoding = 'utf-8')
+f.write(str(soup.title) + '\n')
 for paragraph in soup.find_all(lambda tag: tag.name == 'p' and not tag.attrs):
-	result["text"] = result["text"] + str(paragraph.string)
-
-print(soup.find_all())
-
-
-# dump to json file
-with open('./result.json', 'w', encoding = 'utf-8') as result_json:
-	json.dump(result, result_json, ensure_ascii=False, indent=4)
+	f.write(str(paragraph) + '\n')
+f.close()
 
