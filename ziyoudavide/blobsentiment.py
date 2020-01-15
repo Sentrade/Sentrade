@@ -26,9 +26,9 @@ def is_org(news,company):
                 return True
     return False
 
-def analyze_sent(inputfile,outputfile):
+def blob_analyse(inputfile,outputfile):
     """
-    Function to analyze the sentiment of news about a company
+    Function to analyze the sentiment of news about a company using TextBlob
     For each news about the company, a polarity and subjectivity score is added
 
     :param inputfile: JSON file containing the news to be analyzed
@@ -47,4 +47,4 @@ def analyze_sent(inputfile,outputfile):
         json.dump(input_data, results)
 
 if __name__ == "__main__":
-    analyze_sent("newsorg.json", "newsorg_sent.json")
+    blob_analyse("newsorg.json", "newsorg_sent.json")
