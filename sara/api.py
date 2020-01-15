@@ -1,6 +1,8 @@
 import json
 from twython import Twython
 import pandas as pd
+:json stores
+: pandas
 
 def getTweetInterface():
 	credentials = {}
@@ -11,6 +13,7 @@ def getTweetInterface():
 
 	python_tweets = Twython(credentials['CONSUMER_KEY'], credentials['CONSUMER_SECRET'])
 	return python_tweets
+:return getTweetInterface
 
 def queryCompany(tweetInterface, company):
 	query = {'q': company,
@@ -18,6 +21,10 @@ def queryCompany(tweetInterface, company):
         'count': 10,
         'lang': 'en',
         }
+:param tweetInterface: this is a first param
+:param company: this is a second param
+:returns queryCompany
+:raises key Error:
 
 	dict_ = {'user': [], 'date': [], 'text': [], 'favorite_count': []}
 	for status in tweetInterface.search(**query)['statuses']:
