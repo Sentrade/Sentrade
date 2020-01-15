@@ -1,0 +1,20 @@
+[
+    {
+        "title": "Amazing news of Apple",
+        "date": "2019-12-26",
+        "text": "Apple is performing amazingly good. Now it's the time to invest.",
+        "source": "twitter"
+    },
+    {
+        "title": "Another amazing news of Apple",
+        "date": "2019-12-27",
+        "text": "Apple is performing amazingly good again! Now it's the time to invest! Great return.",
+        "source": "twitter"
+    },
+    {
+        "title": "And another amazing news of Apple",
+        "date": "2019-12-30",
+        "text": "Apple is performing amazingly good again! Now it's the time to invest! Great return. Invest now.",
+        "source": "Business Insider"
+    }
+]

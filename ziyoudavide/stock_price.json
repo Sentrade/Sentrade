@@ -1,0 +1,20 @@
+[
+    {
+        "company": "AAPL",
+        "date": "2019-12-26",
+        "open": 284.82,
+        "close": 289.91
+    },
+    {
+        "company": "AAPL",
+        "date": "2019-12-27",
+        "open": 291.12,
+        "close": 289.80
+    },
+    {
+        "company": "AAPL",
+        "date": "2019-12-30",
+        "open": 289.46,
+        "close": 291.41
+    }
+]
