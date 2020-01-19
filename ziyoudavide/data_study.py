@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from stock_price import *
-# from sentiment import *
+from blobsentiment import *
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,16 +11,22 @@ import json
 __author__ = "Ziyou Zhang"
 __status__ = "Prototype"
 
-def linear_plot():
+def scatter_plot(news_file, sentiment_file, stock_file):
     """
     Initial plot about the stock price and sentiment for figuring out the pattern.
+
+    :param news_file: the news file to run sentiment analysis on.
+    :param sentiment_file: the file containing the sentiment information.
+    :param stock_file: the file containing the stock price data.
     """
-    with open("stock_price.json", "r") as f:
-        stock_data = json.load(f)
-    
-    with open("sentiment.json", "r") as f:
+    blob_analyse(news_file, sentiment_file)
+
+    with open(sentiment_file, "r") as f:
         sentiment_data = json.load(f)
 
+    with open(stock_file, "r") as f:
+        stock_data = json.load(f)
+    
     dates = []
     price_changes = []
     sentiment_scores = []
@@ -64,4 +70,4 @@ def volumn_study():
     
                 
 if __name__ == "__main__":
-    volumn_study()
+    scatter_plot("temp.json", "sentiment.json", "stock_price.json")
