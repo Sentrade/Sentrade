@@ -37,7 +37,7 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     temp = {}
     temp['Date'] = []
     for Date in hist.index:
-        temp['Date'].append(str(Date))
+        temp['Date'].append(str(Date)[:10])
     # print(temp['Date'][1])
     for hist_key, hist_value in hist.items():
         temp[hist_key] = list(hist_value)
