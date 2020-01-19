@@ -28,33 +28,33 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     :param stock_name:stock ticker
     :param period:time period from 1d to max (1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max)
     :param json_name: name of the output file
-    :return: json file including 'Date', 'Open','High','Low','Close','Volume'
+    :return: json file including 'date', 'open','high','low','close','volume'
     """
     stock = yf.Ticker("AAPL")  
     hist = stock.history(period=period)  
 
     # create the temp list dictionary
     temp = {}
-    temp['Date'] = []
-    for Date in hist.index:
-        temp['Date'].append(str(Date)[:10])
-    # print(temp['Date'][1])
+    temp['date'] = []
+    for date in hist.index:
+        temp['date'].append(str(date)[:10])
+    # print(temp['date'][1])
     for hist_key, hist_value in hist.items():
         temp[hist_key] = list(hist_value)
-    # print(temp['Open'][1])
+    # print(temp['open'][1])
     # DataFrame to json
     results = {}
-    results['StockName'] = stock_name
+    results['stock_name'] = stock_name
 
-    results['Items'] = [{'Date': "", 'Open': 0, 'High':0, 'Low': 0, 'Close':0, 'Volume':0} for x in range(len(list(hist_value)))]
-    # print(results['Items'][0]['Date'])
+    results['items'] = [{'date': "", 'open': 0, 'high':0, 'low': 0, 'close':0, 'volume':0} for x in range(len(list(hist_value)))]
+    # print(results['items'][0]['date'])
     for i in range(len(list(hist_value))):
-        results['Items'][i]['Date'] = temp['Date'][i]
-        results['Items'][i]['Open'] = temp['Open'][i]
-        results['Items'][i]['High'] = temp['High'][i]
-        results['Items'][i]['Low'] = temp['Low'][i]
-        results['Items'][i]['Close'] = temp['Close'][i]
-        results['Items'][i]['Volume'] = temp['Volume'][i]
+        results['items'][i]['date'] = temp['date'][i]
+        results['items'][i]['open'] = temp['open'][i]
+        results['items'][i]['high'] = temp['high'][i]
+        results['items'][i]['low'] = temp['low'][i]
+        results['items'][i]['close'] = temp['close'][i]
+        results['items'][i]['volume'] = temp['volume'][i]
     if not len(json_name):
         json_name = stock_name + '_' + period + '_' + 'stock_price_data.json'
     elif not json_name.endswith('.json'):

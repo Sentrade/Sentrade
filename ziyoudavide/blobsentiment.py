@@ -46,5 +46,23 @@ def blob_analyse(inputfile,outputfile):
     with open(outputfile, "w") as results:
         json.dump(input_data, results)
 
+def raw_blob_analysis(inputfile,outputfile):
+    """
+    Function to analyze the sentiment of news about a company using TextBlob without context checking.
+
+    :param inputfile: JSON file containing the news to be analyzed
+    :param outputfile: JSON file where polarity and subjectivity is outputted
+    """
+    with open(inputfile) as news_file:
+        input_data= json.load(news_file)
+
+    for news in input_data:
+        blob = TextBlob(news["text"])
+        news["polarity"] = blob.sentiment.polarity
+        news["subjectivity"] = blob.sentiment.subjectivity
+
+    with open(outputfile, "w") as results:
+        json.dump(input_data, results)
+
 if __name__ == "__main__":
     blob_analyse("newsorg.json", "blob_sent.json")
