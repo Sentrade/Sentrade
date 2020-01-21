@@ -35,13 +35,13 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
 
     # create the temp list dictionary
     temp = {}
-    temp['date'] = []
+    temp['Date'] = []
     for date in hist.index:
-        temp['date'].append(str(date)[:10])
-    # print(temp['date'][1])
+        temp['Date'].append(str(date)[:10])
+    # print(temp['Date'][1])
     for hist_key, hist_value in hist.items():
         temp[hist_key] = list(hist_value)
-    # print(temp['open'][1])
+    # print(temp['Open'][1])
     # DataFrame to json
     results = {}
     results['stock_name'] = stock_name
@@ -49,12 +49,12 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     results['items'] = [{'date': "", 'open': 0, 'high':0, 'low': 0, 'close':0, 'volume':0} for x in range(len(list(hist_value)))]
     # print(results['items'][0]['date'])
     for i in range(len(list(hist_value))):
-        results['items'][i]['date'] = temp['date'][i]
-        results['items'][i]['open'] = temp['open'][i]
-        results['items'][i]['high'] = temp['high'][i]
-        results['items'][i]['low'] = temp['low'][i]
-        results['items'][i]['close'] = temp['close'][i]
-        results['items'][i]['volume'] = temp['volume'][i]
+        results['items'][i]['date'] = temp['Date'][i]
+        results['items'][i]['open'] = temp['Open'][i]
+        results['items'][i]['high'] = temp['High'][i]
+        results['items'][i]['low'] = temp['Low'][i]
+        results['items'][i]['close'] = temp['Close'][i]
+        results['items'][i]['volume'] = temp['Volume'][i]
     if not len(json_name):
         json_name = stock_name + '_' + period + '_' + 'stock_price_data.json'
     elif not json_name.endswith('.json'):
