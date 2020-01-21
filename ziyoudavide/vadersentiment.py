@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-__author__ = "Davide Locatelli, Ziyou Zhang"
+__author__ = "Davide Locatelli"
 __status__ = "Prototype"
 
 import json
