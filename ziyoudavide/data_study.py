@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from stock_price import *
 from blobsentiment import *
 import pandas as pd
 import numpy as np
@@ -19,6 +18,59 @@ def scatter_plot(news_file, sentiment_file, stock_file):
     :param sentiment_file: the file containing the sentiment information.
     :param stock_file: the file containing the stock price data.
     """
+    raw_blob_analysis(news_file, sentiment_file)
+
+    with open(sentiment_file, "r") as f:
+        sentiment_data = json.load(f)
+
+    with open(stock_file, "r") as f:
+        stock_data = json.load(f)
+    
+    news_dates = []
+    news_scores = []
+    today_news_count = 0
+    today_news_score = 0
+
+    # print("json objects prepared")
+
+    for sentiment_entry in sentiment_data:
+        if sentiment_entry["date"] not in news_dates:
+            news_dates.append(sentiment_entry["date"])
+            if today_news_count != 0:
+                news_scores.append(today_news_score / today_news_count)
+            today_news_count = 0
+        today_news_count += 1
+        today_news_score += sentiment_entry["polarity"]
+    
+    if today_news_count != 0:
+        news_scores.append(today_news_score / today_news_count)
+    
+    # print(news_dates)
+    # print(news_scores)
+    # print("sentiment data ready")
+
+    dates = []
+    price_changes = []
+    sentiment_scores = []
+    
+    for stock_entry in stock_data["items"]:
+        date = stock_entry["date"]
+        open_price = stock_entry["open"]
+        close_price = stock_entry["close"]
+        for i in range(len(news_dates)):
+            if (news_dates[i] == date):
+                dates.append(date)
+                price_changes.append(close_price - open_price)
+                sentiment_scores.append(news_scores[i])
+
+    # print(dates)
+    # print(price_changes)
+    # print(sentiment_scores)
+
+    plt.plot(sentiment_scores, price_changes, '.')
+    plt.show()
+
+def demo_plot():
     raw_blob_analysis(news_file, sentiment_file)
 
     with open(sentiment_file, "r") as f:
