@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from pymongo import MongoClient
+from bson import json_util
+import json
 
 __author__ = "Ziyou Zhang"
 __status__ = "Prototype"
@@ -10,15 +12,8 @@ client = MongoClient()
 db = client.test_database
 db = client.sentrade_db
 
-collection = db.stock_price
+with open('temp_stock.json') as f:
+    stock_data = json.load(f)
+    db.stock_price.insert_many(stock_data)
 
-stock = {
-            "date": "2020-01-21",
-            "open": 317.19,
-            "high": 319.02,
-            "low": 316.02,
-            "close": 316.57,
-            "volume": 22240730
-        }
-
-db.stock_price.insert_one(stock)
+client.close()
