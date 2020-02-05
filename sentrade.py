@@ -111,12 +111,12 @@ app.layout = html.Div(
                     id='stock-ticker-input',
                     options=[
                         {'label':'AMZN','value':'AMZN','disabled':True},
-                        {'label':'AAPL','value':'AAPL'},
+                        {'label':'AAPL','value':'AAPL', 'disabled':False},
                         {'label':'FB','value':'FB','disabled':True},
                         {'label':'GOOG','value':'GOOG','disabled':True},
                         {'label':'MSFT','value':'MSFT','disabled':True},
                         {'label':'NFLX','value':'NFLX','disabled':True},
-                        {'label':'TSLA','value':'TSLA','disabled':True},
+                        {'label':'TSLA','value':'TSLA','disabled':False},
                         {'label':'UBER','value':'UBER','disabled':True},
                     ],
                     multi=False,
@@ -163,6 +163,14 @@ def update_graph(ticker):
             }
         ))
     else:
+        graphs.append(html.H3(
+            "AAPL",
+            style={
+                'font-size':'2.5em',
+                'textAlign':'left',
+                'color':'black'
+            }
+        ))
         dff = df[df['Stock'] == ticker]
         candlestick = {
             'x': dff['Date'],
