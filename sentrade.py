@@ -16,6 +16,7 @@ import datetime as dt
 import flask
 import os
 
+from textwrap import dedent as d
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from plotly import tools
@@ -85,12 +86,12 @@ app.layout = html.Div(
                     'SENTRADE',
                     style={'display': 'inline',
                     'float': 'left',
-                    'font-size': '2.65em',
+                    'font-size': '3em',
                     'margin-left': '7px',
                     'font-weight': '900',
                     'font-family': 'Product Sans',
                     'color': 'black',
-                    'margin-top': '20px',
+                    'margin-top': '0px',
                     'margin-bottom': '0'
                     }
                 ),
@@ -103,7 +104,7 @@ app.layout = html.Div(
                     'font-weight': '500',
                     'font-family': 'Product Sans',
                     'color': '#9C9C9C',
-                    'margin-top': '29px',
+                    'margin-top': '14px',
                     'margin-bottom': '0'
                     }
                 ),
@@ -128,18 +129,30 @@ app.layout = html.Div(
                     'font-weight': '500',
                     'font-family': 'Product Sans',
                     'color': '#9C9C9C',
-                    'margin-top': '12px'
+                    'margin-top': '6px'
                     }
                 )
             ]
         ),
         html.Div(
-            className='graphs',
-            id='graphs',
-            style={'width':'55%','float':'center'}
-            )
+            className = 'left-bar',
+            children = [
+                html.Div(
+                    className='graph',
+                    id='graph',
+                ),
+                html.Div(
+                    className='click-data',
+                    children=[
+                        dcc.Markdown(d("""Financial Data""")),
+                        html.Pre(id='click-data'),
+                    ],
+                ),
+            ]
+        )
     ]
 )
+
 
 def bbands(price, window_size=10, num_of_std=5):
     rolling_mean = price.rolling(window=window_size).mean()
@@ -150,21 +163,21 @@ def bbands(price, window_size=10, num_of_std=5):
     return rolling_mean
 
 @app.callback(
-    dash.dependencies.Output('graphs','children'),
+    dash.dependencies.Output('graph','children'),
     [dash.dependencies.Input('stock-ticker-input', 'value')])
 def update_graph(ticker):
-    graphs = []
+    graph = []
 
     if not ticker:
-        graphs.append(html.H3(
-            "Select a stock ticker.",
+        graph.append(html.H3(
+            "No ticker selected.",
             style={
                 'textAlign':'center',
                 'color':'#9C9C9C'
             }
         ))
     else:
-        graphs.append(html.H3(
+        graph.append(html.H3(
             ticker,
             style={
                 'font-size':'2.5em',
@@ -183,31 +196,60 @@ def update_graph(ticker):
             'type': 'candlestick',
             'name': ticker,
             'legendgroup': ticker,
-            'increasing': {'line': {'color': 'white'}},#colorscale[0]}},
-            'decreasing': {'line': {'color': 'white'}}#colorscale[1]}}
+            'showlegend':False,
+            'increasing': {'line': {'color': 'white'}},
+            'decreasing': {'line': {'color': 'white'}}
             }
         bb_bands = bbands(dff.Close)
         bollinger_traces = [{
             'x': dff['Date'], 'y': bb_bands,
             'type': 'scatter', 'mode': 'lines',
-            'line': {'width': 2, 'color': 'blue'},
+            'line': {'width': 2, 'color': '#7a90e0'},
             'hoverinfo': 'none',
             'legendgroup': ticker,
             'showlegend': False,
-            'name': '{} - bollinger bands'.format(ticker)
+            'name': '{} - bollinger bands'.format(ticker),
             }]
-        graphs.append(dcc.Graph(
-            id=ticker,
-            figure={
-                'data': [candlestick] + bollinger_traces,
-                'layout': {
-                'margin': {'b': 0, 'r': 10, 'l': 60, 't': 0},
-                'legend': {'x': 0}
-                }
-            }
-        ))
-
-    return graphs
+        
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=list(dff.Date),y=list(dff.Close)))
+        fig.update_layout(
+            margin= {'b': 0, 'r': 10, 'l': 60, 't': 0},                   
+            legend= {'x': 0},
+            xaxis=go.layout.XAxis(
+                rangeslider=dict(
+                    visible=False
+                ),
+                rangeselector=dict(
+                    buttons=list([
+                        dict(count=1,
+                            label="1D",
+                            step="day",
+                            stepmode="backward"),
+                        dict(count=1,
+                            label="1M",
+                            step="month",
+                            stepmode="backward"),
+                        dict(count=6,
+                            label="6M",
+                            step="month",
+                            stepmode="backward"),
+                        dict(count=1,
+                            label="YTD",
+                            step="year",
+                            stepmode="todate"),
+                        dict(count=1,
+                            label="1Y",
+                            step="year",
+                            stepmode="backward"),
+                        dict(step="all")
+                    ])
+                ),
+                type="date"
+            )
+        )
+        graph.append(dcc.Graph(figure=fig,style={'margin-top':'0','height':'400'}))
+    return graph
 """
     # Graph and news
     html.Div(
