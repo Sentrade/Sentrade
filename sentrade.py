@@ -146,7 +146,8 @@ def bbands(price, window_size=10, num_of_std=5):
     rolling_std  = price.rolling(window=window_size).std()
     upper_band = rolling_mean + (rolling_std*num_of_std)
     lower_band = rolling_mean - (rolling_std*num_of_std)
-    return rolling_mean, upper_band, lower_band
+    #return rolling_mean, upper_band, lower_band
+    return rolling_mean
 
 @app.callback(
     dash.dependencies.Output('graphs','children'),
@@ -164,9 +165,10 @@ def update_graph(ticker):
         ))
     else:
         graphs.append(html.H3(
-            "AAPL",
+            ticker,
             style={
                 'font-size':'2.5em',
+                'margin-left':'20px',
                 'textAlign':'left',
                 'color':'black'
             }
@@ -181,19 +183,19 @@ def update_graph(ticker):
             'type': 'candlestick',
             'name': ticker,
             'legendgroup': ticker,
-            'increasing': {'line': {'color': colorscale[0]}},
-            'decreasing': {'line': {'color': colorscale[1]}}
+            'increasing': {'line': {'color': 'white'}},#colorscale[0]}},
+            'decreasing': {'line': {'color': 'white'}}#colorscale[1]}}
             }
         bb_bands = bbands(dff.Close)
         bollinger_traces = [{
-            'x': dff['Date'], 'y': y,
+            'x': dff['Date'], 'y': bb_bands,
             'type': 'scatter', 'mode': 'lines',
-            'line': {'width': 1, 'color': colorscale[(i*2) % len(colorscale)]},
+            'line': {'width': 2, 'color': 'blue'},
             'hoverinfo': 'none',
             'legendgroup': ticker,
-            'showlegend': True if i == 0 else False,
+            'showlegend': False,
             'name': '{} - bollinger bands'.format(ticker)
-            } for i, y in enumerate(bb_bands)]
+            }]
         graphs.append(dcc.Graph(
             id=ticker,
             figure={
