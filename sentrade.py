@@ -172,6 +172,7 @@ def update_graph(ticker):
         graph.append(html.H3(
             "No ticker selected.",
             style={
+                'margin-top':'0px',
                 'textAlign':'center',
                 'color':'#9C9C9C'
             }
@@ -212,7 +213,7 @@ def update_graph(ticker):
             }]
         
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=list(dff.Date),y=list(dff.Close)))
+        fig.add_trace(go.Scatter(x=list(dff.Date),y=list(dff.Close),line=dict(color='#7a90e0')))
         fig.update_layout(
             margin= {'b': 0, 'r': 10, 'l': 60, 't': 0},                   
             legend= {'x': 0},
@@ -226,8 +227,16 @@ def update_graph(ticker):
                             label="1D",
                             step="day",
                             stepmode="backward"),
+                        dict(count=7,
+                            label="1W",
+                            step="day",
+                            stepmode="backward"),
                         dict(count=1,
                             label="1M",
+                            step="month",
+                            stepmode="backward"),
+                        dict(count=3,
+                            label="3M",
                             step="month",
                             stepmode="backward"),
                         dict(count=6,
@@ -235,15 +244,19 @@ def update_graph(ticker):
                             step="month",
                             stepmode="backward"),
                         dict(count=1,
-                            label="YTD",
-                            step="year",
-                            stepmode="todate"),
-                        dict(count=1,
                             label="1Y",
                             step="year",
                             stepmode="backward"),
-                        dict(step="all")
-                    ])
+                        dict(label='ALL',step="all")
+                    ]),
+                    font=dict(
+                        family="Arial",
+                        size=16,
+                        color="white"),
+                    bgcolor="#BABABA",
+                    activecolor='#949494',
+                    x=0.35,
+                    y=-0.13
                 ),
                 type="date"
             )

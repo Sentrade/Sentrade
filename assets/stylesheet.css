@@ -9,8 +9,8 @@ html {
     background-color: white;
     border-radius: 0px;
     border: thin solid #BABABA;
-    padding-top: 1px;
-    padding-bottom: 65px;
+    padding-top: 0px;
+    padding-bottom: 50px;
     margin-left: 7px;
     margin-right: 7px;
     size: 0em;
@@ -23,20 +23,44 @@ html {
     width: 98%;
 }
 
-.graphs {
+.left-bar {
     background-color: white;
-    border-radius: 10px;
     border: thin solid #BABABA;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    border-radius: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
     padding-left: 0px;
-    padding-right: 15px;
-    margin-top: 35px;
-    margin-left: 24px;
+    padding-right: 0px;
+    margin-top: 15px;
+    margin-left: 25px;
     margin-right: 10px;
 
     padding-left: 10px;
     padding-right: 10px;
-    width: 65%;
+    width: 60%;
 }
 
+.graph {
+    background-color: white;
+    border: thin solid #BABABA;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding-top: 0px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.click-data {
+    background-color: white;
+    border-radius: 10px;
+    border: thin solid #BABABA;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 20px;
+    padding-right: 0px;
+    font-weight: 900;
+    font-size: 2.5em;
+}
