@@ -16,6 +16,7 @@ import datetime as dt
 import flask
 import os
 
+from textwrap import dedent as d
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from plotly import tools
@@ -85,12 +86,12 @@ app.layout = html.Div(
                     'SENTRADE',
                     style={'display': 'inline',
                     'float': 'left',
-                    'font-size': '2.65em',
+                    'font-size': '3em',
                     'margin-left': '7px',
                     'font-weight': '900',
                     'font-family': 'Product Sans',
                     'color': 'black',
-                    'margin-top': '20px',
+                    'margin-top': '0px',
                     'margin-bottom': '0'
                     }
                 ),
@@ -103,7 +104,7 @@ app.layout = html.Div(
                     'font-weight': '500',
                     'font-family': 'Product Sans',
                     'color': '#9C9C9C',
-                    'margin-top': '29px',
+                    'margin-top': '14px',
                     'margin-bottom': '0'
                     }
                 ),
@@ -111,12 +112,12 @@ app.layout = html.Div(
                     id='stock-ticker-input',
                     options=[
                         {'label':'AMZN','value':'AMZN','disabled':True},
-                        {'label':'AAPL','value':'AAPL'},
+                        {'label':'AAPL','value':'AAPL', 'disabled':False},
                         {'label':'FB','value':'FB','disabled':True},
                         {'label':'GOOG','value':'GOOG','disabled':True},
                         {'label':'MSFT','value':'MSFT','disabled':True},
                         {'label':'NFLX','value':'NFLX','disabled':True},
-                        {'label':'TSLA','value':'TSLA','disabled':True},
+                        {'label':'TSLA','value':'TSLA','disabled':False},
                         {'label':'UBER','value':'UBER','disabled':True},
                     ],
                     multi=False,
@@ -128,41 +129,64 @@ app.layout = html.Div(
                     'font-weight': '500',
                     'font-family': 'Product Sans',
                     'color': '#9C9C9C',
-                    'margin-top': '12px'
+                    'margin-top': '6px'
                     }
                 )
             ]
         ),
         html.Div(
-            className='graphs',
-            id='graphs',
-            style={'width':'55%','float':'center'}
-            )
+            className = 'left-bar',
+            children = [
+                html.Div(
+                    className='graph',
+                    id='graph',
+                ),
+                html.Div(
+                    className='click-data',
+                    children=[
+                        dcc.Markdown(d("""Financial Data""")),
+                        html.Pre(id='click-data'),
+                    ],
+                ),
+            ]
+        )
     ]
 )
+
 
 def bbands(price, window_size=10, num_of_std=5):
     rolling_mean = price.rolling(window=window_size).mean()
     rolling_std  = price.rolling(window=window_size).std()
     upper_band = rolling_mean + (rolling_std*num_of_std)
     lower_band = rolling_mean - (rolling_std*num_of_std)
-    return rolling_mean, upper_band, lower_band
+    #return rolling_mean, upper_band, lower_band
+    return rolling_mean
 
 @app.callback(
-    dash.dependencies.Output('graphs','children'),
+    dash.dependencies.Output('graph','children'),
     [dash.dependencies.Input('stock-ticker-input', 'value')])
 def update_graph(ticker):
-    graphs = []
+    graph = []
 
     if not ticker:
-        graphs.append(html.H3(
-            "Select a stock ticker.",
+        graph.append(html.H3(
+            "No ticker selected.",
             style={
+                'margin-top':'0px',
                 'textAlign':'center',
                 'color':'#9C9C9C'
             }
         ))
     else:
+        graph.append(html.H3(
+            ticker,
+            style={
+                'font-size':'2.5em',
+                'margin-left':'20px',
+                'textAlign':'left',
+                'color':'black'
+            }
+        ))
         dff = df[df['Stock'] == ticker]
         candlestick = {
             'x': dff['Date'],
@@ -173,31 +197,72 @@ def update_graph(ticker):
             'type': 'candlestick',
             'name': ticker,
             'legendgroup': ticker,
-            'increasing': {'line': {'color': colorscale[0]}},
-            'decreasing': {'line': {'color': colorscale[1]}}
+            'showlegend':False,
+            'increasing': {'line': {'color': 'white'}},
+            'decreasing': {'line': {'color': 'white'}}
             }
         bb_bands = bbands(dff.Close)
         bollinger_traces = [{
-            'x': dff['Date'], 'y': y,
+            'x': dff['Date'], 'y': bb_bands,
             'type': 'scatter', 'mode': 'lines',
-            'line': {'width': 1, 'color': colorscale[(i*2) % len(colorscale)]},
+            'line': {'width': 2, 'color': '#7a90e0'},
             'hoverinfo': 'none',
             'legendgroup': ticker,
-            'showlegend': True if i == 0 else False,
-            'name': '{} - bollinger bands'.format(ticker)
-            } for i, y in enumerate(bb_bands)]
-        graphs.append(dcc.Graph(
-            id=ticker,
-            figure={
-                'data': [candlestick] + bollinger_traces,
-                'layout': {
-                'margin': {'b': 0, 'r': 10, 'l': 60, 't': 0},
-                'legend': {'x': 0}
-                }
-            }
-        ))
-
-    return graphs
+            'showlegend': False,
+            'name': '{} - bollinger bands'.format(ticker),
+            }]
+        
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=list(dff.Date),y=list(dff.Close),line=dict(color='#7a90e0')))
+        fig.update_layout(
+            margin= {'b': 0, 'r': 10, 'l': 60, 't': 0},                   
+            legend= {'x': 0},
+            xaxis=go.layout.XAxis(
+                rangeslider=dict(
+                    visible=False
+                ),
+                rangeselector=dict(
+                    buttons=list([
+                        dict(count=1,
+                            label="1D",
+                            step="day",
+                            stepmode="backward"),
+                        dict(count=7,
+                            label="1W",
+                            step="day",
+                            stepmode="backward"),
+                        dict(count=1,
+                            label="1M",
+                            step="month",
+                            stepmode="backward"),
+                        dict(count=3,
+                            label="3M",
+                            step="month",
+                            stepmode="backward"),
+                        dict(count=6,
+                            label="6M",
+                            step="month",
+                            stepmode="backward"),
+                        dict(count=1,
+                            label="1Y",
+                            step="year",
+                            stepmode="backward"),
+                        dict(label='ALL',step="all")
+                    ]),
+                    font=dict(
+                        family="Arial",
+                        size=16,
+                        color="white"),
+                    bgcolor="#BABABA",
+                    activecolor='#949494',
+                    x=0.35,
+                    y=-0.13
+                ),
+                type="date"
+            )
+        )
+        graph.append(dcc.Graph(figure=fig,style={'margin-top':'0','height':'400'}))
+    return graph
 """
     # Graph and news
     html.Div(
