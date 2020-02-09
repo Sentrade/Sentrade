@@ -1,3 +1,6 @@
+__author__ = "Fengming Liu"
+__status__ = "prototype"
+
 import pymongo
 from sshtunnel import SSHTunnelForwarder
 

@@ -1,3 +1,6 @@
+__author__ = "Fengming Liu"
+__status__ = "prototype"
+
 import tarfile
 import subprocess
 day_tar = tarfile.open("./twitter_stream_2019_09_16.tar", 'r')
