@@ -1,5 +1,5 @@
-step 1: filter out all English texts
-step 2: filter out texts regarding the subejct (e.g. Apple)
-step 3: remove special characters (e.g. emoji)
+step 1: filter out all English texts (ok)
+step 2: filter out texts regarding the subejct (e.g. Apple) (semi-ok)
+step 3: remove special characters (e.g. emoji, punctuation)
 step 4: text normalization (e.g. remove abbreviation, capitalization)
 

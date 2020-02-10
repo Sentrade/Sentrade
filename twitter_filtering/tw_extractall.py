@@ -4,10 +4,11 @@ __status__ = "prototype"
 import tarfile
 import subprocess
 day_tar = tarfile.open("./twitter_stream_2019_09_16.tar", 'r')
-print(day_tar.getmembers())
+day_tar.extractall()
+# print(day_tar.getmembers())
 # for mem in day_tar.getmembers():
-# 	if mem.isfile():
-# 		day_tar.extract(mem)
+	# if mem.isfile():
+		# day_tar.extract(mem)
 # 		break
 
 year = 2019
