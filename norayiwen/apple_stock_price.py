@@ -92,8 +92,8 @@ if __name__ == "__main__":
 
     stock_list = ['AAPL', 'TSLA', 'AMZN','FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
     for stocks in stock_list: 
-        stock_output = history_stock_price(stock_name=stocks, period=period)
-        stock_db.insert_one(stock_output)    
+        stock_output = history_stock_price(stock_name=stocks, period=period)["items"]
+        stock_db.insert_many(stock_output)    
     print('history_stock_price costtime : {}'.format(round(time.time() - time1, 3)))
     # cost time heavily dependent on the network delay
 
