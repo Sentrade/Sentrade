@@ -1,0 +1,3021 @@
+<!DOCTYPE html>
+<html class="hidden-sidebar" lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+ <head>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="text/html;charset=utf-8" http-equiv="content-type"/>
+  <script type="text/javascript">
+   (window.NREUM||(NREUM={})).loader_config={xpid:"UQ8EUVRACQEBVVFVBAkE",licenseKey:"4b4136998e",applicationID:"121107383"};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(t){try{s.console&&console.log(t)}catch(e){}}var o,i=t("ee"),a=t(24),s={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(s.console=!0,o.indexOf("dev")!==-1&&(s.dev=!0),o.indexOf("nr_dev")!==-1&&(s.nrDev=!0))}catch(c){}s.nrDev&&i.on("internal-error",function(t){r(t.stack)}),s.dev&&i.on("fn-err",function(t,e,n){r(n.stack)}),s.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(s,function(t,e){return t}).join(", ")))},{}],2:[function(t,e,n){function r(t,e,n,r,s){try{l?l-=1:o(s||new UncaughtException(t,e,n),!0)}catch(f){try{i("ierr",[f,c.now(),!0])}catch(d){}}return"function"==typeof u&&u.apply(this,a(arguments))}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function o(t,e){var n=e?null:c.now();i("err",[t,n])}var i=t("handle"),a=t(25),s=t("ee"),c=t("loader"),f=t("gos"),u=window.onerror,d=!1,p="nr@seenError",l=0;c.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(h){"stack"in h&&(t(13),t(12),"addEventListener"in window&&t(6),c.xhrWrappable&&t(14),d=!0)}s.on("fn-start",function(t,e,n){d&&(l+=1)}),s.on("fn-err",function(t,e,n){d&&!n[p]&&(f(n,p,function(){return!0}),this.thrown=!0,o(n))}),s.on("fn-end",function(){d&&!this.thrown&&l>0&&(l-=1)}),s.on("internal-error",function(t){i("ierr",[t,c.now(),!0])})},{}],3:[function(t,e,n){t("loader").features.ins=!0},{}],4:[function(t,e,n){function r(){L++,C=g.hash,this[u]=y.now()}function o(){L--,g.hash!==C&&i(0,!0);var t=y.now();this[h]=~~this[h]+t-this[u],this[d]=t}function i(t,e){E.emit("newURL",[""+g,e])}function a(t,e){t.on(e,function(){this[e]=y.now()})}var s="-start",c="-end",f="-body",u="fn"+s,d="fn"+c,p="cb"+s,l="cb"+c,h="jsTime",m="fetch",v="addEventListener",w=window,g=w.location,y=t("loader");if(w[v]&&y.xhrWrappable){var x=t(10),b=t(11),E=t(8),O=t(6),R=t(13),P=t(7),N=t(14),T=t(9),M=t("ee"),S=M.get("tracer");t(16),y.features.spa=!0;var C,L=0;M.on(u,r),M.on(p,r),M.on(d,o),M.on(l,o),M.buffer([u,d,"xhr-done","xhr-resolved"]),O.buffer([u]),R.buffer(["setTimeout"+c,"clearTimeout"+s,u]),N.buffer([u,"new-xhr","send-xhr"+s]),P.buffer([m+s,m+"-done",m+f+s,m+f+c]),E.buffer(["newURL"]),x.buffer([u]),b.buffer(["propagate",p,l,"executor-err","resolve"+s]),S.buffer([u,"no-"+u]),T.buffer(["new-jsonp","cb-start","jsonp-error","jsonp-end"]),a(N,"send-xhr"+s),a(M,"xhr-resolved"),a(M,"xhr-done"),a(P,m+s),a(P,m+"-done"),a(T,"new-jsonp"),a(T,"jsonp-end"),a(T,"cb-start"),E.on("pushState-end",i),E.on("replaceState-end",i),w[v]("hashchange",i,!0),w[v]("load",i,!0),w[v]("popstate",function(){i(0,L>1)},!0)}},{}],5:[function(t,e,n){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(13),s=t(12),c="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",d="bstResource",p="resource",l="-start",h="-end",m="fn"+l,v="fn"+h,w="bstTimer",g="pushState",y=t("loader");y.features.stn=!0,t(8),"addEventListener"in window&&t(6);var x=NREUM.o.EV;o.on(m,function(t,e){var n=t[0];n instanceof x&&(this.bstStart=y.now())}),o.on(v,function(t,e){var n=t[0];n instanceof x&&i("bst",[n,e,this.bstStart,y.now()])}),a.on(m,function(t,e,n){this.bstStart=y.now(),this.bstType=n}),a.on(v,function(t,e){i(w,[e,this.bstStart,y.now(),this.bstType])}),s.on(m,function(){this.bstStart=y.now()}),s.on(v,function(t,e){i(w,[e,this.bstStart,y.now(),"requestAnimationFrame"])}),o.on(g+l,function(t){this.time=y.now(),this.startPath=location.pathname+location.hash}),o.on(g+h,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+c]?window.performance[f](u,function(t){i(d,[window.performance.getEntriesByType(p)]),window.performance["c"+c]()},!1):window.performance[f]("webkit"+u,function(t){i(d,[window.performance.getEntriesByType(p)]),window.performance["webkitC"+c]()},!1)),document[f]("scroll",r,{passive:!0}),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],6:[function(t,e,n){function r(t){for(var e=t;e&&!e.hasOwnProperty(u);)e=Object.getPrototypeOf(e);e&&o(e)}function o(t){s.inPlace(t,[u,d],"-",i)}function i(t,e){return t[1]}var a=t("ee").get("events"),s=t("wrap-function")(a,!0),c=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";e.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,e){var n=t[1],r=c(n,"nr@wrapped",function(){function t(){if("function"==typeof n.handleEvent)return n.handleEvent.apply(n,arguments)}var e={object:t,"function":n}[typeof n];return e?s(e,"fn-",null,e.name||"anonymous"):n});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],7:[function(t,e,n){function r(t,e,n){var r=t[e];"function"==typeof r&&(t[e]=function(){var t=i(arguments),e={};o.emit(n+"before-start",[t],e);var a;e[m]&&e[m].dt&&(a=e[m].dt);var s=r.apply(this,t);return o.emit(n+"start",[t,a],s),s.then(function(t){return o.emit(n+"end",[null,t],s),t},function(t){throw o.emit(n+"end",[t],s),t})})}var o=t("ee").get("fetch"),i=t(25),a=t(24);e.exports=o;var s=window,c="fetch-",f=c+"body-",u=["arrayBuffer","blob","json","text","formData"],d=s.Request,p=s.Response,l=s.fetch,h="prototype",m="nr@context";d&&p&&l&&(a(u,function(t,e){r(d[h],e,f),r(p[h],e,f)}),r(s,"fetch",c),o.on(c+"end",function(t,e){var n=this;if(e){var r=e.headers.get("content-length");null!==r&&(n.rxSize=r),o.emit(c+"done",[null,e],n)}else o.emit(c+"done",[t],n)}))},{}],8:[function(t,e,n){var r=t("ee").get("history"),o=t("wrap-function")(r);e.exports=r;var i=window.history&&window.history.constructor&&window.history.constructor.prototype,a=window.history;i&&i.pushState&&i.replaceState&&(a=i),o.inPlace(a,["pushState","replaceState"],"-")},{}],9:[function(t,e,n){function r(t){function e(){c.emit("jsonp-end",[],p),t.removeEventListener("load",e,!1),t.removeEventListener("error",n,!1)}function n(){c.emit("jsonp-error",[],p),c.emit("jsonp-end",[],p),t.removeEventListener("load",e,!1),t.removeEventListener("error",n,!1)}var r=t&&"string"==typeof t.nodeName&&"script"===t.nodeName.toLowerCase();if(r){var o="function"==typeof t.addEventListener;if(o){var a=i(t.src);if(a){var u=s(a),d="function"==typeof u.parent[u.key];if(d){var p={};f.inPlace(u.parent,[u.key],"cb-",p),t.addEventListener("load",e,!1),t.addEventListener("error",n,!1),c.emit("new-jsonp",[t.src],p)}}}}}function o(){return"addEventListener"in window}function i(t){var e=t.match(u);return e?e[1]:null}function a(t,e){var n=t.match(p),r=n[1],o=n[3];return o?a(o,e[r]):e[r]}function s(t){var e=t.match(d);return e&&e.length>=3?{key:e[2],parent:a(e[1],window)}:{key:t,parent:window}}var c=t("ee").get("jsonp"),f=t("wrap-function")(c);if(e.exports=c,o()){var u=/[?&](?:callback|cb)=([^&#]+)/,d=/(.*)\.([^.]+)/,p=/^(\w+)(\.|$)(.*)$/,l=["appendChild","insertBefore","replaceChild"];Node&&Node.prototype&&Node.prototype.appendChild?f.inPlace(Node.prototype,l,"dom-"):(f.inPlace(HTMLElement.prototype,l,"dom-"),f.inPlace(HTMLHeadElement.prototype,l,"dom-"),f.inPlace(HTMLBodyElement.prototype,l,"dom-")),c.on("dom-start",function(t){r(t[0])})}},{}],10:[function(t,e,n){var r=t("ee").get("mutation"),o=t("wrap-function")(r),i=NREUM.o.MO;e.exports=r,i&&(window.MutationObserver=function(t){return this instanceof i?new i(o(t,"fn-")):i.apply(this,arguments)},MutationObserver.prototype=i.prototype)},{}],11:[function(t,e,n){function r(t){var e=a.context(),n=s(t,"executor-",e),r=new f(n);return a.context(r).getCtx=function(){return e},a.emit("new-promise",[r,e],e),r}function o(t,e){return e}var i=t("wrap-function"),a=t("ee").get("promise"),s=i(a),c=t(24),f=NREUM.o.PR;e.exports=a,f&&(window.Promise=r,["all","race"].forEach(function(t){var e=f[t];f[t]=function(n){function r(t){return function(){a.emit("propagate",[null,!o],i),o=o||!t}}var o=!1;c(n,function(e,n){Promise.resolve(n).then(r("all"===t),r(!1))});var i=e.apply(f,arguments),s=f.resolve(i);return s}}),["resolve","reject"].forEach(function(t){var e=f[t];f[t]=function(t){var n=e.apply(f,arguments);return t!==n&&a.emit("propagate",[t,!0],n),n}}),f.prototype["catch"]=function(t){return this.then(null,t)},f.prototype=Object.create(f.prototype,{constructor:{value:r}}),c(Object.getOwnPropertyNames(f),function(t,e){try{r[e]=f[e]}catch(n){}}),a.on("executor-start",function(t){t[0]=s(t[0],"resolve-",this),t[1]=s(t[1],"resolve-",this)}),a.on("executor-err",function(t,e,n){t[1](n)}),s.inPlace(f.prototype,["then"],"then-",o),a.on("then-start",function(t,e){this.promise=e,t[0]=s(t[0],"cb-",this),t[1]=s(t[1],"cb-",this)}),a.on("then-end",function(t,e,n){this.nextPromise=n;var r=this.promise;a.emit("propagate",[r,!0],n)}),a.on("cb-end",function(t,e,n){a.emit("propagate",[n,!0],this.nextPromise)}),a.on("propagate",function(t,e,n){this.getCtx&&!e||(this.getCtx=function(){if(t instanceof Promise)var e=a.context(t);return e&&e.getCtx?e.getCtx():this})}),r.toString=function(){return""+f})},{}],12:[function(t,e,n){var r=t("ee").get("raf"),o=t("wrap-function")(r),i="equestAnimationFrame";e.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],13:[function(t,e,n){function r(t,e,n){t[0]=a(t[0],"fn-",null,n)}function o(t,e,n){this.method=n,this.timerDuration=isNaN(t[1])?0:+t[1],t[0]=a(t[0],"fn-",this,n)}var i=t("ee").get("timer"),a=t("wrap-function")(i),s="setTimeout",c="setInterval",f="clearTimeout",u="-start",d="-";e.exports=i,a.inPlace(window,[s,"setImmediate"],s+d),a.inPlace(window,[c],c+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(c+u,r),i.on(s+u,o)},{}],14:[function(t,e,n){function r(t,e){d.inPlace(e,["onreadystatechange"],"fn-",s)}function o(){var t=this,e=u.context(t);t.readyState>3&&!e.resolved&&(e.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,g,"fn-",s)}function i(t){y.push(t),h&&(b?b.then(a):v?v(a):(E=-E,O.data=E))}function a(){for(var t=0;t<y.length;t++)r([],y[t]);y.length&&(y=[])}function s(t,e){return e}function c(t,e){for(var n in t)e[n]=t[n];return e}t(6);var f=t("ee"),u=f.get("xhr"),d=t("wrap-function")(u),p=NREUM.o,l=p.XHR,h=p.MO,m=p.PR,v=p.SI,w="readystatechange",g=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],y=[];e.exports=u;var x=window.XMLHttpRequest=function(t){var e=new l(t);try{u.emit("new-xhr",[e],e),e.addEventListener(w,o,!1)}catch(n){try{u.emit("internal-error",[n])}catch(r){}}return e};if(c(l,x),x.prototype=l.prototype,d.inPlace(x.prototype,["open","send"],"-xhr-",s),u.on("send-xhr-start",function(t,e){r(t,e),i(e)}),u.on("open-xhr-start",r),h){var b=m&&m.resolve();if(!v&&!m){var E=1,O=document.createTextNode(E);new h(a).observe(O,{characterData:!0})}}else f.on("fn-end",function(t){t[0]&&t[0].type===w||a()})},{}],15:[function(t,e,n){function r(t){if(!i(t))return null;var e=window.NREUM;if(!e.loader_config)return null;var n=(e.loader_config.accountID||"").toString()||null,r=(e.loader_config.agentID||"").toString()||null,s=(e.loader_config.trustKey||"").toString()||null;if(!n||!r)return null;var c=a.generateCatId(),f=a.generateCatId(),u=Date.now(),d=o(c,f,u,n,r,s);return{header:d,guid:c,traceId:f,timestamp:u}}function o(t,e,n,r,o,i){var a="btoa"in window&&"function"==typeof window.btoa;if(!a)return null;var s={v:[0,1],d:{ty:"Browser",ac:r,ap:o,id:t,tr:e,ti:n}};return i&&r!==i&&(s.d.tk=i),btoa(JSON.stringify(s))}function i(t){var e=!1,n=!1,r={};if("init"in NREUM&&"distributed_tracing"in NREUM.init&&(r=NREUM.init.distributed_tracing,n=!!r.enabled),n)if(t.sameOrigin)e=!0;else if(r.allowed_origins instanceof Array)for(var o=0;o<r.allowed_origins.length;o++){var i=s(r.allowed_origins[o]);if(t.hostname===i.hostname&&t.protocol===i.protocol&&t.port===i.port){e=!0;break}}return n&&e}var a=t(22),s=t(17);e.exports={generateTracePayload:r,shouldGenerateTrace:i}},{}],16:[function(t,e,n){function r(t){var e=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<l;r++)t.removeEventListener(p[r],this.listener,!1);e.aborted||(n.duration=s.now()-this.startTime,this.loadCaptureCalled||4!==t.readyState?null==e.status&&(e.status=0):a(this,t),n.cbTime=this.cbTime,d.emit("xhr-done",[t],t),c("xhr",[e,n,this.startTime]))}}function o(t,e){var n=t.responseType;if("json"===n&&null!==e)return e;var r="arraybuffer"===n||"blob"===n||"json"===n?t.response:t.responseText;return v(r)}function i(t,e){var n=f(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.parsedOrigin=f(e),t.sameOrigin=t.parsedOrigin.sameOrigin}function a(t,e){t.params.status=e.status;var n=o(e,t.lastSize);if(n&&(t.metrics.rxSize=n),t.sameOrigin){var r=e.getResponseHeader("X-NewRelic-App-Data");r&&(t.params.cat=r.split(", ").pop())}t.loadCaptureCalled=!0}var s=t("loader");if(s.xhrWrappable){var c=t("handle"),f=t(17),u=t(15).generateTracePayload,d=t("ee"),p=["load","error","abort","timeout"],l=p.length,h=t("id"),m=t(20),v=t(19),w=window.XMLHttpRequest;s.features.xhr=!0,t(14),t(7),d.on("new-xhr",function(t){var e=this;e.totalCbs=0,e.called=0,e.cbTime=0,e.end=r,e.ended=!1,e.xhrGuids={},e.lastSize=null,e.loadCaptureCalled=!1,t.addEventListener("load",function(n){a(e,t)},!1),m&&(m>34||m<10)||window.opera||t.addEventListener("progress",function(t){e.lastSize=t.loaded},!1)}),d.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),d.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid);var n=u(this.parsedOrigin);n&&n.header&&(e.setRequestHeader("newrelic",n.header),this.dt=n)}),d.on("send-xhr-start",function(t,e){var n=this.metrics,r=t[0],o=this;if(n&&r){var i=v(r);i&&(n.txSize=i)}this.startTime=s.now(),this.listener=function(t){try{"abort"!==t.type||o.loadCaptureCalled||(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof e.onload))&&o.end(e)}catch(n){try{d.emit("internal-error",[n])}catch(r){}}};for(var a=0;a<l;a++)e.addEventListener(p[a],this.listener,!1)}),d.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),d.on("xhr-load-added",function(t,e){var n=""+h(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),d.on("xhr-load-removed",function(t,e){var n=""+h(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),d.on("addEventListener-end",function(t,e){e instanceof w&&"load"===t[0]&&d.emit("xhr-load-added",[t[1],t[2]],e)}),d.on("removeEventListener-end",function(t,e){e instanceof w&&"load"===t[0]&&d.emit("xhr-load-removed",[t[1],t[2]],e)}),d.on("fn-start",function(t,e,n){e instanceof w&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=s.now()))}),d.on("fn-end",function(t,e){this.xhrCbStart&&d.emit("xhr-cb-time",[s.now()-this.xhrCbStart,this.onload,e],e)}),d.on("fetch-before-start",function(t){var e,n=t[1]||{};"string"==typeof t[0]?e=t[0]:t[0]&&t[0].url&&(e=t[0].url),e&&(this.parsedOrigin=f(e),this.sameOrigin=this.parsedOrigin.sameOrigin);var r=u(this.parsedOrigin);if(r&&r.header){var o=r.header;if("string"==typeof t[0]){var i={};for(var a in n)i[a]=n[a];i.headers=new Headers(n.headers||{}),i.headers.set("newrelic",o),this.dt=r,t.length>1?t[1]=i:t.push(i)}else t[0]&&t[0].headers&&(t[0].headers.append("newrelic",o),this.dt=r)}})}},{}],17:[function(t,e,n){var r={};e.exports=function(t){if(t in r)return r[t];var e=document.createElement("a"),n=window.location,o={};e.href=t,o.port=e.port;var i=e.href.split("://");!o.port&&i[1]&&(o.port=i[1].split("/")[0].split("@").pop().split(":")[1]),o.port&&"0"!==o.port||(o.port="https"===i[0]?"443":"80"),o.hostname=e.hostname||n.hostname,o.pathname=e.pathname,o.protocol=i[0],"/"!==o.pathname.charAt(0)&&(o.pathname="/"+o.pathname);var a=!e.protocol||":"===e.protocol||e.protocol===n.protocol,s=e.hostname===document.domain&&e.port===n.port;return o.sameOrigin=a&&(!e.hostname||s),"/"===o.pathname&&(r[t]=o),o}},{}],18:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[f.now()].concat(s(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(24),s=t(25),c=t("ee").get("tracer"),f=t("loader"),u=NREUM;"undefined"==typeof window.newrelic&&(newrelic=u);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],p="api-",l=p+"ixn-";a(d,function(t,e){u[e]=o(p+e,!0,"api")}),u.addPageAction=o(p+"addPageAction",!0),u.setCurrentRouteName=o(p+"routeName",!0),e.exports=newrelic,u.interaction=function(){return(new r).get()};var h=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(l+"tracer",[f.now(),t,n],r),function(){if(c.emit((o?"":"no-")+"fn-start",[f.now(),r,o],n),o)try{return e.apply(this,arguments)}catch(t){throw c.emit("fn-err",[arguments,this,t],n),t}finally{c.emit("fn-end",[f.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){h[e]=o(l+e)}),newrelic.noticeError=function(t,e){"string"==typeof t&&(t=new Error(t)),i("err",[t,f.now(),!1,e])}},{}],19:[function(t,e,n){e.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(e){return}}}},{}],20:[function(t,e,n){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),e.exports=r},{}],21:[function(t,e,n){function r(t,e){var n=t.getEntries();n.forEach(function(t){"first-paint"===t.name?a("timing",["fp",Math.floor(t.startTime)]):"first-contentful-paint"===t.name&&a("timing",["fcp",Math.floor(t.startTime)])})}function o(t){if(t instanceof c&&!u){var e,n=Math.round(t.timeStamp);e=n>1e12?Date.now()-n:s.now()-n,u=!0,a("timing",["fi",n,{type:t.type,fid:e}])}}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var i,a=t("handle"),s=t("loader"),c=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){i=new PerformanceObserver(r);try{i.observe({entryTypes:["paint"]})}catch(f){}}if("addEventListener"in document){var u=!1,d=["click","keydown","mousedown","pointerdown","touchstart"];d.forEach(function(t){document.addEventListener(t,o,!1)})}}},{}],22:[function(t,e,n){function r(){function t(){return e?15&e[n++]:16*Math.random()|0}var e=null,n=0,r=window.crypto||window.msCrypto;r&&r.getRandomValues&&(e=r.getRandomValues(new Uint8Array(31)));for(var o,i="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx",a="",s=0;s<i.length;s++)o=i[s],"x"===o?a+=t().toString(16):"y"===o?(o=3&t()|8,a+=o.toString(16)):a+=o;return a}function o(){function t(){return e?15&e[n++]:16*Math.random()|0}var e=null,n=0,r=window.crypto||window.msCrypto;r&&r.getRandomValues&&Uint8Array&&(e=r.getRandomValues(new Uint8Array(31)));for(var o=[],i=0;i<16;i++)o.push(t().toString(16));return o.join("")}e.exports={generateUuid:r,generateCatId:o}},{}],23:[function(t,e,n){function r(t,e){if(!o)return!1;if(t!==o)return!1;if(!e)return!0;if(!i)return!1;for(var n=i.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var s=navigator.userAgent,c=s.match(a);c&&s.indexOf("Chrome")===-1&&s.indexOf("Chromium")===-1&&(o="Safari",i=c[1])}e.exports={agent:o,version:i,match:r}},{}],24:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],25:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],26:[function(t,e,n){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?c(t,s,i):i()}function n(n,r,o,i){if(!p.aborted||i){t&&t(n,r,o);for(var a=e(o),s=m(n),c=s.length,f=0;f<c;f++)s[f].apply(a,r);var d=u[y[n]];return d&&d.push([x,n,r,a]),a}}function l(t,e){g[t]=m(t).concat(e)}function h(t,e){var n=g[t];if(n)for(var r=0;r<n.length;r++)n[r]===e&&n.splice(r,1)}function m(t){return g[t]||[]}function v(t){return d[t]=d[t]||o(n)}function w(t,e){f(t,function(t,n){e=e||"feature",y[n]=e,e in u||(u[e]=[])})}var g={},y={},x={on:l,addEventListener:l,removeEventListener:h,emit:n,get:v,listeners:m,context:e,buffer:w,abort:a,aborted:!1};return x}function i(){return new r}function a(){(u.api||u.feature)&&(p.aborted=!0,u=p.backlog={})}var s="nr@context",c=t("gos"),f=t(24),u={},d={},p=e.exports=o();p.backlog=u},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!E++){var t=b.info=NREUM.info,e=l.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return u.abort();f(y,function(e,n){t[e]||(t[e]=n)}),c("mark",["onload",a()+b.offset],null,"api");var n=l.createElement("script");n.src="https://"+t.agent,e.parentNode.insertBefore(n,e)}}function o(){"complete"===l.readyState&&i()}function i(){c("mark",["domContent",a()+b.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(s=Math.max((new Date).getTime(),s))-b.offset}var s=(new Date).getTime(),c=t("handle"),f=t(24),u=t("ee"),d=t(23),p=window,l=p.document,h="addEventListener",m="attachEvent",v=p.XMLHttpRequest,w=v&&v.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:v,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var g=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-spa-1158.min.js"},x=v&&w&&w[h]&&!/CriOS/.test(navigator.userAgent),b=e.exports={offset:s,now:a,origin:g,features:{},xhrWrappable:x,userAgent:d};t(18),t(21),l[h]?(l[h]("DOMContentLoaded",i,!1),p[h]("load",r,!1)):(l[m]("onreadystatechange",o),p[m]("onload",r)),c("mark",["firstbyte",s],null,"api");var E=0,O=t(26)},{}],"wrap-function":[function(t,e,n){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(25),a="nr@original",s=Object.prototype.hasOwnProperty,c=!1;e.exports=function(t,e){function n(t,e,n,o){function nrWrapper(){var r,a,s,c;try{a=this,r=i(arguments),s="function"==typeof n?n(r,a):n||{}}catch(f){p([f,"",[r,a,o],s])}u(e+"start",[r,a,o],s);try{return c=t.apply(a,r)}catch(d){throw u(e+"err",[r,a,d],s),d}finally{u(e+"end",[r,a,c],s)}}return r(t)?t:(e||(e=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,e,o,i){o||(o="");var a,s,c,f="-"===o.charAt(0);for(c=0;c<e.length;c++)s=e[c],a=t[s],r(a)||(t[s]=n(a,f?s+o:o,i,s))}function u(n,r,o){if(!c||e){var i=c;c=!0;try{t.emit(n,r,o,e)}catch(a){p([a,n,r,o])}c=i}}function d(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){p([r])}for(var o in t)s.call(t,o)&&(e[o]=t[o]);return e}function p(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=o),n.inPlace=f,n.flag=a,n}},{}]},{},["loader",2,16,5,3,4]);
+  </script>
+  <title>
+   Search - Business Insider
+  </title>
+  <meta content="noindex, nofollow" name="robots"/>
+  <link href="https://static6.businessinsider.com/assets/css/min-base-us.css?201809241" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="https://static2.businessinsider.com/assets/css/min-custom-us.css?201809241" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="https://static2.businessinsider.com/assets/css/print.css?201809241" media="print" rel="stylesheet" type="text/css"/>
+  <!-- detect adblock users for Piano and set cookie appropriately -->
+  <script>
+   // CustomEvent polyfill
+    (function () {
+
+      if ( typeof window.CustomEvent === "function" ) return false;
+
+      function CustomEvent ( event, params ) {
+        params = params || { bubbles: false, cancelable: false, detail: undefined };
+        var evt = document.createEvent( 'CustomEvent' );
+        evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+        return evt;
+       }
+
+      CustomEvent.prototype = window.Event.prototype;
+
+      window.CustomEvent = CustomEvent;
+    })();
+
+    var setAdblockerCookie = function(adblocker) {
+        var d = new Date();
+        d.setTime(d.getTime() + 60 * 60 * 24 * 30 * 1000);
+        document.cookie = "__adblocker=" + (adblocker ? "true" : "false") + "; expires=" + d.toUTCString() + "; path=/";
+
+        var event = new CustomEvent('piano_set', {'detail' : adblocker});
+        document.dispatchEvent(event);
+    }
+
+    var script = document.createElement("script");
+    script.setAttribute("async", true);
+    script.setAttribute("src", "//www.npttech.com/advertising.js");
+    script.setAttribute("onerror", "setAdblockerCookie(true);");
+    script.setAttribute("onload", "setAdblockerCookie(false);");
+    document.getElementsByTagName("head")[0].appendChild(script);
+  </script>
+  <script>
+   var scroll_membership = 0;
+  </script>
+  <!-- Permutive - Main Tag- Start -->
+  <!-- BEGIN Permuitve Main Tag -->
+  <script>
+   !function(n,e,o,r,i){if(!e){e=e||{},window.permutive=e,e.q=[],e.config=i||{},e.config.projectId=o,e.config.apiKey=r,e.config.environment=e.config.environment||"production";for(var t=["addon","identify","track","trigger","query","segment","segments","ready","on","once","user","consent"],c=0;c<t.length;c++){var f=t[c];e[f]=function(n){return function(){var o=Array.prototype.slice.call(arguments,0);e.q.push({functionName:n,arguments:o})}}(f)}}}(document,window.permutive,"3aba5292-ba75-422b-8715-bd21146f7836","6f1150a7-e587-49c6-b439-a4b7ee68a5a7",{});
+  </script>
+  <script async="" src="https://cdn.permutive.com/3aba5292-ba75-422b-8715-bd21146f7836-web.js">
+  </script>
+  <!-- END Permutive Main Tag -->
+  <!-- Permutive - Main Tag- End -->
+  <script type="text/javascript">
+   var vertical = 'businessinsider';
+        var index_ad_hierarch = 'home/post';
+        var jw_header_bids_id = 180160;
+
+        window.headertag = window.headertag || {};
+        var PageType = window.headertag.pagetype = "homepage";
+
+        var post_id = '';
+        var _sf_startpt=(new Date()).getTime();
+  </script>
+  <!-- START Rubicon pre-bid -->
+  <script async="" src="https://ads.rubiconproject.com/prebid/10306_gdpr.js">
+  </script>
+  <script>
+   var pbjs = window.pbjs || {};
+            pbjs.que = pbjs.que || [];
+  </script>
+  <!-- END Rubicon pre-bid -->
+  <!-- load + init APSTAG - start -->
+  <script type="text/javascript">
+   /* ----- Begin Step 1 ----- */
+        //Load the APS JavaScript Library
+        !function(a9,a,p,s,t,A,g){if(a[a9])return;function q(c,r){a[a9]._Q.push([c,r])}a[a9]={init:function(){q("i",arguments)},fetchBids:function(){q("f",arguments)},setDisplayBids:function(){},targetingKeys:function(){return[]},_Q:[]};A=p.createElement(s);A.async=!0;A.src=t;g=p.getElementsByTagName(s)[0];g.parentNode.insertBefore(A,g)}("apstag",window,document,"script","//c.amazon-adsystem.com/aax2/apstag.js");
+        //Initialize the Library
+        apstag.init({
+             pubID: '3201',
+             adServer: 'googletag'
+        });
+        /* ----- End Step 1 ----- */
+  </script>
+  <!-- load + init APSTAG - end -->
+  <script type="text/javascript">
+   //this should be refactored to the BI.Google_Plus object, however the BI core library will need to be moved to above the headScript call
+        window.gPlusConfigs = {client_id : '551214076990-h27puiaonnlg9a9772gq3qbe9nk6qnno.apps.googleusercontent.com', base_domain: 'businessinsider.com'};
+  </script>
+  <!-- IAS -->
+  <script type="text/javascript">
+   window.BI_adHierarchy = 'business-insider/home/homepage';
+  </script>
+  <!-- IAS end -->
+  <script src="//code.jquery.com/jquery-1.7.1.min.js" type="text/javascript">
+  </script>
+  <script src="https://static1.businessinsider.com/assets/js/min2.js?201809241" type="text/javascript">
+  </script>
+  <!-- purrrf performance library reference point -->
+  <script type="text/javascript">
+   window._purrrf.setStart();
+  </script>
+  <!-- Video Scripts -->
+  <!-- JW Player Head -->
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js">
+  </script>
+  <script src="//content.jwplatform.com/libraries/puACk8ZV.js">
+  </script>
+  <!-- /JW Player Head -->
+  <!-- optimizely desktop -->
+  <!-- End optimizely desktop -->
+  <!--Tech Insider Pinterest-->
+  <!-- Facebook Instant Start -->
+  <meta content="20446254070" property="fb:pages"/>
+  <!-- Facebook Instant Start -->
+  <meta content="tbi" name="tbi-vertical"/>
+  <meta content="width=1024" name="viewport"/>
+  <!--[if gte IE 9]>
+    <style type="text/css">
+        .gradient {
+            filter: none;
+        }
+    </style>
+    <![endif]-->
+  <!--[if lt IE 9]>
+        <link type="text/css" rel="stylesheet" media="all" href="https://static5.businessinsider.com/assets/css/ie8.css" />
+        <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script type="text/javascript" src="https://static3.businessinsider.com/assets/js/vendor/ie8/placeholders.min.js"></script>
+    <![endif]-->
+  <!--[if IE 9]>
+        <link type="text/css" rel="stylesheet" media="all" href="https://static4.businessinsider.com/assets/css/ie9.css" />
+        <script type="text/javascript" src="https://static5.businessinsider.com/assets/js/shims/Element.classList.js"></script>
+    <![endif]-->
+  <!--Tech Insider if IE 9 -->
+  <link href="http://feeds2.feedburner.com/businessinsider" rel="alternate" title="RSS" type="application/rss+xml"/>
+  <link href="https://static4.businessinsider.com/assets/images/us/favicons/apple-touch-icon.png?v=BI-US-2017-06-22" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="https://static1.businessinsider.com/assets/images/us/favicons/favicon-32x32.png?v=BI-US-2017-06-22" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="https://static5.businessinsider.com/assets/images/us/favicons/favicon-16x16.png?v=BI-US-2017-06-22" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="https://static5.businessinsider.com/assets/images/us/favicons/manifest.json?v=BI-US-2017-06-22" rel="manifest"/>
+  <link color="#1D607C" href="https://static6.businessinsider.com/assets/images/us/favicons/safari-pinned-tab.svg?v=BI-US-2017-06-22" rel="mask-icon"/>
+  <link href="https://static3.businessinsider.com/assets/images/us/favicons/favicon.ico?v=BI-US-2017-06-22" rel="shortcut icon"/>
+  <meta content="https://static2.businessinsider.com/assets/images/us/favicons/browserconfig.xml?v=BI-US-2017-06-22" name="msapplication-config"/>
+  <meta content="#1D607C" name="theme-color"/>
+  <meta content="mid:1d5f7b" name="linkedin:owner"/>
+  <!--[if gte IE 9]>
+        <meta name="application-name" content="Business Insider - Home"/>
+        <meta name="msapplication-tooltip" content="Start the page in Site Mode"/>
+        <meta name="msapplication-starturl" content="https://www.businessinsider.com/"/>
+        <meta name="msapplication-window" content="width=800;height=600"/>
+        <meta name="msapplication-navbutton-color" content="#4C7C8D"/>
+
+        <meta name="msapplication-task" content="name=Tech;action-uri=https://www.businessinsider.com/sai;icon-uri=https://www.businessinsider.com/favicon.ico"/>
+        <meta name="msapplication-task" content="name=Media;action-uri=https://www.businessinsider.com/thewire;icon-uri=https://www.businessinsider.com/favicon.ico"/>
+        <meta name="msapplication-task" content="name=Wall Street;action-uri=https://www.businessinsider.com/clusterstock;icon-uri=https://www.businessinsider.com/favicon.ico"/>
+        <meta name="msapplication-task" content="name=Markets;action-uri=https://www.businessinsider.com/moneygame;icon-uri=https://www.businessinsider.com/favicon.ico"/>
+        <meta name="msapplication-task" content="name=Strategy;action-uri=https://www.businessinsider.com/warroom;icon-uri=https://www.businessinsider.com/favicon.ico"/>
+    <![endif]-->
+  <script>
+   BI.site = 'US';
+        BI.siteURI = 'https://www.businessinsider.com';
+        BI.secureURI = 'https://www.businessinsider.com';
+        BI.staticURI = 'https://static1.businessinsider.com';
+        BI.env.setDomain('https://www.businessinsider.com');
+        BI.sailthruHorizonURI = 'horizon.businessinsider.com';
+        BI.NETWORK_ID = 4442842;
+  </script>
+  <!-- *************** ANALYTICS *************** -->
+  <script>
+   BI.ANALYTICS_SERVICE_URL = '//analytics.businessinsider.com';
+        BI.SITE_GEO_CONTINENT_CODE = 'NA';
+  </script>
+  <!-- *************** END ANALYTICS *************** -->
+  <script>
+   BI.PIANO_RID = 'RK195MO';
+  </script>
+  <script>
+   BI.vertical='Business Insider';
+        BI.ads = { slots: [], queue: [] };
+        BI.configs.ads.post_load_ad_buffer= 50;
+        BI.configs.ads.subnav_sticky_ad_buffer = 250;
+        BI.flags = BI.flags || {};
+        BI.flags.bii_facebook_tracking = 1;
+        BI.flags.bii_facebook_tracking_verticals = ["Apps and Platforms","Digital Media","Payments","Internet of Things","E-Commerce","eCommerce","Fintech"];
+  </script>
+  <script async="" defer="" src="https://www.google.com/recaptcha/api.js">
+  </script>
+  <script async="" defer="" src="//platform.linkedin.com/in.js" type="text/javascript">
+   api_key: x4dbohswv62d
+       authorize: true
+       scope: r_basicprofile r_emailaddress w_share
+  </script>
+  <!-- Taboola head -->
+  <!-- Standard Taboola Script -->
+  <script type="text/javascript">
+   window._taboola = window._taboola || [];
+            _taboola.push({article:'auto'});
+            !function (e, f, u) {
+                e.async = 1;
+                e.src = u;
+                f.parentNode.insertBefore(e, f);
+            }(
+                document.createElement('script'),
+                document.getElementsByTagName('script')[0],
+                'https://cdn.taboola.com/libtrc/businessinsider/loader.js'
+            );
+  </script>
+  <!-- / Taboola head -->
+  <!-- Pinterest JS -->
+  <!-- / Pinterest JS -->
+  <!-- Piano -->
+  <script>
+   // Piano: custom vars
+        tp = window.tp || [];
+        tp.push(["setUseTinypassAccounts", true ]);
+        tp.push(['setCustomVariable', 'PageType', PageType]);
+        tp.push(["setAid", 'B6sIXKLiin']);
+
+        tp.push(["setUsePianoIdUserProvider", true ]);
+
+        (function(src){var a=document.createElement("script");a.type="text/javascript";a.async=true;a.src=src;var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})("https://experience.tinypass.com/xbuilder/experience/load?aid=B6sIXKLiin");
+
+        tp.push(['init', function () {
+            tp.experience.init();
+        }]);
+
+        // refresh on login
+        tp.push(["addHandler", "loginSuccess", function(){
+            toggleMyAccount();
+            tp.api.callApi('/access/list', {}, function(data){
+                if (typeof data.data != "undefined"){
+                    for ( var i in data.data ){
+                        // If user has access to something
+                        if ( data.data[i].granted ){
+                            tp.offer.close();
+                            location.reload();
+                        }
+                    }
+                }
+            });
+        }]);
+
+        window.addEventListener('message', receiveMessage, false);
+
+        function receiveMessage(event) {
+            if (event.data === "openLockScreen") {
+                userLogin();
+            }
+        }
+
+        function userLogin(){
+            location.href='/login';
+        }
+
+        
+        // Get current page location and store as cookie
+        var primeReferrer = window.location.href;
+        BI.cookies.set('__pref', primeReferrer, 2592e3);
+  </script>
+  <!-- / PIANO -->
+  <!-- Chartbeat -->
+  <script type="text/javascript">
+   // chartbeat wants the vars in global
+        window._sf_async_config = window._sf_async_config || {};
+        window._sf_async_config.uid = 14447;
+        window._sf_async_config.domain = 'businessinsider.com';
+        window._sf_async_config.flickerControl = false;
+        window._sf_async_config.useCanonical = false;
+        window._sf_startpt = (new Date()).getTime();
+  </script>
+  <script async="" src="https://static.chartbeat.com/js/chartbeat_mab.js">
+  </script>
+  <!-- / Chartbeat -->
+  <!-- RebelAI - Start -->
+  <link href="https://cdn.rebel.ai" rel="dns-prefetch"/>
+  <link href="https://secure.rebel.ai" rel="dns-prefetch"/>
+  <script async="" dg="f46280d8c8bae91ecd4c6e88bae91ecdec6ebd5f6bd9adef5d4333abd9adef5d233357" src="https://cdn.rebel.ai/passport/js/1776.js">
+  </script>
+  <!-- RebelAI - End -->
+  <script id="oil-configuration" type="application/configuration">
+   {
+            "preview_mode": false,
+            "timeout": -1,
+            "poi_activate_poi": false,
+            "poi_hub_origin": "//media.businessinsider.com",
+            "poi_hub_path": "/public/assets/oil/hub.html",
+            "publicPath": "//media.businessinsider.com/public/assets/oil/1.2.5/",
+            "poi_group_name": "insiderInc_01",
+            "poi_subscriber_set_cookie": true,
+            "default_to_optin": true,
+            "locale": {
+                "localeId": "enEN_01",
+                "version": 1,
+                "texts": {
+                    "label_intro_heading": "Insider, Inc.",
+                    "label_intro": "This site uses cookies. By continuing to use this site, closing this banner, or clicking \"I Agree\", you agree to the use of cookies. Read our <a href=\"//www.businessinsider.com/cookies-policy\" target=\"_blank\">cookies policy</a> and <a href=\"//www.businessinsider.com/privacy-policy\" target=\"_blank\">privacy statement</a> for more information.",
+                    "label_button_yes": "I agree"
+                }
+            }
+        }
+  </script>
+  <script>
+   /*! 1.2.5-RELEASE */!function(e){var t={};function n(o){if(t[o])return t[o].exports;var r=t[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,n),r.l=!0,r.exports}n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:o})},n.r=function(e){Object.defineProperty(e,"__esModule",{value:!0})},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="https://unpkg.com/@ideasio/oil.js@1.2.5/release/current/",n(n.s=115)}({115:function(e,t,n){"use strict";!function(e,t){e.__cmp||(e.__cmp=function(){function n(e){if(e){var n=!0,r=t.querySelector('script[type="application/configuration"]#oil-configuration');if(null!==r&&r.text)try{var a=JSON.parse(r.text);a&&a.hasOwnProperty("gdpr_applies_globally")&&(n=a.gdpr_applies_globally)}catch(e){}e({gdprAppliesGlobally:n,cmpLoaded:o()},!0)}}function o(){return!(!e.AS_OIL||!e.AS_OIL.commandCollectionExecutor)}!function e(){if(!(t.getElementsByName("__cmpLocator").length>0))if(t.body){var n=t.createElement("iframe");n.style.display="none",n.name="__cmpLocator",t.body.appendChild(n)}else setTimeout(e,5)}();var r=[],a=function(t,a,c){if("ping"===t)n(c);else{var i={command:t,parameter:a,callback:c};r.push(i),o()&&e.AS_OIL.commandCollectionExecutor(i)}};return a.commandCollection=r,a.receiveMessage=function(t){var a=t&&t.data,c="string"==typeof a;if(a=c&&-1!==a.indexOf("__cmpCall")?JSON.parse(a).__cmpCall:a.__cmpCall)if("ping"===a.command)n(function(e,n){var o={__cmpReturn:{returnValue:e,success:n,callId:a.callId}};t.source.postMessage(c?JSON.stringify(o):o,t.origin)});else{var i={callId:a.callId,command:a.command,parameter:a.parameter,event:t};r.push(i),o()&&e.AS_OIL.commandCollectionExecutor(i)}},function(t){var n=e.addEventListener||e.attachEvent;n("attachEvent"===n?"onmessage":"message",function(e){t.receiveMessage(e)},!1)}(a),a}())}(window,document)}});
+  </script>
+ </head>
+ <body class="responsive">
+  <div data-cookie-notice-container="">
+  </div>
+  <!-- print only -->
+  <img class="print" src="https://static2.businessinsider.com/assets/images/us/logos/logo-print-v1.png"/>
+  <!-- FB Connect -->
+  <div data-bi-facebook-root="155043519637" id="fb-root">
+  </div>
+  <!-- / FB Connect -->
+  <!--[if lt IE 9]>
+    <div class="container>
+        <div class="row">
+            <div class="alert alert-error alert-block">
+                <h4>Warning!</h4>
+                You are using an outdated version of Internet Explorer.  For security reasons you should <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank" title="Upgrade IE">upgrade your browser</a>. Please go to Windows Updates and install the latest version.
+            </div>
+        </div>
+    </div>
+<![endif]-->
+  <!-- masthead -->
+  <div class="masthead redesign">
+   <div class="container masthead-container redesign">
+    <div class="masthead-row redesign">
+     <!-- Redesign masthead -->
+     <a class="logo redesign" href="/" title="Business Insider">
+      <svg aria-labelledby="title desc" class="svg-icon logo-BI-icon" role="img" viewbox="0 0 103 33" xmlns="http://www.w3.org/2000/svg">
+       <title id="title">
+        Business Insider Logo
+       </title>
+       <desc id="desc">
+        Logo for Business Insider over a transparent background.
+       </desc>
+       <g class="logo-BI" fill-rule="evenodd">
+        <path d="M7.984 32h2.396V19.2H7.984zM16.767 31.808h2.146v-8.076L27.946 32V19.392h-2.14v7.938l-9.039-8.13zM32.845 28.708c1.168.91 2.57 1.436 4.073 1.436 1.464 0 2.491-.504 2.491-1.617 0-.97-.655-1.35-1.802-1.775l-1.857-.645c-1.712-.608-3.014-1.496-3.014-3.537 0-2.183 1.971-3.37 4.328-3.37 1.444 0 2.76.363 3.788 1.006v2.165c-1.069-.79-2.239-1.334-3.742-1.334-1.294 0-2.261.483-2.261 1.49 0 .91.607 1.274 1.676 1.64l2.069.726c2.005.705 2.925 1.798 2.925 3.596 0 2.262-1.99 3.511-4.601 3.511-1.716 0-3.175-.48-4.073-1.086v-2.206zM47.109 32h2.395V19.2h-2.395zM60.74 30.063c2.7 0 4.143-1.732 4.143-4.466 0-2.754-1.444-4.48-4.143-4.48h-2.67v8.946h2.67zM55.89 19.2h4.93c3.795 0 6.249 2.5 6.249 6.397 0 3.9-2.454 6.403-6.249 6.403h-4.93V19.2zM79.047 19.2v1.917H73.25v3.08h5.199v1.895h-5.2v3.971h5.798V32h-7.985V19.2zM87.549 24.996h2.377c1.407 0 2.2-.772 2.2-1.959s-.793-1.96-2.2-1.96h-2.377v3.92zm0 1.81V32h-2.115V19.2h4.532c2.584 0 4.256 1.331 4.256 3.837 0 2.143-.928 3.374-2.905 3.69L95.814 32h-2.406l-4.354-5.193H87.55zM7.147 6.59c.937-.343 1.667-1.372 1.667-2.787 0-2.358-1.667-3.58-4.334-3.58H0v13.163h4.896c2.667 0 4.334-1.308 4.334-3.773 0-1.394-.875-2.616-2.083-3.023zm-5.043-.836V2.153H4.46c1.48 0 2.271.536 2.271 1.779 0 1.243-.792 1.822-2.271 1.822H2.104zm0 1.844h2.75c1.46 0 2.251.728 2.251 1.929 0 1.179-.792 1.93-2.25 1.93h-2.75v-3.86zM19.005 13.6c3.063 0 5.126-1.844 5.126-5.445V.223h-2.167v7.674c0 2.53-1.042 3.71-2.959 3.71s-2.958-1.18-2.958-3.71V.223H13.88v7.91c0 3.623 2.083 5.467 5.125 5.467zm10.228-1.158c.896.644 2.355 1.158 4.063 1.158 2.605 0 4.584-1.33 4.584-3.73 0-1.908-.916-3.066-2.917-3.816l-2.062-.772c-1.063-.385-1.667-.771-1.667-1.736 0-1.072.958-1.586 2.25-1.586 1.5 0 2.667.578 3.73 1.415V1.08C36.193.395 34.88.009 33.442.009c-2.354 0-4.313 1.265-4.313 3.58 0 2.165 1.292 3.108 3 3.751l1.855.686c1.146.45 1.792.858 1.792 1.887 0 1.179-1.021 1.715-2.48 1.715-1.5 0-2.896-.558-4.063-1.522v2.336zM45.623.223h-2.166v13.162h2.166V.223zm6.182 13.146h2.088V4.806l8.788 8.767V.203h-2.082V8.62L51.805 0v13.369zM76.222.226v1.971h-5.626v3.168h5.045v1.949h-5.045v4.083h5.626v1.992h-7.75V.226h7.75zm5.045 12.207c.896.644 2.354 1.158 4.063 1.158 2.604 0 4.584-1.329 4.584-3.73 0-1.908-.917-3.065-2.917-3.816l-2.063-.771c-1.063-.386-1.667-.772-1.667-1.737 0-1.072.958-1.586 2.25-1.586 1.5 0 2.667.579 3.73 1.415V1.072C88.226.386 86.913 0 85.475 0c-2.354 0-4.313 1.265-4.313 3.58 0 2.165 1.292 3.108 3 3.751l1.855.686c1.146.45 1.792.858 1.792 1.887 0 1.179-1.02 1.715-2.48 1.715-1.5 0-2.896-.557-4.062-1.522v2.336zm13.086 0c.896.644 2.355 1.158 4.063 1.158 2.605 0 4.584-1.329 4.584-3.73 0-1.908-.917-3.065-2.917-3.816l-2.063-.771c-1.062-.386-1.667-.772-1.667-1.737 0-1.072.959-1.586 2.25-1.586 1.5 0 2.668.579 3.73 1.415V1.072C101.313.386 100 0 98.562 0c-2.355 0-4.313 1.265-4.313 3.58 0 2.165 1.292 3.108 3 3.751l1.855.686c1.146.45 1.792.858 1.792 1.887 0 1.179-1.021 1.715-2.48 1.715-1.5 0-2.896-.557-4.063-1.522v2.336z">
+        </path>
+       </g>
+      </svg>
+     </a>
+     <section class="masthead-verticals-wrapper">
+      <!-- Tech Finance Politics Strategy Life Video All -->
+      <ul class="verticals">
+       <li class="vertical-list-item redesign tech">
+        <a class="vertical-anchor-redesign" href="/sai">
+         Tech
+        </a>
+        <span class="vertical-list-item-break">
+        </span>
+       </li>
+       <li class="vertical-list-item redesign finance">
+        <a class="vertical-anchor-redesign" href="/clusterstock">
+         Finance
+        </a>
+        <span class="vertical-list-item-break">
+        </span>
+       </li>
+       <li class="vertical-list-item redesign politics">
+        <a class="vertical-anchor-redesign" href="/politics">
+         Politics
+        </a>
+        <span class="vertical-list-item-break">
+        </span>
+       </li>
+       <li class="vertical-list-item redesign strategy">
+        <a class="vertical-anchor-redesign" href="/warroom">
+         Strategy
+        </a>
+        <span class="vertical-list-item-break">
+        </span>
+       </li>
+       <li class="vertical-list-item redesign life">
+        <a class="vertical-anchor-redesign" href="/thelife">
+         Life
+        </a>
+        <span class="vertical-list-item-break">
+        </span>
+       </li>
+       <li class="vertical-list-item redesign biprime">
+        <a class="vertical-anchor-redesign" href="/prime">
+         BI PRIME
+        </a>
+        <span class="vertical-list-item-break">
+        </span>
+       </li>
+       <li class="vertical-list-item redesign intelligence">
+        <a class="vertical-anchor-redesign" href="/research">
+         INTELLIGENCE
+        </a>
+        <span class="vertical-list-item-break">
+        </span>
+       </li>
+       <li class="vertical-list-item redesign all">
+        <a class="vertical-anchor-redesign" href="/all">
+         All
+        </a>
+       </li>
+      </ul>
+     </section>
+     <section class="masthead-user-menu-wrapper">
+      <!-- User menubar include -->
+      <span data-bi-ajax-route="/esi/user_menubar?0=json%3A%5B%5D&amp;1=NULL">
+      </span>
+     </section>
+    </div>
+   </div>
+   <!-- Search Area -->
+   <div class="nav-over transition" data-search-over="">
+    <div class="container transition search">
+     <form action="/s" class="search-field" method="get">
+      <input autocomplete="off" data-search-input="" name="q" placeholder="Search" type="text"/>
+     </form>
+    </div>
+   </div>
+   <!-- Nav area -->
+   <div class="nav-over transition" data-nav-over="">
+    <div class="transition">
+     <div class="list-pipes nav-sections">
+      <ul class="verticals">
+       <li>
+        <a class="item vertical-anchor" data-dropdown-id="dropdown-Tech" href="/sai">
+         Tech
+        </a>
+       </li>
+       <li>
+        <a class="item vertical-anchor" data-dropdown-id="dropdown-Finance" href="/clusterstock">
+         Finance
+        </a>
+       </li>
+       <li>
+        <a class="item vertical-anchor" data-dropdown-id="dropdown-Politics" href="/politics">
+         Politics
+        </a>
+       </li>
+       <li>
+        <a class="item vertical-anchor" data-dropdown-id="dropdown-Strategy" href="/warroom">
+         Strategy
+        </a>
+       </li>
+       <li>
+        <a class="item vertical-anchor" data-dropdown-id="dropdown-Life" href="/thelife">
+         Life
+        </a>
+       </li>
+       <li>
+        <a class="item vertical-anchor" data-dropdown-id="dropdown-BI PRIME" href="/prime">
+         BI PRIME
+        </a>
+       </li>
+       <li>
+        <a class="item vertical-anchor" data-dropdown-id="dropdown-INTELLIGENCE" href="/research">
+         INTELLIGENCE
+        </a>
+       </li>
+       <li>
+        <a class="item vertical-anchor" data-dropdown-id="dropdown-All" href="/all">
+         All
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="main-nav-dropdown ks-nav-dropdown">
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- / masthead -->
+  <div class="redesign" id="main-content">
+   <div class="ad-subnav-container" data-ad-container="">
+    <div class="subnav-content leaderboard">
+     <div class="gpt-ad ad dfp" data-ad-container="" data-adunit="business-insider/home/homepage" data-bi-ad="" data-pagetype="homepage" data-pos="atf" data-region="Subnav" data-responsive="null" data-sizes="728x90,970x250,970x90" data-url="/s" id="gpt-homepage-business_insider-subnav-desktop-5e1efd264eb881.69700102">
+      <script>
+       (function() {
+                    'use strict';
+                    // Notify the DFP code that a new ad has just been rendered
+                    amplify.publish('adRender', 'gpt-homepage-business_insider-subnav-desktop-5e1efd264eb881.69700102');
+                })();
+      </script>
+     </div>
+    </div>
+   </div>
+   <div class="container">
+    <!-- flash messages -->
+    <div class="siteskin-dropshadow">
+     <div class="row primary-row">
+      <div class="span12 no-rightrail">
+       <div class="breaking-module-siteskin" id="breaking-module-siteskin">
+       </div>
+       <div class="container search">
+        <div class="row-fluid">
+         <div class="span2">
+          <ul class="nav nav-list">
+           <li class="search-nav-header">
+            <h3>
+             Sort by:
+            </h3>
+           </li>
+           <li class="active">
+            <a href="#" id="sort-relevance">
+             Relevance
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;vertical=clusterstock&amp;author=&amp;contributed=1&amp;sort=date" id="sort-date">
+             Date
+            </a>
+           </li>
+           <li class="search-nav-header">
+            <h3>
+             Results from:
+            </h3>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1">
+             All
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=sai" id="search-sai">
+             Tech Insider
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=enterprise" id="search-enterprise">
+             Enterprise
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=science" id="search-science">
+             Science
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=advertising" id="search-advertising">
+             Advertising
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=media" id="search-media">
+             Media
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=thewire" id="search-thewire">
+             Entertainment
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=transportation" id="search-transportation">
+             Transportation
+            </a>
+           </li>
+           <li class="active">
+            <a href="#" id="search-clusterstock">
+             Finance
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=moneygame" id="search-moneygame">
+             Markets
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=retail" id="search-retail">
+             Retail
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=wealthadvisor" id="search-wealthadvisor">
+             Wealth Advisor
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=yourmoney" id="search-yourmoney">
+             Your Money
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=politics" id="search-politics">
+             Politics
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=defense" id="search-defense">
+             Military &amp; Defense
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=news" id="search-news">
+             News
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=warroom" id="search-warroom">
+             Strategy
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=careers" id="search-careers">
+             Careers
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=education" id="search-education">
+             Education
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=smallbusiness" id="search-smallbusiness">
+             Small Business
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=lists" id="search-lists">
+             Lists
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=thelife" id="search-thelife">
+             Life
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=travel" id="search-travel">
+             Travel
+            </a>
+           </li>
+           <li>
+            <a href="/s?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=sportspage" id="search-sportspage">
+             Sports
+            </a>
+           </li>
+           <li class="divider">
+           </li>
+           <li>
+            <label class="checkbox inline">
+             <input checked="checked" onclick="window.location.href='/s?q=Apple&amp;vertical=clusterstock&amp;sort=relevance&amp;author=&amp;contributed=0'" type="checkbox" value="1"/>
+             Show Contributors
+            </label>
+           </li>
+           <li class="divider">
+           </li>
+           <li>
+            <select class="span12" name="author" onchange="window.location.href='/s?q=Apple&amp;vertical=clusterstock&amp;sort=relevance&amp;contributed=1&amp;author=' + (this.selectedIndex ? escape(this.options[this.selectedIndex].innerHTML) : '')">
+             <option selected="selected" value="">
+              All Authors
+             </option>
+             <option value="Aaron Holmes">
+              Aaron Holmes
+             </option>
+             <option value="Aaron Taube">
+              Aaron Taube
+             </option>
+             <option value="Abby Narishkin">
+              Abby Narishkin
+             </option>
+             <option value="Abby Tang">
+              Abby Tang
+             </option>
+             <option value="Adam Bienkov">
+              Adam Bienkov
+             </option>
+             <option value="Adam Payne">
+              Adam Payne
+             </option>
+             <option value="Adrian Traviezo">
+              Adrian Traviezo
+             </option>
+             <option value="Aj Caldwell">
+              Aj Caldwell
+             </option>
+             <option value="Akin Oyedele">
+              Akin Oyedele
+             </option>
+             <option value="Alan Dawson">
+              Alan Dawson
+             </option>
+             <option value="Alana Kakoyiannis">
+              Alana Kakoyiannis
+             </option>
+             <option value="Alana Yzola">
+              Alana Yzola
+             </option>
+             <option value="Aleks Vickovich">
+              Aleks Vickovich
+             </option>
+             <option value="Alex Campbell">
+              Alex Campbell
+             </option>
+             <option value="Alex Morrell">
+              Alex Morrell
+             </option>
+             <option value="Alex Nicoll">
+              Alex Nicoll
+             </option>
+             <option value="Alexa Pipia">
+              Alexa Pipia
+             </option>
+             <option value="Alexandra Appolonia">
+              Alexandra Appolonia
+             </option>
+             <option value="Alexandra Ma">
+              Alexandra Ma
+             </option>
+             <option value="Alexei Oreskovic">
+              Alexei Oreskovic
+             </option>
+             <option value="Ali Sundermier">
+              Ali Sundermier
+             </option>
+             <option value="Alicia Phaneuf">
+              Alicia Phaneuf
+             </option>
+             <option value="Alison Millington">
+              Alison Millington
+             </option>
+             <option value="Aliza Gulab">
+              Aliza Gulab
+             </option>
+             <option value="Allana Akhtar">
+              Allana Akhtar
+             </option>
+             <option value="Ally Giannini">
+              Ally Giannini
+             </option>
+             <option value="Aly Weisman">
+              Aly Weisman
+             </option>
+             <option value="Alyse Kalish">
+              Alyse Kalish
+             </option>
+             <option value="Alyssa Meyers">
+              Alyssa Meyers
+             </option>
+             <option value="Alyssa Powell">
+              Alyssa Powell
+             </option>
+             <option value="Amanda Krause">
+              Amanda Krause
+             </option>
+             <option value="Amanda Perelli">
+              Amanda Perelli
+             </option>
+             <option value="Amir Ismael">
+              Amir Ismael
+             </option>
+             <option value="Andrea Schmitz">
+              Andrea Schmitz
+             </option>
+             <option value="Andrew Meola">
+              Andrew Meola
+             </option>
+             <option value="Andrew Stern">
+              Andrew Stern
+             </option>
+             <option value="Andy Ash">
+              Andy Ash
+             </option>
+             <option value="Andy Kiersz">
+              Andy Kiersz
+             </option>
+             <option value="Angela Wang">
+              Angela Wang
+             </option>
+             <option value="Anna Medaris Miller">
+              Anna Medaris Miller
+             </option>
+             <option value="Anneke Ball">
+              Anneke Ball
+             </option>
+             <option value="Anneta Konstantinides">
+              Anneta Konstantinides
+             </option>
+             <option value="Anthony L. Fisher">
+              Anthony L. Fisher
+             </option>
+             <option value="Antonia Farzan">
+              Antonia Farzan
+             </option>
+             <option value="Antonio Villas-Boas">
+              Antonio Villas-Boas
+             </option>
+             <option value="Applause Insider 1">
+              Applause Insider 1
+             </option>
+             <option value="Aria Bendix">
+              Aria Bendix
+             </option>
+             <option value="Ashley Collman">
+              Ashley Collman
+             </option>
+             <option value="Ashley Rodriguez">
+              Ashley Rodriguez
+             </option>
+             <option value="Ashley Stewart">
+              Ashley Stewart
+             </option>
+             <option value="Audrey Schomer">
+              Audrey Schomer
+             </option>
+             <option value="Avery Hartmans">
+              Avery Hartmans
+             </option>
+             <option value="Aylin Woodward">
+              Aylin Woodward
+             </option>
+             <option value="Ayoub Aouad">
+              Ayoub Aouad
+             </option>
+             <option value="Barbara Corbellini Duarte">
+              Barbara Corbellini Duarte
+             </option>
+             <option value="Barnaby Lane">
+              Barnaby Lane
+             </option>
+             <option value="Becky Peterson">
+              Becky Peterson
+             </option>
+             <option value="Ben Gilbert">
+              Ben Gilbert
+             </option>
+             <option value="Ben Mack">
+              Ben Mack
+             </option>
+             <option value="Ben Winsor">
+              Ben Winsor
+             </option>
+             <option value="Benjamin Goggin">
+              Benjamin Goggin
+             </option>
+             <option value="Benji Jones">
+              Benji Jones
+             </option>
+             <option value="Bethany Biron">
+              Bethany Biron
+             </option>
+             <option value="Bianca Male">
+              Bianca Male
+             </option>
+             <option value="Bob Bryan">
+              Bob Bryan
+             </option>
+             <option value="Bradley Saacks">
+              Bradley Saacks
+             </option>
+             <option value="Brett Jordan">
+              Brett Jordan
+             </option>
+             <option value="Brett Weiser-Schlesinger">
+              Brett Weiser-Schlesinger
+             </option>
+             <option value="Bridget Williams">
+              Bridget Williams
+             </option>
+             <option value="Brittany Chang">
+              Brittany Chang
+             </option>
+             <option value="Bryan Logan">
+              Bryan Logan
+             </option>
+             <option value="Bryan Pietsch">
+              Bryan Pietsch
+             </option>
+             <option value="Cadie Thompson">
+              Cadie Thompson
+             </option>
+             <option value="Caitlin Harper">
+              Caitlin Harper
+             </option>
+             <option value="Caitlin Petreycik">
+              Caitlin Petreycik
+             </option>
+             <option value="Callie Ahlgrim">
+              Callie Ahlgrim
+             </option>
+             <option value="Callum Burroughs">
+              Callum Burroughs
+             </option>
+             <option value="Cameron Merriman">
+              Cameron Merriman
+             </option>
+             <option value="Caralynn Lippo">
+              Caralynn Lippo
+             </option>
+             <option value="Carl Mueller">
+              Carl Mueller
+             </option>
+             <option value="Carmen Reinicke">
+              Carmen Reinicke
+             </option>
+             <option value="Caroline Fox">
+              Caroline Fox
+             </option>
+             <option value="Caroline Hroncich">
+              Caroline Hroncich
+             </option>
+             <option value="Carter Thallon">
+              Carter Thallon
+             </option>
+             <option value="Casey Sullivan">
+              Casey Sullivan
+             </option>
+             <option value="Cassidy Hopkins">
+              Cassidy Hopkins
+             </option>
+             <option value="Celia Fernandez">
+              Celia Fernandez
+             </option>
+             <option value="Celia Skvaril">
+              Celia Skvaril
+             </option>
+             <option value="Charlie Floyd">
+              Charlie Floyd
+             </option>
+             <option value="Charlie Wood">
+              Charlie Wood
+             </option>
+             <option value="Chelsea Harvey">
+              Chelsea Harvey
+             </option>
+             <option value="Chelsea Pineda">
+              Chelsea Pineda
+             </option>
+             <option value="Chia-Yi Hou">
+              Chia-Yi Hou
+             </option>
+             <option value="Chloe Miller">
+              Chloe Miller
+             </option>
+             <option value="Chloe Pantazi">
+              Chloe Pantazi
+             </option>
+             <option value="Chris Snyder">
+              Chris Snyder
+             </option>
+             <option value="Christian Carvajal">
+              Christian Carvajal
+             </option>
+             <option value="Christian Nguyen">
+              Christian Nguyen
+             </option>
+             <option value="Christie Clemens">
+              Christie Clemens
+             </option>
+             <option value="Christoph Asche">
+              Christoph Asche
+             </option>
+             <option value="Christopher Woody">
+              Christopher Woody
+             </option>
+             <option value="Ciannah Gin">
+              Ciannah Gin
+             </option>
+             <option value="Clancy Morgan">
+              Clancy Morgan
+             </option>
+             <option value="Claudia Romeo">
+              Claudia Romeo
+             </option>
+             <option value="Claudia Willen">
+              Claudia Willen
+             </option>
+             <option value="Conner Blake">
+              Conner Blake
+             </option>
+             <option value="Connie Chen">
+              Connie Chen
+             </option>
+             <option value="Connor Perrett">
+              Connor Perrett
+             </option>
+             <option value="Corey Protin">
+              Corey Protin
+             </option>
+             <option value="Corina Pintado">
+              Corina Pintado
+             </option>
+             <option value="Cork Gaines">
+              Cork Gaines
+             </option>
+             <option value="Courteney Larocca">
+              Courteney Larocca
+             </option>
+             <option value="Courtney Streett">
+              Courtney Streett
+             </option>
+             <option value="Crystal Cox">
+              Crystal Cox
+             </option>
+             <option value="Dakin Campbell">
+              Dakin Campbell
+             </option>
+             <option value="Dan DeFrancesco">
+              Dan DeFrancesco
+             </option>
+             <option value="Dan Murphy">
+              Dan Murphy
+             </option>
+             <option value="Dan Turkel">
+              Dan Turkel
+             </option>
+             <option value="Dana Varinsky">
+              Dana Varinsky
+             </option>
+             <option value="Daniel Carnahan">
+              Daniel Carnahan
+             </option>
+             <option value="Daniel Goodman">
+              Daniel Goodman
+             </option>
+             <option value="Daniel Keyes">
+              Daniel Keyes
+             </option>
+             <option value="Daniel McMahon">
+              Daniel McMahon
+             </option>
+             <option value="Danielle Cohen">
+              Danielle Cohen
+             </option>
+             <option value="Danielle Jackson">
+              Danielle Jackson
+             </option>
+             <option value="Danielle Lacombe">
+              Danielle Lacombe
+             </option>
+             <option value="Danielle Muoio">
+              Danielle Muoio
+             </option>
+             <option value="Danny Vinik">
+              Danny Vinik
+             </option>
+             <option value="Darcy Schild">
+              Darcy Schild
+             </option>
+             <option value="Dashiell Bennett">
+              Dashiell Bennett
+             </option>
+             <option value="Dave Mosher">
+              Dave Mosher
+             </option>
+             <option value="Dave Smith">
+              Dave Smith
+             </option>
+             <option value="David Choi">
+              David Choi
+             </option>
+             <option value="David Fang">
+              David Fang
+             </option>
+             <option value="David Ibekwe">
+              David Ibekwe
+             </option>
+             <option value="David Scutt">
+              David Scutt
+             </option>
+             <option value="David Slotnick">
+              David Slotnick
+             </option>
+             <option value="Debbie Strong">
+              Debbie Strong
+             </option>
+             <option value="Delano Samuels">
+              Delano Samuels
+             </option>
+             <option value="Dennis Green">
+              Dennis Green
+             </option>
+             <option value="Dilan Garcia Lopez">
+              Dilan Garcia Lopez
+             </option>
+             <option value="Dominick Reuter">
+              Dominick Reuter
+             </option>
+             <option value="Dominique McIntee">
+              Dominique McIntee
+             </option>
+             <option value="Dragan Radovanovic">
+              Dragan Radovanovic
+             </option>
+             <option value="Drake Baer">
+              Drake Baer
+             </option>
+             <option value="Dylan Barth">
+              Dylan Barth
+             </option>
+             <option value="Eleanor Goldberg">
+              Eleanor Goldberg
+             </option>
+             <option value="Eleni Digalaki">
+              Eleni Digalaki
+             </option>
+             <option value="Eliza McKelvey">
+              Eliza McKelvey
+             </option>
+             <option value="Eliza Relman">
+              Eliza Relman
+             </option>
+             <option value="Elizabeth McCauley">
+              Elizabeth McCauley
+             </option>
+             <option value="Elizabeth Montalbano">
+              Elizabeth Montalbano
+             </option>
+             <option value="Elizabeth Wilke">
+              Elizabeth Wilke
+             </option>
+             <option value="Ellen Cranley">
+              Ellen Cranley
+             </option>
+             <option value="Ellen Hoffman">
+              Ellen Hoffman
+             </option>
+             <option value="Elysse Stanger">
+              Elysse Stanger
+             </option>
+             <option value="Emily Cavanagh">
+              Emily Cavanagh
+             </option>
+             <option value="Emily Christian">
+              Emily Christian
+             </option>
+             <option value="Emily Delaney">
+              Emily Delaney
+             </option>
+             <option value="Emily Hein">
+              Emily Hein
+             </option>
+             <option value="Emily Hochberg">
+              Emily Hochberg
+             </option>
+             <option value="Emma Deutz">
+              Emma Deutz
+             </option>
+             <option value="Emma Fierberg">
+              Emma Fierberg
+             </option>
+             <option value="Emma Mayor">
+              Emma Mayor
+             </option>
+             <option value="Emma Smith">
+              Emma Smith
+             </option>
+             <option value="Emma Taylor">
+              Emma Taylor
+             </option>
+             <option value="Emmanuel Ocbazghi">
+              Emmanuel Ocbazghi
+             </option>
+             <option value="Eric Purcell">
+              Eric Purcell
+             </option>
+             <option value="Erin McDowell">
+              Erin McDowell
+             </option>
+             <option value="Eugene Kim">
+              Eugene Kim
+             </option>
+             <option value="Exa Zim">
+              Exa Zim
+             </option>
+             <option value="Fabiana Buontempo">
+              Fabiana Buontempo
+             </option>
+             <option value="Francesca Rea">
+              Francesca Rea
+             </option>
+             <option value="Frank Olito">
+              Frank Olito
+             </option>
+             <option value="Gabbi Shaw">
+              Gabbi Shaw
+             </option>
+             <option value="George Paul">
+              George Paul
+             </option>
+             <option value="George Sitaras">
+              George Sitaras
+             </option>
+             <option value="Gina Echevarria">
+              Gina Echevarria
+             </option>
+             <option value="Gina Heeb">
+              Gina Heeb
+             </option>
+             <option value="Grace Panetta">
+              Grace Panetta
+             </option>
+             <option value="Grace Raver">
+              Grace Raver
+             </option>
+             <option value="Graham Flanagan">
+              Graham Flanagan
+             </option>
+             <option value="Graham Rapier">
+              Graham Rapier
+             </option>
+             <option value="Grant Eizikowitz">
+              Grant Eizikowitz
+             </option>
+             <option value="Greg Hoffman">
+              Greg Hoffman
+             </option>
+             <option value="Gregory Magana">
+              Gregory Magana
+             </option>
+             <option value="Hannah Jiang">
+              Hannah Jiang
+             </option>
+             <option value="Hannah Schaffer">
+              Hannah Schaffer
+             </option>
+             <option value="Harry Kersh">
+              Harry Kersh
+             </option>
+             <option value="Havovi Cooper">
+              Havovi Cooper
+             </option>
+             <option value="Hayley Fitzpatrick">
+              Hayley Fitzpatrick
+             </option>
+             <option value="Hayley Hudson">
+              Hayley Hudson
+             </option>
+             <option value="Hayley Peppin">
+              Hayley Peppin
+             </option>
+             <option value="Hayley Peterson">
+              Hayley Peterson
+             </option>
+             <option value="Heather Leonard">
+              Heather Leonard
+             </option>
+             <option value="Henry Blodget">
+              Henry Blodget
+             </option>
+             <option value="Hilary Brueck">
+              Hilary Brueck
+             </option>
+             <option value="Hillary Hoffower">
+              Hillary Hoffower
+             </option>
+             <option value="Hollis Johnson">
+              Hollis Johnson
+             </option>
+             <option value="Holly LaFon">
+              Holly LaFon
+             </option>
+             <option value="Holly Secon">
+              Holly Secon
+             </option>
+             <option value="Ian Phillips">
+              Ian Phillips
+             </option>
+             <option value="Irene Jiang">
+              Irene Jiang
+             </option>
+             <option value="Irene Kim">
+              Irene Kim
+             </option>
+             <option value="Isabella Paoletto">
+              Isabella Paoletto
+             </option>
+             <option value="Jack Derwin">
+              Jack Derwin
+             </option>
+             <option value="Jack Dutton">
+              Jack Dutton
+             </option>
+             <option value="Jack Houston">
+              Jack Houston
+             </option>
+             <option value="Jacky Barile">
+              Jacky Barile
+             </option>
+             <option value="Jacob Sarkisian">
+              Jacob Sarkisian
+             </option>
+             <option value="Jacob Shamsian">
+              Jacob Shamsian
+             </option>
+             <option value="Jacqui Frank">
+              Jacqui Frank
+             </option>
+             <option value="Jada Wong">
+              Jada Wong
+             </option>
+             <option value="Jade Tungul">
+              Jade Tungul
+             </option>
+             <option value="Jaime Toplin">
+              Jaime Toplin
+             </option>
+             <option value="Jake Gabbard">
+              Jake Gabbard
+             </option>
+             <option value="Jake Kanter">
+              Jake Kanter
+             </option>
+             <option value="James Grebey">
+              James Grebey
+             </option>
+             <option value="James Hennessy">
+              James Hennessy
+             </option>
+             <option value="James Pasley">
+              James Pasley
+             </option>
+             <option value="Jasmine Kim">
+              Jasmine Kim
+             </option>
+             <option value="Jason Guerrasio">
+              Jason Guerrasio
+             </option>
+             <option value="Jen Atalla">
+              Jen Atalla
+             </option>
+             <option value="Jen Gushue">
+              Jen Gushue
+             </option>
+             <option value="Jenifer Berman">
+              Jenifer Berman
+             </option>
+             <option value="Jenner Deal">
+              Jenner Deal
+             </option>
+             <option value="Jenni Ryall">
+              Jenni Ryall
+             </option>
+             <option value="Jennifer DiMatteo">
+              Jennifer DiMatteo
+             </option>
+             <option value="Jennifer Michalski">
+              Jennifer Michalski
+             </option>
+             <option value="Jennifer Nguyen">
+              Jennifer Nguyen
+             </option>
+             <option value="Jennifer Ortakales">
+              Jennifer Ortakales
+             </option>
+             <option value="Jennifer Polland">
+              Jennifer Polland
+             </option>
+             <option value="Jensen Rubinstein">
+              Jensen Rubinstein
+             </option>
+             <option value="Jeremy Berke">
+              Jeremy Berke
+             </option>
+             <option value="Jeremy Dreyfuss">
+              Jeremy Dreyfuss
+             </option>
+             <option value="Jessica Liebman">
+              Jessica Liebman
+             </option>
+             <option value="Jessica Orwig">
+              Jessica Orwig
+             </option>
+             <option value="Jethro Nededog">
+              Jethro Nededog
+             </option>
+             <option value="Joe Avella">
+              Joe Avella
+             </option>
+             <option value="Joe Ciolli">
+              Joe Ciolli
+             </option>
+             <option value="Joe Osborne">
+              Joe Osborne
+             </option>
+             <option value="Joe Pompeo">
+              Joe Pompeo
+             </option>
+             <option value="Joe Williams">
+              Joe Williams
+             </option>
+             <option value="Joel Marino">
+              Joel Marino
+             </option>
+             <option value="Joey Hadden">
+              Joey Hadden
+             </option>
+             <option value="John">
+              John
+             </option>
+             <option value="John Cook">
+              John Cook
+             </option>
+             <option value="John Haltiwanger">
+              John Haltiwanger
+             </option>
+             <option value="John Heggestuen">
+              John Heggestuen
+             </option>
+             <option value="John Lynch">
+              John Lynch
+             </option>
+             <option value="Josh Wolff">
+              Josh Wolff
+             </option>
+             <option value="Joshua Barrie">
+              Joshua Barrie
+             </option>
+             <option value="Julia Hood">
+              Julia Hood
+             </option>
+             <option value="Julia Naftulin">
+              Julia Naftulin
+             </option>
+             <option value="Julia Press">
+              Julia Press
+             </option>
+             <option value="Julian Childs">
+              Julian Childs
+             </option>
+             <option value="Juliana Kaplan">
+              Juliana Kaplan
+             </option>
+             <option value="Julie Bort">
+              Julie Bort
+             </option>
+             <option value="Julie Gerstein">
+              Julie Gerstein
+             </option>
+             <option value="Julie Zeveloff">
+              Julie Zeveloff
+             </option>
+             <option value="Justin Gmoser">
+              Justin Gmoser
+             </option>
+             <option value="Kaitlyn Wang">
+              Kaitlyn Wang
+             </option>
+             <option value="Kara Chin">
+              Kara Chin
+             </option>
+             <option value="Kara Cummings">
+              Kara Cummings
+             </option>
+             <option value="Kate Taylor">
+              Kate Taylor
+             </option>
+             <option value="Kathryn Chou">
+              Kathryn Chou
+             </option>
+             <option value="Katie Canales">
+              Katie Canales
+             </option>
+             <option value="Katie Warren">
+              Katie Warren
+             </option>
+             <option value="Katya Kupelian">
+              Katya Kupelian
+             </option>
+             <option value="Kelly McLaughlin">
+              Kelly McLaughlin
+             </option>
+             <option value="Kelly O'Sullivan">
+              Kelly O'Sullivan
+             </option>
+             <option value="Kevin Kaplan">
+              Kevin Kaplan
+             </option>
+             <option value="Kevin Priolo">
+              Kevin Priolo
+             </option>
+             <option value="Kevin Reilly">
+              Kevin Reilly
+             </option>
+             <option value="Kevin Webb">
+              Kevin Webb
+             </option>
+             <option value="Kiara Keane">
+              Kiara Keane
+             </option>
+             <option value="Kieran Corcoran">
+              Kieran Corcoran
+             </option>
+             <option value="Kim Renfro">
+              Kim Renfro
+             </option>
+             <option value="Kimberly Chin">
+              Kimberly Chin
+             </option>
+             <option value="Kirsten Acuna">
+              Kirsten Acuna
+             </option>
+             <option value="Kristen Griffin">
+              Kristen Griffin
+             </option>
+             <option value="Kristen Maurer">
+              Kristen Maurer
+             </option>
+             <option value="Kyle Desiderio">
+              Kyle Desiderio
+             </option>
+             <option value="Kyle Kerchaert">
+              Kyle Kerchaert
+             </option>
+             <option value="Laura Bilash">
+              Laura Bilash
+             </option>
+             <option value="Laura Casado">
+              Laura Casado
+             </option>
+             <option value="Lauren Frias">
+              Lauren Frias
+             </option>
+             <option value="Lauren Johnson">
+              Lauren Johnson
+             </option>
+             <option value="Lauren Shamo">
+              Lauren Shamo
+             </option>
+             <option value="Lea Nonninger">
+              Lea Nonninger
+             </option>
+             <option value="Leon Siciliano">
+              Leon Siciliano
+             </option>
+             <option value="Les Shu">
+              Les Shu
+             </option>
+             <option value="Libby Torres">
+              Libby Torres
+             </option>
+             <option value="Libertina Brandt">
+              Libertina Brandt
+             </option>
+             <option value="Lina Batarags">
+              Lina Batarags
+             </option>
+             <option value="Lindsay Dodgson">
+              Lindsay Dodgson
+             </option>
+             <option value="Linette Lopez">
+              Linette Lopez
+             </option>
+             <option value="Lionel Moise">
+              Lionel Moise
+             </option>
+             <option value="Lisa Eadicicco">
+              Lisa Eadicicco
+             </option>
+             <option value="Lisa Paradise">
+              Lisa Paradise
+             </option>
+             <option value="Lisa Ryan">
+              Lisa Ryan
+             </option>
+             <option value="Lisa Sabatini">
+              Lisa Sabatini
+             </option>
+             <option value="Lisa Schönhaar">
+              Lisa Schönhaar
+             </option>
+             <option value="Liz Knueven">
+              Liz Knueven
+             </option>
+             <option value="Lori Janjigian">
+              Lori Janjigian
+             </option>
+             <option value="Lucas Kawa">
+              Lucas Kawa
+             </option>
+             <option value="Lucia Moses">
+              Lucia Moses
+             </option>
+             <option value="Luke Hansen">
+              Luke Hansen
+             </option>
+             <option value="Lydia Dallett">
+              Lydia Dallett
+             </option>
+             <option value="Lydia Ramsey">
+              Lydia Ramsey
+             </option>
+             <option value="Lydia Warren">
+              Lydia Warren
+             </option>
+             <option value="Madeline Stone">
+              Madeline Stone
+             </option>
+             <option value="Madison Conley">
+              Madison Conley
+             </option>
+             <option value="Maggie Cai">
+              Maggie Cai
+             </option>
+             <option value="Maggie Zhang">
+              Maggie Zhang
+             </option>
+             <option value="Malarie Gokey">
+              Malarie Gokey
+             </option>
+             <option value="Manuel Silva-Paulus">
+              Manuel Silva-Paulus
+             </option>
+             <option value="Mara Leighton">
+              Mara Leighton
+             </option>
+             <option value="Margaret Bowani">
+              Margaret Bowani
+             </option>
+             <option value="Margaret Lin">
+              Margaret Lin
+             </option>
+             <option value="Marguerite Ward">
+              Marguerite Ward
+             </option>
+             <option value="Maria Elm">
+              Maria Elm
+             </option>
+             <option value="Mariel Soto Reyes">
+              Mariel Soto Reyes
+             </option>
+             <option value="Marina Nazario">
+              Marina Nazario
+             </option>
+             <option value="Mario Ruiz">
+              Mario Ruiz
+             </option>
+             <option value="Marisa Frey">
+              Marisa Frey
+             </option>
+             <option value="Marisa Palmer">
+              Marisa Palmer
+             </option>
+             <option value="Mark Abadi">
+              Mark Abadi
+             </option>
+             <option value="Mark Matousek">
+              Mark Matousek
+             </option>
+             <option value="Marley Jay">
+              Marley Jay
+             </option>
+             <option value="Martin Coulter">
+              Martin Coulter
+             </option>
+             <option value="Mary Hanbury">
+              Mary Hanbury
+             </option>
+             <option value="Mary Meisenzahl">
+              Mary Meisenzahl
+             </option>
+             <option value="Matt Turner">
+              Matt Turner
+             </option>
+             <option value="Matt Weinberger">
+              Matt Weinberger
+             </option>
+             <option value="Matt Wiederecht">
+              Matt Wiederecht
+             </option>
+             <option value="Matthew DeBord">
+              Matthew DeBord
+             </option>
+             <option value="Matthew Stuart">
+              Matthew Stuart
+             </option>
+             <option value="Matthew Wilson">
+              Matthew Wilson
+             </option>
+             <option value="Max Rosenberg">
+              Max Rosenberg
+             </option>
+             <option value="McKenzie Pendergrass">
+              McKenzie Pendergrass
+             </option>
+             <option value="Medha Imam">
+              Medha Imam
+             </option>
+             <option value="Megan Foster">
+              Megan Foster
+             </option>
+             <option value="Megan Hernbroth">
+              Megan Hernbroth
+             </option>
+             <option value="Megan Knapp">
+              Megan Knapp
+             </option>
+             <option value="Megan Willett">
+              Megan Willett
+             </option>
+             <option value="Meghan Bartels">
+              Meghan Bartels
+             </option>
+             <option value="Meghan Morris">
+              Meghan Morris
+             </option>
+             <option value="Mekebeb Tesfaye">
+              Mekebeb Tesfaye
+             </option>
+             <option value="Melia Robinson">
+              Melia Robinson
+             </option>
+             <option value="Melia Russell">
+              Melia Russell
+             </option>
+             <option value="Melissa Wiley">
+              Melissa Wiley
+             </option>
+             <option value="Meredith Cash">
+              Meredith Cash
+             </option>
+             <option value="Meredith Mazzilli">
+              Meredith Mazzilli
+             </option>
+             <option value="Meryl Gottlieb">
+              Meryl Gottlieb
+             </option>
+             <option value="Mia de Graaf">
+              Mia de Graaf
+             </option>
+             <option value="Micaela Garber">
+              Micaela Garber
+             </option>
+             <option value="Michael Selby-Green">
+              Michael Selby-Green
+             </option>
+             <option value="Michal Kranz">
+              Michal Kranz
+             </option>
+             <option value="Michelle Mark">
+              Michelle Mark
+             </option>
+             <option value="Michelle Yan">
+              Michelle Yan
+             </option>
+             <option value="Mike Nudelman">
+              Mike Nudelman
+             </option>
+             <option value="Mikhaila Friel">
+              Mikhaila Friel
+             </option>
+             <option value="Milagros Canelon">
+              Milagros Canelon
+             </option>
+             <option value="Molly Spector">
+              Molly Spector
+             </option>
+             <option value="Monica Chin">
+              Monica Chin
+             </option>
+             <option value="Morgan McFall-Johnsen">
+              Morgan McFall-Johnsen
+             </option>
+             <option value="Natalie Fennell">
+              Natalie Fennell
+             </option>
+             <option value="Natalie Walters">
+              Natalie Walters
+             </option>
+             <option value="Nathan McAlone">
+              Nathan McAlone
+             </option>
+             <option value="Nathaniel Lee">
+              Nathaniel Lee
+             </option>
+             <option value="Navah Maynard">
+              Navah Maynard
+             </option>
+             <option value="Nicholas Carlson">
+              Nicholas Carlson
+             </option>
+             <option value="Nicky Lineaweaver">
+              Nicky Lineaweaver
+             </option>
+             <option value="Nicole Einbinder">
+              Nicole Einbinder
+             </option>
+             <option value="Nicole Phillips">
+              Nicole Phillips
+             </option>
+             <option value="Nicole Raucheisen">
+              Nicole Raucheisen
+             </option>
+             <option value="Nisha Stickles">
+              Nisha Stickles
+             </option>
+             <option value="Olivia Oran">
+              Olivia Oran
+             </option>
+             <option value="Olivia Singh">
+              Olivia Singh
+             </option>
+             <option value="Owen Burke">
+              Owen Burke
+             </option>
+             <option value="Paayal Zaveri">
+              Paayal Zaveri
+             </option>
+             <option value="Paige DiFiore">
+              Paige DiFiore
+             </option>
+             <option value="Paige Leskin">
+              Paige Leskin
+             </option>
+             <option value="Pamela Engel">
+              Pamela Engel
+             </option>
+             <option value="Patricia Chui">
+              Patricia Chui
+             </option>
+             <option value="Patrick Coffee">
+              Patrick Coffee
+             </option>
+             <option value="Paul Colgan">
+              Paul Colgan
+             </option>
+             <option value="Paulina Cachero">
+              Paulina Cachero
+             </option>
+             <option value="Peter Newman">
+              Peter Newman
+             </option>
+             <option value="PunditTwo">
+              PunditTwo
+             </option>
+             <option value="Rachael Levy">
+              Rachael Levy
+             </option>
+             <option value="Rachel Askinasi">
+              Rachel Askinasi
+             </option>
+             <option value="Rachel Cohn">
+              Rachel Cohn
+             </option>
+             <option value="Rachel Gillett">
+              Rachel Gillett
+             </option>
+             <option value="Rachel Green">
+              Rachel Green
+             </option>
+             <option value="Rachel Hong">
+              Rachel Hong
+             </option>
+             <option value="Rachel Hosie">
+              Rachel Hosie
+             </option>
+             <option value="Rachel Moore">
+              Rachel Moore
+             </option>
+             <option value="Rachel Premack">
+              Rachel Premack
+             </option>
+             <option value="Raisa Bruner">
+              Raisa Bruner
+             </option>
+             <option value="Rayna Hollander">
+              Rayna Hollander
+             </option>
+             <option value="Rebecca Baird-Remba">
+              Rebecca Baird-Remba
+             </option>
+             <option value="Rebecca Ungarino">
+              Rebecca Ungarino
+             </option>
+             <option value="Remi Rosmarin">
+              Remi Rosmarin
+             </option>
+             <option value="Richard Feloni">
+              Richard Feloni
+             </option>
+             <option value="Rick Stella">
+              Rick Stella
+             </option>
+             <option value="Rob Ludacer">
+              Rob Ludacer
+             </option>
+             <option value="Rob Price">
+              Rob Price
+             </option>
+             <option value="Robert Ferris">
+              Robert Ferris
+             </option>
+             <option value="Robin Lindsay">
+              Robin Lindsay
+             </option>
+             <option value="Rosalie Chan">
+              Rosalie Chan
+             </option>
+             <option value="Rosie Percy">
+              Rosie Percy
+             </option>
+             <option value="Rosie Perper">
+              Rosie Perper
+             </option>
+             <option value="Ruobing Su">
+              Ruobing Su
+             </option>
+             <option value="Ruqayyah Moynihan">
+              Ruqayyah Moynihan
+             </option>
+             <option value="Ryan Pickrell">
+              Ryan Pickrell
+             </option>
+             <option value="Sahar Esfandiari">
+              Sahar Esfandiari
+             </option>
+             <option value="Sally Kaplan">
+              Sally Kaplan
+             </option>
+             <option value="Sam Fellman">
+              Sam Fellman
+             </option>
+             <option value="Samantha Grindell">
+              Samantha Grindell
+             </option>
+             <option value="Samantha Lee">
+              Samantha Lee
+             </option>
+             <option value="Samara Abramson">
+              Samara Abramson
+             </option>
+             <option value="Sara Silverstein">
+              Sara Silverstein
+             </option>
+             <option value="Sarah Elkasaby">
+              Sarah Elkasaby
+             </option>
+             <option value="Sarah Gray">
+              Sarah Gray
+             </option>
+             <option value="Sarah Silbert">
+              Sarah Silbert
+             </option>
+             <option value="Sarah Wyman">
+              Sarah Wyman
+             </option>
+             <option value="Scott Davis">
+              Scott Davis
+             </option>
+             <option value="Seth Archer">
+              Seth Archer
+             </option>
+             <option value="Shana Lebowitz">
+              Shana Lebowitz
+             </option>
+             <option value="Shannen Balogh">
+              Shannen Balogh
+             </option>
+             <option value="Shauna Coen">
+              Shauna Coen
+             </option>
+             <option value="Shayanne Gal">
+              Shayanne Gal
+             </option>
+             <option value="Shelagh Dolan">
+              Shelagh Dolan
+             </option>
+             <option value="Shira Feder">
+              Shira Feder
+             </option>
+             <option value="Shirley Cheng">
+              Shirley Cheng
+             </option>
+             <option value="Shona Ghosh">
+              Shona Ghosh
+             </option>
+             <option value="Shoshy Ciment">
+              Shoshy Ciment
+             </option>
+             <option value="Simon Thomsen">
+              Simon Thomsen
+             </option>
+             <option value="Sinéad Baker">
+              Sinéad Baker
+             </option>
+             <option value="Skye Gould">
+              Skye Gould
+             </option>
+             <option value="Sonam Sheth">
+              Sonam Sheth
+             </option>
+             <option value="Sophia Ankel">
+              Sophia Ankel
+             </option>
+             <option value="Sophie Kleeman">
+              Sophie Kleeman
+             </option>
+             <option value="Sophie-Claire Hoeller">
+              Sophie-Claire Hoeller
+             </option>
+             <option value="Spencer Reiss">
+              Spencer Reiss
+             </option>
+             <option value="Spriha Srivastava">
+              Spriha Srivastava
+             </option>
+             <option value="Stefano Pozzebon">
+              Stefano Pozzebon
+             </option>
+             <option value="Stephanie Asymkos">
+              Stephanie Asymkos
+             </option>
+             <option value="Stephanie Hallett">
+              Stephanie Hallett
+             </option>
+             <option value="Stephanie Lin">
+              Stephanie Lin
+             </option>
+             <option value="Steve Cameron">
+              Steve Cameron
+             </option>
+             <option value="Steven Cohen">
+              Steven Cohen
+             </option>
+             <option value="Steven Tweedie">
+              Steven Tweedie
+             </option>
+             <option value="Suma Hussien">
+              Suma Hussien
+             </option>
+             <option value="Sydney Kramer">
+              Sydney Kramer
+             </option>
+             <option value="Talia Lakritz">
+              Talia Lakritz
+             </option>
+             <option value="Tallie Spencer">
+              Tallie Spencer
+             </option>
+             <option value="Tammy Lee">
+              Tammy Lee
+             </option>
+             <option value="Tanya Dua">
+              Tanya Dua
+             </option>
+             <option value="Tanza Loudenback">
+              Tanza Loudenback
+             </option>
+             <option value="Tara Francis Chan">
+              Tara Francis Chan
+             </option>
+             <option value="Taryn Varricchio">
+              Taryn Varricchio
+             </option>
+             <option value="Taylor Berman">
+              Taylor Berman
+             </option>
+             <option value="Taylor Borden">
+              Taylor Borden
+             </option>
+             <option value="Tech Insider">
+              Tech Insider
+             </option>
+             <option value="Theron Mohamed">
+              Theron Mohamed
+             </option>
+             <option value="Thomas Colson">
+              Thomas Colson
+             </option>
+             <option value="Tim Mulkerin">
+              Tim Mulkerin
+             </option>
+             <option value="Tom Murray">
+              Tom Murray
+             </option>
+             <option value="Tom Porter">
+              Tom Porter
+             </option>
+             <option value="Tony Manfred">
+              Tony Manfred
+             </option>
+             <option value="Travis Clark">
+              Travis Clark
+             </option>
+             <option value="Travis Lyles">
+              Travis Lyles
+             </option>
+             <option value="Trista Kelley">
+              Trista Kelley
+             </option>
+             <option value="Troy Wolverton">
+              Troy Wolverton
+             </option>
+             <option value="Tyler Lauletta">
+              Tyler Lauletta
+             </option>
+             <option value="Tyler Sonnemaker">
+              Tyler Sonnemaker
+             </option>
+             <option value="Uma Sharma">
+              Uma Sharma
+             </option>
+             <option value="Victoria Barranco">
+              Victoria Barranco
+             </option>
+             <option value="Vilan Trub">
+              Vilan Trub
+             </option>
+             <option value="Virginia Alves">
+              Virginia Alves
+             </option>
+             <option value="Weng Cheong">
+              Weng Cheong
+             </option>
+             <option value="Will Martin">
+              Will Martin
+             </option>
+             <option value="William Antonelli">
+              William Antonelli
+             </option>
+             <option value="William Fierman">
+              William Fierman
+             </option>
+             <option value="Yepoka Yeebo">
+              Yepoka Yeebo
+             </option>
+             <option value="Yu Han">
+              Yu Han
+             </option>
+             <option value="Yusuf Khan">
+              Yusuf Khan
+             </option>
+             <option value="Zachary Hendrickson">
+              Zachary Hendrickson
+             </option>
+             <option value="Zachary Tracer">
+              Zachary Tracer
+             </option>
+             <option value="Zoë LaRock">
+              Zoë LaRock
+             </option>
+             <option value="Áine Cain">
+              Áine Cain
+             </option>
+            </select>
+           </li>
+          </ul>
+         </div>
+         <div class="span10">
+          <div class="row-fluid summary">
+           <form action="/s" class="search-form" method="get">
+            <section class="search-form-responsive">
+             <h3 class="search-bar-label">
+              Search:
+             </h3>
+             <div class="search-bar-responsive">
+              <input autocomplete="off" class="search-bar" data-search-input="" name="q" placeholder="Apple" type="text"/>
+             </div>
+             <div class="search-button-responsive">
+              <button class="btn submit search-button fc-preview-contextmenu" type="submit">
+               Go!
+              </button>
+             </div>
+            </section>
+           </form>
+           <h3 class="search-results-underline">
+            <span class="float-right">
+             (Showing 1–20)
+            </span>
+            You searched for 'Apple' and got
+                                                    11328 results.
+           </h3>
+          </div>
+          <div class="row-fluid">
+           <!-- only show this div if there is right rail content -->
+           <!-- Author Result -->
+           <!-- / Author Result -->
+           <!-- Posts -->
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-is-considering-music-and-tv-plus-subscription-bundle-report-2019-10">
+              <img alt="Apple is reportedly considering a subscription bundle for Apple Music and its streaming service Apple TV Plus, but the music industry is worried it will lose money on the deal" border="0" src="https://static1.businessinsider.com/image/5d9bac03ec72bd3e65745c58-175/apple-is-reportedly-considering-a-subscription-bundle-for-apple-music-and-its-streaming-service-apple-tv-plus-but-the-music-industry-is-worried-it-will-lose-money-on-the-deal.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-is-considering-music-and-tv-plus-subscription-bundle-report-2019-10">
+               Apple is reportedly considering a subscription bundle for Apple Music and its streaming service Apple TV Plus, but the music industry is worried it will lose money on the deal
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/kevin-webb">
+                   Kevin Webb
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1570484727">
+                   Oct.  7, 2019,  5:45 PM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              ...
+              <b>
+               Apple
+              </b>
+              Music is currently available for $10 a month, and
+              <b>
+               Apple
+              </b>
+              TV Plus will launch on November 1 for $5 per month.
+              <b>
+               Apple
+              </b>
+              also offers
+              <b>
+               Apple
+              </b>
+              News Plus for $10 per month, and
+              <b>
+               Apple
+              </b>
+              ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-share-price-tuesday-september-9-2014-9">
+              <img alt="Apple Shares Fall After Announcing iPhones, Apple Pay, Apple Watch" border="0" src="https://static2.businessinsider.com/image/540f508669bedd3641dc85f0-175/apple-shares-fall-after-announcing-iphones-apple-pay-apple-watch.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-share-price-tuesday-september-9-2014-9">
+               Apple Shares Fall After Announcing iPhones, Apple Pay, Apple Watch
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/myles-udland">
+                   Myles Udland
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1410289800">
+                   Sep.  9, 2014,  3:10 PM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              <b>
+               Apple
+              </b>
+              shares were all over the place Tuesday.
+After announcing two new iPhones, a new
+              <b>
+               Apple
+              </b>
+              Pay payment system, and
+              <b>
+               Apple
+              </b>
+              Watch,
+              <b>
+               Apple
+              </b>
+              shares gained as much as 4. ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://markets.businessinsider.com/news/stocks/apple-snubbed-goldman-sachs-bank-spent-300-million-apple-card-2019-9-1028563659">
+              <img alt="Goldman Sachs spent $300 million developing the Apple Card — then Apple boasted that it was 'created by Apple, not a bank'" border="0" src="https://static6.businessinsider.com/image/5d9201372e22af43b540a2c2-175/goldman-sachs-spent-300-million-developing-the-apple-card--then-apple-boasted-that-it-was-created-by-apple-not-a-bank.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://markets.businessinsider.com/news/stocks/apple-snubbed-goldman-sachs-bank-spent-300-million-apple-card-2019-9-1028563659">
+               Goldman Sachs spent $300 million developing the Apple Card — then Apple boasted that it was 'created by Apple, not a bank'
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/theron-mohamed">
+                   Theron Mohamed
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1569855480">
+                   Sep. 30, 2019, 10:58 AM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              ...  to use its signature font and simplify customers' monthly statements, The Journal said.
+Watch
+              <b>
+               Apple
+              </b>
+              and Goldman Sachs trade live.
+              <b>
+               Apple
+              </b>
+              snubbed Goldman Sachs when it unveiled the
+              <b>
+               Apple
+              </b>
+              ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-aims-to-meet-apple-watch-demand-by-end-of-quarter-2015-4">
+              <img alt="Apple didn't reveal how many Apple Watches it sold, but it's rushing to increase supply" border="0" src="https://static6.businessinsider.com/image/553e9b4deab8eab138f5c021-175/apple-didnt-reveal-how-many-apple-watches-it-sold-but-its-rushing-to-increase-supply.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-aims-to-meet-apple-watch-demand-by-end-of-quarter-2015-4">
+               Apple didn't reveal how many Apple Watches it sold, but it's rushing to increase supply
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/steven-tweedie">
+                   Steven Tweedie
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1430169060">
+                   Apr. 27, 2015,  5:11 PM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              ...  with the launch of the
+              <b>
+               Apple
+              </b>
+              Watch."
+Previous reports have suggested
+              <b>
+               Apple
+              </b>
+              is aiming to sell as many as 20 million
+              <b>
+               Apple
+              </b>
+              Watch units in its first year. If
+              <b>
+               Apple
+              </b>
+              ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-news-plus-subscription-service-price-features-details-2019-3">
+              <img alt="Apple just announced Apple News Plus, a news subscription service for $9.99 a month" border="0" src="https://static2.businessinsider.com/image/5c98f7daee52ef50ec04a304-175/apple-just-announced-apple-news-plus-a-news-subscription-service-for-999-a-month.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-news-plus-subscription-service-price-features-details-2019-3">
+               Apple just announced Apple News Plus, a news subscription service for $9.99 a month
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/kevin-webb">
+                   Kevin Webb
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1553534056">
+                   Mar. 25, 2019,  1:14 PM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              ...
+              <b>
+               Apple
+              </b>
+              News Plus will curate articles from more than 300 news outlets and magazines via the
+              <b>
+               Apple
+              </b>
+              News app for $9.99 a month.
+              <b>
+               Apple
+              </b>
+              says magazines and articles included with the
+              <b>
+               Apple
+              </b>
+              ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-tv-channels-service-price-release-date-detail-2019-3">
+              <img alt="IT'S HERE: Apple finally unveils its streaming TV service, Apple TV Plus" border="0" src="https://static4.businessinsider.com/image/5c9922218e436a53386ca996-175/its-here-apple-finally-unveils-its-streaming-tv-service-apple-tv-plus.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-tv-channels-service-price-release-date-detail-2019-3">
+               IT'S HERE: Apple finally unveils its streaming TV service, Apple TV Plus
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/ben-gilbert">
+                   Ben Gilbert
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1553536491">
+                   Mar. 25, 2019,  1:54 PM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              ...
+              <b>
+               Apple
+              </b>
+              TV Channels — whether it's cable subscription-based or on streaming services like HBO Go or through
+              <b>
+               Apple
+              </b>
+              TV Plus.
+              <b>
+               Apple
+              </b>
+              said:
+Users can subscribe to and watch new
+              <b>
+               Apple
+              </b>
+              ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-says-apple-tv-business-has-grown-50-percent-2018-6">
+              <img alt="Apple says its Apple TV business has grown 50% since it introduced a 4K version of the streaming box" border="0" src="https://static2.businessinsider.com/image/5b15921a1ae66244008b4bb5-175/apple-says-its-apple-tv-business-has-grown-50-since-it-introduced-a-4k-version-of-the-streaming-box.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-says-apple-tv-business-has-grown-50-percent-2018-6">
+               Apple says its Apple TV business has grown 50% since it introduced a 4K version of the streaming box
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/john-lynch">
+                   John Lynch
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1528146577">
+                   Jun.  4, 2018,  5:09 PM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              <b>
+               Apple
+              </b>
+              announced Monday that its sales for
+              <b>
+               Apple
+              </b>
+              TV have grown 50% since it launched a 4K version in September.
+              <b>
+               Apple
+              </b>
+              said on Monday that iTunes and
+              <b>
+               Apple
+              </b>
+              TV now  ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-says-trump-china-tariffs-would-increase-price-of-apple-watch-airpods-2018-9">
+              <img alt="Apple says that Trump's looming tariffs on China would increase prices on Apple Watch and AirPods" border="0" src="https://static3.businessinsider.com/image/5b6a0cfc64dce81d008b4c5c-175/apple-says-that-trumps-looming-tariffs-on-china-would-increase-prices-on-apple-watch-and-airpods.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-says-trump-china-tariffs-would-increase-price-of-apple-watch-airpods-2018-9">
+               Apple says that Trump's looming tariffs on China would increase prices on Apple Watch and AirPods
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/kif-leswing">
+                   Kif Leswing
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1536352208">
+                   Sep.  7, 2018,  4:30 PM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              ...  range of
+              <b>
+               Apple
+              </b>
+              products and the products used in our U.S. operations:
+              <b>
+               Apple
+              </b>
+              digital health and wireless connectivity products, including
+              <b>
+               Apple
+              </b>
+              Watch,
+              <b>
+               Apple
+              </b>
+              Pencil and Air Pods;
+              <b>
+               Apple
+              </b>
+              ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-card-bill-cant-pay-online-if-you-lose-iphone-2019-8">
+              <img alt="If you lose your iPhone, you won't be able to pay your Apple Card bill — because Apple didn't make a normal banking portal for web browsers" border="0" src="https://static1.businessinsider.com/image/5d52c962cd978402a0153974-175/if-you-lose-your-iphone-you-wont-be-able-to-pay-your-apple-card-bill--because-apple-didnt-make-a-normal-banking-portal-for-web-browsers.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-card-bill-cant-pay-online-if-you-lose-iphone-2019-8">
+               If you lose your iPhone, you won't be able to pay your Apple Card bill — because Apple didn't make a normal banking portal for web browsers
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/dave-smith">
+                   Dave Smith
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1565707775">
+                   Aug. 13, 2019, 10:49 AM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              <b>
+               Apple
+              </b>
+              last week launched its first-ever credit card, the
+              <b>
+               Apple
+              </b>
+              Card.
+The
+              <b>
+               Apple
+              </b>
+              Card lives entirely within the Wallet app on your iPhone.
+That means if you lose your  ...
+             </div>
+            </div>
+           </div>
+           <div class="search-result">
+            <div class="first river-image photo">
+             <a href="https://www.businessinsider.com/apple-quarterly-revenue-from-gold-apple-watch-edition-2015-2">
+              <img alt="Apple could make $5 billion in revenue every quarter just from the gold Apple Watch" border="0" src="https://static1.businessinsider.com/image/54e47a78dd0895dd288b45c0-175/apple-could-make-5-billion-in-revenue-every-quarter-just-from-the-gold-apple-watch.jpg"/>
+             </a>
+            </div>
+            <div style="overflow: hidden">
+             <h3>
+              <a href="https://www.businessinsider.com/apple-quarterly-revenue-from-gold-apple-watch-edition-2015-2">
+               Apple could make $5 billion in revenue every quarter just from the gold Apple Watch
+              </a>
+             </h3>
+             <div class="flex byline">
+              <div class="flex-item">
+               <div class="list-pipes no-pipe">
+                <ul>
+                 <li class="author-byline ks-author-byline">
+                  <a href="https://www.businessinsider.com/author/james-cook">
+                   James Cook
+                  </a>
+                 </li>
+                 <li class="river-post__date">
+                  <span data-bi-format="date" rel="1424259687">
+                   Feb. 18, 2015,  6:41 AM
+                  </span>
+                 </li>
+                </ul>
+               </div>
+              </div>
+             </div>
+             <div class="excerpt">
+              ...  what the gold
+              <b>
+               Apple
+              </b>
+              Watch looks like:
+
+The Wall Street Journal reports that the 5 million run of
+              <b>
+               Apple
+              </b>
+              Watches will be broken down like this:
+
+2.5 million will be
+              <b>
+               Apple
+              </b>
+              ...
+             </div>
+            </div>
+           </div>
+           <!-- / Posts -->
+           <!-- Pagination -->
+           <ul class="pager cf">
+            <li class="previous disabled">
+             <a class="float-left btn button-white disabled" href="#">
+              Previous
+             </a>
+            </li>
+            <li class="next">
+             <a class="float-right btn button-white" href="?q=Apple&amp;sort=relevance&amp;author=&amp;contributed=1&amp;vertical=clusterstock&amp;r=US&amp;IR=T&amp;page=2">
+              Next
+             </a>
+            </li>
+           </ul>
+           <!-- / Pagination -->
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="footer redesign" data-bi-footer="">
+    <div class="container redesign">
+     <!-- Desktop Redesign Footer -->
+     <div class="row redesign-footer-site-row">
+      <span class="span12 redesign-footer-site-span">
+       <a class="redesign-footer-site-logo" href="/">
+       </a>
+       <ul class="redesign-social-icon-list">
+        <li class="redesign-social-icon-list-item">
+         <a aria-label="Like us on Facebook" class="redesign-social-icon-link" href="//www.facebook.com/businessinsider" target="_blank" title="Like us on Facebook">
+          <i class="fa fa-facebook ks-header-facebook redesign-social-icon">
+          </i>
+         </a>
+        </li>
+        <li class="redesign-social-icon-list-item">
+         <a aria-label="Follow us on Twitter" class="redesign-social-icon-link" href="//twitter.com/businessinsider" target="_blank" title="Follow us on Twitter">
+          <i class="fa fa-twitter ks-header-twitter redesign-social-icon">
+          </i>
+         </a>
+        </li>
+        <li class="redesign-social-icon-list-item">
+         <a aria-label="Connect with us on LinkedIn" class="redesign-social-icon-link" href="//www.linkedin.com/company/businessinsider" target="_blank" title="Connect with us on LinkedIn">
+          <i class="fa fa-linkedin ks-header-linkedin redesign-social-icon">
+          </i>
+         </a>
+        </li>
+        <li class="redesign-social-icon-list-item">
+         <a aria-label="Subscribe to our YouTube channel" class="redesign-social-icon-link" href="//www.youtube.com/user/businessinsider" target="_blank" title="Subscribe to our YouTube channel">
+          <i class="fa fa-youtube-play redesign-social-icon">
+          </i>
+         </a>
+        </li>
+        <li class="redesign-social-icon-list-item">
+         <a aria-label="Follow us on Instagram" class="redesign-social-icon-link" href="//www.instagram.com/businessinsider/" target="_blank" title="Follow us on Instagram">
+          <i class="fa fa-instagram redesign-social-icon instagram">
+          </i>
+         </a>
+        </li>
+       </ul>
+       <span class="redesign-footer-app-stores">
+        <a class="redesign-footer-badge app-store" href="https://itunes.apple.com/app/apple-store/id554260576?mt=8" target="_blank">
+        </a>
+        <a class="redesign-footer-badge google-play" href="https://play.google.com/store/apps/details?id=com.freerange360.mpp.businessinsider" target="_blank">
+        </a>
+       </span>
+      </span>
+     </div>
+     <div class="row redesign-footer-sister-row">
+      <span class="span12 redesign-footer-sister-span">
+       <a aria-label="Insider" class="redesign-footer-sister-sites sister-one" href="//www.insider.com" title="Insider">
+       </a>
+       <a aria-label="Markets Insider" class="redesign-footer-sister-sites sister-two" href="//markets.businessinsider.com" title="Markets Insider">
+       </a>
+       <a aria-label="//intelligence.businessinsider.com/?utm_source=businessinsider&amp;utm_medium=site_footer&amp;utm_term=bi_site_footer&amp;utm_content=bi_site_footer&amp;utm_campaign=bi_site_footer" class="redesign-footer-sister-sites sister-three" href="//intelligence.businessinsider.com/?utm_source=businessinsider&amp;utm_medium=site_footer&amp;utm_term=bi_site_footer&amp;utm_content=bi_site_footer&amp;utm_campaign=bi_site_footer" title="//intelligence.businessinsider.com/?utm_source=businessinsider&amp;utm_medium=site_footer&amp;utm_term=bi_site_footer&amp;utm_content=bi_site_footer&amp;utm_campaign=bi_site_footer">
+       </a>
+      </span>
+     </div>
+     <div class="row redesign-footer-copyright-row">
+      <span class="span12 redesign-footer-copyright-span">
+       * Copyright © 2020 Insider Inc. All rights reserved.
+       <span class="nowrap">
+        Registration on or use of this site constitutes acceptance of our
+        <a href="/terms">
+         Terms of Service
+        </a>
+        ,
+        <a href="/privacy-policy">
+         Privacy Policy
+        </a>
+        , and
+        <a href="/cookies-policy">
+         Cookies Policy
+        </a>
+        .
+       </span>
+       <div class="redesign-footer-links">
+        <ul>
+         <li>
+          <a href="/sitemap/index.html">
+           Sitemap
+          </a>
+         </li>
+         <li>
+          <a href="/disclaimer">
+           Disclaimer
+          </a>
+         </li>
+         <li>
+          <a href="/commerce-on-business-insider">
+           Commerce Policy
+          </a>
+         </li>
+         <li>
+          <a href="https://coupons.businessinsider.com">
+           Coupons
+          </a>
+         </li>
+         <li>
+          <a href="http://nytm.org/made">
+           Made in NYC
+          </a>
+         </li>
+         <li>
+          Stock quotes by
+          <a href="http://www.finanzen.net/">
+           finanzen.net
+          </a>
+         </li>
+        </ul>
+       </div>
+       <div class="international-links redesign-footer-list">
+        <ul>
+         <li>
+          International Editions:
+         </li>
+         <li>
+          <a href="https://www.businessinsider.com?IR=C">
+           US
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.com/international">
+           INTL
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.de?IR=C">
+           DE
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.com.au/">
+           AUS
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.es">
+           ES
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.fr/?IR=C">
+           FR
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.in/">
+           IN
+          </a>
+         </li>
+         <li>
+          <a href="https://it.businessinsider.com">
+           IT
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.jp">
+           JP
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.my/">
+           MY
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.nl?IR=C">
+           NL
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.com.pl/?IR=C">
+           PL
+          </a>
+         </li>
+         <li>
+          <a href="https://nordic.businessinsider.com/?IR=C">
+           SE
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.sg/">
+           SG
+          </a>
+         </li>
+         <li>
+          <a href="https://www.businessinsider.co.za">
+           ZA
+          </a>
+         </li>
+        </ul>
+       </div>
+      </span>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script src="https://static1.businessinsider.com/assets/js/min-foot.js?201809241" type="text/javascript">
+  </script>
+  <!--[if gte IE 9]>
+<script type="text/javascript">amplify.publish("ie9-pinned-site", {"hid":null,"vertical":"businessinsider"});</script><![endif]-->
+  <!-- Freemium User Check -->
+  <script type="text/javascript">
+   document.addEventListener("DOMContentLoaded", function() {
+            document.body.classList.add("bipf");
+    });
+  </script>
+  <!-- End Freemium User Check -->
+  <!-- Google Tag Manager -->
+  <noscript>
+   <iframe display:none="" height="" src="" style="" width="">
+   </iframe>
+  </noscript>
+  <script>
+   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NS64GV');
+  </script>
+  <!-- End Google Tag Manager -->
+  <!-- Piano -->
+  <!-- End Piano -->
+  <!-- Twitter widget.js -->
+  <script type="text/javascript">
+   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){
+        js=d.createElement(s);
+        js.id=id;
+        js.src="https://platform.twitter.com/widgets.js";
+        js.async=true;
+        fjs.parentNode.insertBefore(js,fjs);
+    }}(document,"script","twitter-wjs");
+  </script>
+  <!-- /Twitter widget.js -->
+  <!-- OneSignal script for browser push notifications -->
+  <link href="/manifest.json" rel="manifest"/>
+  <script async="" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js">
+  </script>
+  <script>
+   var OneSignal = window.OneSignal || [];
+          OneSignal.push(function() {
+            OneSignal.init({
+              appId: "25c4709f-5af5-43d0-ad8c-3eab89d2a521",
+            });
+          });
+  </script>
+  <!-- end OneSignal script -->
+  <!-- Begin comScore Tag -->
+  <script type="text/javascript">
+   var _comscore = _comscore || [];
+        _comscore.push({ c1: "2", c2: "9900186"
+                    });
+        (function() {
+            var s = document.createElement("script"), el = document.getElementsByTagName("script")[0];
+            s.async = true;
+            s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+            el.parentNode.insertBefore(s, el);
+        })();
+  </script>
+  <noscript>
+   <img src="http://b.scorecardresearch.com/p?c1=2&amp;c2=9900186&amp;cv=2.0&amp;cj=1"/>
+  </noscript>
+  <!-- End comScore Tag -->
+  <!-- Chartbeat -->
+  <script type="text/javascript">
+   // chartbeat wants the vars in global
+        window._sf_async_config.sections = 'homepage';
+        window._sf_async_config.authors = 'homepage';
+
+        //only set the following if on a video post
+        
+        //only set the following if on a sponsored post
+        
+        (function(){
+          function loadChartbeat() {
+            window._sf_endpt=(new Date()).getTime();
+            var e = document.createElement('script');
+            e.setAttribute('language', 'javascript');
+            e.setAttribute('type', 'text/javascript');
+            e.setAttribute('src',
+               (('https:' === document.location.protocol) ? 'https://s3.amazonaws.com/' : 'http://') +
+               'static.chartbeat.com/js/chartbeat_video.js');
+            document.body.appendChild(e);
+          }
+          var oldonload = window.onload;
+          window.onload = (typeof window.onload != 'function') ?
+             loadChartbeat : function() { oldonload(); loadChartbeat(); };
+        })();
+  </script>
+  <!-- / Chartbeat -->
+  <!-- Perfect market JS -->
+  <!-- End Perfect market JS-->
+  <!-- taboola foot -->
+  <script type="text/javascript">
+   window._taboola = window._taboola || [];
+            _taboola.push({flush: true});
+  </script>
+  <!-- Scroll - Start -->
+  <script>
+   (function(a,c,d,e){if(!a[c]){var b=a[c]={};b[d]=[];b[e]=function(a){b[d].push(a)}}})(window,'Scroll','_q','do');
+    Scroll.config = {
+    detected: document.cookie.indexOf("scroll0") > -1
+    };
+  </script>
+  <script async="" src="https://static.scroll.com/js/scroll.js">
+  </script>
+  <!-- Scroll - End -->
+  <script type="text/javascript">
+   window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"4b4136998e","applicationID":"121107383","transactionName":"ZVZVZRBVXEJVVkJRDVwcdEQRQF1cG0ZTWRBRWw==","queueTime":0,"applicationTime":399,"atts":"SRFCE1hPTx0WVBQCGU9O","errorBeacon":"bam.nr-data.net","agent":""}
+  </script>
+ </body>
+</html>
