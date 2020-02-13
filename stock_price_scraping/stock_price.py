@@ -12,18 +12,6 @@ from pymongo import MongoClient
 # def is_business_day(date):
 #     return bool(len(pd.bdate_range(date, date)))
 
-def show_cominfo(aapl):
-    """
-    acquire company information
-    
-    :param aapl:stock ticker
-    """
-    cominfo = aapl.info  
-    print('AAPL cominfo:')
-    for key, value in cominfo.items():
-        print('{} : {}'.format(key, value))
-    print()
-
 def history_stock_price(stock_name="AAPL", period="2d"):
     """
 	get historical stock price 
