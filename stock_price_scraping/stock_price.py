@@ -7,6 +7,10 @@ __status__ = "Development"
 import yfinance as yf
 import json
 from pymongo import MongoClient
+# import pandas as pd
+
+# def is_business_day(date):
+#     return bool(len(pd.bdate_range(date, date)))
 
 def show_cominfo(aapl):
     """
@@ -20,7 +24,7 @@ def show_cominfo(aapl):
         print('{} : {}'.format(key, value))
     print()
 
-def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
+def history_stock_price(stock_name="AAPL", period="2d"):
     """
 	get historical stock price 
 
@@ -54,11 +58,6 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
         results[i]['close'] = temp['Close'][i]
         results[i]['volume'] = temp['Volume'][i]
 
-    json_name += stock_name + '_' + period + '_' + 'stock_price_data.json'
-
-    with open(json_name, 'w', encoding='utf-8') as f:
-        f.write(json.dumps(results, indent=4))
-
     return results
 
 if __name__ == "__main__":
@@ -75,9 +74,10 @@ if __name__ == "__main__":
     stock_db = db.stock_price
 
     stock_list = ['AAPL', 'TSLA', 'AMZN','FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
-    
-    for stocks in stock_list: 
-        stock_output = history_stock_price(stock_name=stocks, period="max")
-        stock_db.insert_many(stock_output)    
-    # cost time heavily dependent on the network delay
 
+    for stocks in stock_list: 
+        # if date today exist
+        stock_output = history_stock_price(stock_name=stocks, period='max')
+        stock_db.insert_many(stock_output)    
+
+    client.close()
