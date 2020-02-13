@@ -56,7 +56,7 @@ def update_news():
             html.P(
                 className="p-news-float-right",
                 children="Last update: "
-                + datetime.datetime.now().strftime("%H:%M:%S")
+                + dt.datetime.now().strftime("%H:%M:%S")
             ),
             html.Table(
                 className="table-news",
@@ -139,19 +139,30 @@ app.layout = html.Div(
             ]
         ),
         html.Div(
-            className = 'left-bar',
-            children = [
+            className= 'wrapper',
+            children= [
                 html.Div(
-                    className='graph',
-                    id='graph',
+                    className = 'left-bar',
+                    children = [
+                        html.Div(
+                            className='graph',
+                            id='graph',
+                        ),
+                        html.Div(
+                            className='click-data',
+                            children= [
+                                dcc.Markdown(d("""Financial Data""")),
+                                html.Pre(id='click-data'),
+                            ],
+                        ),
+                    ]
                 ),
                 html.Div(
-                    className='click-data',
-                    children=[
-                        dcc.Markdown(d("""Financial Data""")),
-                        html.Pre(id='click-data'),
-                    ],
-                ),
+                    className='right-bar',
+                    children= [
+                        update_news()
+                    ]
+                )
             ]
         )
     ]
@@ -263,75 +274,6 @@ def update_graph(ticker):
         )
         graph.append(dcc.Graph(figure=fig,style={'margin-top':'0','height':'400'}))
     return graph
-"""
-    # Graph and news
-    html.Div(
-        className="two columns panel",
-        children=[
-            # Div for Graph
-            html.Div(
-                dcc.Graph(
-                    id='output-graph',
-                    figure={
-                        'data': [
-                            {'x': [], 'y': [], 'type': 'scatter', 'name': 'stock', 'mode': 'markers'},
-                        ],
-                        'layout': {
-                            'title': 'stock sentiment',
-                            'xaxis': {
-                                'title':'sentiment_score'
-                                },
-                            'yaxis': {
-                                'title':'stock_price_change'
-                            }
-                        }
-                    },
-                    style={
-                        'width':'100%'
-                        }
-                )
-            ),
-            # Div for News Headlines
-            html.Div(
-                className="div-news",
-                children=[html.Div(id="news", children=update_news())], 
-                style={'width':'50%'}
-            ), 
-        ], 
-        style={'columnCount': 2, 'width':'100%'}
-    ),
 
-html.Div(className="inputbox",children=[dcc.Input(id='input-box', value='', type='text'),html.Button('Submit', id='button'),], style={'width':'50%'}),
-
-
-@app.callback(
-    Output('output-graph', 'figure'),
-    [Input('button', 'n_clicks')],
-    [State('input-box', 'value')]
-    )
-def update_graph(no_clicked,input_value):
-
-    sentiment_scores, price_changes = correlation_analysis("temp_twitter.json", "temp_sentiment.json", "temp_stock.json")
-
-    if no_clicked is None:
-         raise PreventUpdate
-    elif input_value is None:
-         raise PreventUpdate
-    else: 
-        return {  
-        'data': [
-                {'x': sentiment_scores, 'y': price_changes, 'type': 'scatter', 'name': 'stock', 'mode': 'markers', 'marker': {'size': 12}},
-                ],
-        'layout': {
-            'title': 'stock sentiment',
-            'xaxis': {
-                'title':'sentiment_score'
-            },
-            'yaxis': {
-                'title':'stock_price_change'
-            }
-            }           
-        }
-"""
 if __name__ == "__main__":
-    app.run_server(debug=True, host='0.0.0.0', port=80)
+    app.run_server(debug=True)#, host='0.0.0.0', port=80)
