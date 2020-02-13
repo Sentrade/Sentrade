@@ -63,7 +63,6 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     return results
 
 if __name__ == "__main__":
-    import time
     import sys
     from pymongo import MongoClient
     import json
@@ -77,7 +76,6 @@ if __name__ == "__main__":
     # Select the table to use.
     stock_db = db.stock_price
 
-    time1 = time.time()
 
     if len(sys.argv) >= 3:
         stock_name = sys.argv[1]
@@ -89,6 +87,5 @@ if __name__ == "__main__":
     for stocks in stock_list: 
         stock_output = history_stock_price(stock_name=stocks, period=period)
         stock_db.insert_many(stock_output)    
-    print('history_stock_price costtime : {}'.format(round(time.time() - time1, 3)))
     # cost time heavily dependent on the network delay
 
