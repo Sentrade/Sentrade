@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 __author__= "Nora&Yiwen"
-__status__ = "Prototype"
+__status__ = "Development"
 
-import yfinance as yf  # pip install yfinance
+import yfinance as yf
 import json
-
+from pymongo import MongoClient
 
 def show_cominfo(aapl):
     """
@@ -30,9 +30,9 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     :param json_name: name of the output file
     :return: json file including 'date', 'open','high','low','close','volume'
     """
-    stock = yf.Ticker("AAPL")  
+    stock = yf.Ticker(stock_name)  
     hist = stock.history(period=period)  
-
+    
     # create the temp list dictionary
     temp = {}
     temp['Date'] = []
@@ -44,30 +44,38 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     # print(temp['Open'][1])
     # DataFrame to json
     results = {}
-    results['stock_name'] = stock_name
-
-    results['items'] = [{'date': "", 'open': 0, 'high':0, 'low': 0, 'close':0, 'volume':0} for x in range(len(list(hist_value)))]
-    # print(results['items'][0]['date'])
+    print (hist_value)
+    results = [{'date': "", 'company_name':"", 'open': 0, 'high':0, 'low': 0, 'close':0, 'volume':0} for x in range(len(list(hist_value)))]
     for i in range(len(list(hist_value))):
-        results['items'][i]['date'] = temp['Date'][i]
-        results['items'][i]['open'] = temp['Open'][i]
-        results['items'][i]['high'] = temp['High'][i]
-        results['items'][i]['low'] = temp['Low'][i]
-        results['items'][i]['close'] = temp['Close'][i]
-        results['items'][i]['volume'] = temp['Volume'][i]
-    if not len(json_name):
-        json_name = stock_name + '_' + period + '_' + 'stock_price_data.json'
-    elif not json_name.endswith('.json'):
-        json_name = json_name + '.json'
+        results[i]['company_name'] = stock_name
+        results[i]['open'] = temp['Open'][i]
+        results[i]['date'] = temp['Date'][i]
+        results[i]['high'] = temp['High'][i]
+        results[i]['low'] = temp['Low'][i]
+        results[i]['close'] = temp['Close'][i]
+        results[i]['volume'] = temp['Volume'][i]
+
+    json_name += stock_name + '_' + period + '_' + 'stock_price_data.json'
 
     with open(json_name, 'w', encoding='utf-8') as f:
         f.write(json.dumps(results, indent=4))
-    return results
 
+    return results
 
 if __name__ == "__main__":
     import time
     import sys
+    from pymongo import MongoClient
+    import json
+
+    # Setup the connection.
+    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+
+    # Use the database sentrade_db.
+    db = client.sentrade_db
+
+    # Select the table to use.
+    stock_db = db.stock_price
 
     time1 = time.time()
 
@@ -75,10 +83,12 @@ if __name__ == "__main__":
         stock_name = sys.argv[1]
         period = sys.argv[2]
     else:
-        stock_name = "AAPL"
-        period = "1y"
+        period = "max"
 
-    history_stock_price(stock_name=stock_name, period=period)
+    stock_list = ['AAPL', 'TSLA', 'AMZN','FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
+    for stocks in stock_list: 
+        stock_output = history_stock_price(stock_name=stocks, period=period)
+        stock_db.insert_many(stock_output)    
     print('history_stock_price costtime : {}'.format(round(time.time() - time1, 3)))
     # cost time heavily dependent on the network delay
 
