@@ -20,7 +20,6 @@ def show_cominfo(aapl):
         print('{} : {}'.format(key, value))
     print()
 
-
 def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     """
 	get historical stock price 
@@ -63,7 +62,6 @@ def history_stock_price(stock_name="AAPL", period="2d", json_name=""):
     return results
 
 if __name__ == "__main__":
-    import sys
     from pymongo import MongoClient
     import json
 
@@ -76,16 +74,10 @@ if __name__ == "__main__":
     # Select the table to use.
     stock_db = db.stock_price
 
-
-    if len(sys.argv) >= 3:
-        stock_name = sys.argv[1]
-        period = sys.argv[2]
-    else:
-        period = "max"
-
     stock_list = ['AAPL', 'TSLA', 'AMZN','FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
+    
     for stocks in stock_list: 
-        stock_output = history_stock_price(stock_name=stocks, period=period)
+        stock_output = history_stock_price(stock_name=stocks, period="max")
         stock_db.insert_many(stock_output)    
     # cost time heavily dependent on the network delay
 
