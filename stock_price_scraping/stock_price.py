@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     # Select the table to use.
     stock_db = db.stock_price
-
+    stock_db.drop()
     stock_list = ['AAPL', 'TSLA', 'AMZN','FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
 
     for stocks in stock_list: 
