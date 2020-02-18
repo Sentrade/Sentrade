@@ -21,13 +21,13 @@ def send_twitter(filename):
     db = client.sentrade_db
 
     # Select the table to use.
-    new_db = db.news
+    stock_db = db.news
 
     # insert from json file
     with open(filename) as f:
         news_data = json.load(f)
 
-    new_db.insert_many(news_data)
+    stock_db.insert_many(news_data)
 
 if __name__ == "__main__":
     send_twitter("temp_sentiment.json")
