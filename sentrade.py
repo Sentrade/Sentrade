@@ -25,57 +25,13 @@ from dash.exceptions import PreventUpdate
 from plotly import tools
 from data import correlation_analysis
 from graph import Graph
+from news import News
 
 __author__ = "Davide Locatelli"
 __status__ = "Prototype"
 
 app = dash.Dash(__name__, meta_tags=[{"name":"viewport", "content": "width=device-width"}])
 server = app.server
-
-#load news
-#this is just for apple, we can change according to the ticker inserted
-response = requests.get('https://newsapi.org/v2/everything?'
-       'q=Apple&'
-       'from=2020-01-20&'
-       'sortBy=popularity&'
-       'apiKey=954c05db19404ee99531875f66d9d138')
-#print (response.json())
-
-def update_news():
-    articles = response.json()["articles"]
-    df = pd.DataFrame(articles)
-    df = pd.DataFrame(df[["title","url"]])
-    max_rows = 10
-    return html.Div(
-        children =[
-            html.P(className="p-news",children="Headlines"),
-            html.P(
-                className="p-news-float-right",
-                children="Last update: "
-                + dt.datetime.now().strftime("%H:%M:%S")
-            ),
-            html.Table(
-                className="table-news",
-                children= [
-                    html.Tr(
-                        children=[
-                            html.Td(
-                                children=[
-                                    html.A(
-                                        className="td-link",
-                                        children=df.iloc[i]["title"],
-                                        href=df.iloc[i]["url"],
-                                        target="_blank",
-                                    )
-                                ]
-                            )
-                        ]
-                    )
-                    for i in range(min(len(df),max_rows))
-                ],
-            ),
-        ]
-    )
 
 app.layout = html.Div(
     children=[
@@ -154,15 +110,24 @@ app.layout = html.Div(
                     ]
                 ),
                 html.Div(
-                    className='right-bar',
-                    children= [
-                        update_news()
+                    className = 'right-bar',
+                    children = [
+                        html.Div(
+                            className = 'news-bar',
+                            id = 'news',
+                        )
                     ]
                 )
             ]
         )
     ]
 )
+
+@app.callback(
+    dash.dependencies.Output('news','children'),
+    [dash.dependencies.Input('stock-ticker-input', 'value')])
+def update_news(ticker):
+    return News(ticker)
 
 @app.callback(
     dash.dependencies.Output('graph','children'),
