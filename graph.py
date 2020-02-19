@@ -48,13 +48,13 @@ def Graph(ticker):
         for record in stock_price_collection.find({"company_name":ticker}):
             close.append(record["close"])
             stock_date.append(record["date"])
-        
+        """
         polarity = []
         sent_date = []
         for record in sentiment_collection.find():
             polarity.append(record["polarity"])
             sent_date.append(record["date"])
-
+        """
         eth_close = go.Scatter(
             y = close,
             x = stock_date,
@@ -62,6 +62,7 @@ def Graph(ticker):
             mode = "lines",
             line=dict(color="#7a90e0")
         )
+        """
         eth_polarity = go.Scatter(
             y = polarity,
             x = sent_date,
@@ -69,9 +70,10 @@ def Graph(ticker):
             mode = "lines",
             line=dict(color="#FFC300")
         )
+        """
         fig = make_subplots(specs=[[{"secondary_y":True}]])
         fig.add_trace(eth_close,secondary_y=False)
-        fig.add_trace(eth_polarity,secondary_y=True)
+        #fig.add_trace(eth_polarity,secondary_y=True)
         fig.update_layout(
             margin= {'b': 0, 'r': 10, 'l': 60, 't': 0},                   
             legend= {'x': 0},

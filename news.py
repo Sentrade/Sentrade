@@ -2,14 +2,20 @@
 # -*- coding: utf-8 -*-
 
 import json
+import pymongo
 import requests
 import pandas as pd
 import datetime as dt
 import dash_html_components as html
 
+from sshtunnel import SSHTunnelForwarder
+
 __author__ = "Davide Locatelli"
 
 def News(ticker):
+
+    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db = db_client["sentrade_db"]
     
     if not ticker:
 
@@ -24,33 +30,28 @@ def News(ticker):
 
     else:
         companies = {
-            "AMZN" : "amazon",
-            "AAPL"  : "apple", 
-            "FB"    : "facebook",
-            "GOOG"  : "google",
-            "MSFT"  : "microsoft",
-            "NFLX"  : "netflix",
-            "TSLA"  : "tesla",
-            "UBER"  : "uber"
+            "AMZN" : "Amazon",
+            "AAPL"  : "Apple", 
+            "FB"    : "Facebook",
+            "GOOG"  : "Google",
+            "MSFT"  : "Microsoft",
+            "NFLX"  : "Netflix",
+            "TSLA"  : "Tesla",
+            "UBER"  : "Uber"
         }
-        api_call = 'https://newsapi.org/v2/everything?q='
-        api_call += companies[ticker]
-        api_call += '&from=2020-01-20&sortBy=popularity&apiKey=954c05db19404ee99531875f66d9d138'
-        response = requests.get(api_call)
-        articles = response.json()["articles"]
-        df = pd.DataFrame(articles)
-        df = pd.DataFrame(df[["title","url"]])
-        max_rows = 20
+
+        twitter_collection = db["news"]
+        tweets = []
+        tweets_polarity = []
+        for record in twitter_collection.find({"company" : companies[ticker]}):
+            tweets.append(record["text"])
+            tweets_polarity.append(record["polarity"])
 
         news = html.Div(
             children = [
-                html.P(
+                html.H3(
                     className = "p-news",
-                    children = "Headlines"
-                ),
-                html.P(
-                    className = "p-news-float-right",
-                    children = "Last update: " + dt.datetime.now().strftime("%H:%M:%S") 
+                    children = "Tweets on SEPT 16"
                 ),
                 html.Table(
                     className = "table-news",
@@ -61,18 +62,30 @@ def News(ticker):
                                     children = [
                                         html.A(
                                             className = "td-link",
-                                            children = df.iloc[i]["title"],
-                                            href = df.iloc[i]["url"],
+                                            children = tweets[i],
                                             target = "_blank",
+                                            style = tweetstyle(tweets_polarity, i)
                                         )
                                     ]
                                 )
                             ]
                         )
-                        for i in range(min(len(df),max_rows))
+                        for i in range(len(tweets))
                     ] 
                 )
             ]
         )
 
     return news
+
+def tweetstyle(tweets_polarity, i):
+    style = { 'color' : '#e0d204' }
+    if tweets_polarity[i] < -0.3:
+        style = {
+            'color' : 'red'
+        }
+    if tweets_polarity[i] > 0.3:
+        style = {
+            'color' : 'green'
+        }
+    return style

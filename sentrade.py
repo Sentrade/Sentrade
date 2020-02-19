@@ -11,7 +11,6 @@ import requests
 import pandas as pd
 import json
 import datetime as dt
-import colorlover as cl
 import datetime as dt
 import flask
 import os
@@ -69,6 +68,7 @@ navbar = dbc.NavbarSimple(
         fluid = True,
 )
 
+
 graph = html.Div(
     className = 'graph',
     id = 'graph',
@@ -86,6 +86,7 @@ contents = html.Div(
         news
     ]
 )
+
 
 def MainPage():
     layout = html.Div([
