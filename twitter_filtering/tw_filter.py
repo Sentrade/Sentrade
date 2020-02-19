@@ -10,16 +10,16 @@ import os
 year = 2019
 month = 9
 day = 16
-keyword = "Apple"
+keyword = "Tesla"
 # en_corpus = set(nltk.corpus.words.words())
 date = "{0}-{1}-{2}".format(year, str(month).zfill(2), str(day).zfill(2))
-tw_text_file_keyword = open("./{0}_{1}.json".format(keyword, date), 'a')
+tw_text_file_keyword = open("./subject_tw/{0}_{1}.json".format(keyword, date), 'a')
 
 # f_list = open("./all_files.txt", 'r')
 # for tw_filename in f_list:
 # tw_filename = "./{0}/{1}/{2}.json".format(str(day).zfill(2), str(hour).zfill(2), str(minute).zfill(2))
 
-for hour in [19, 20, 21, 22, 23]:
+for hour in range(6, 24):
 	tw_folder = "./{0}/{1}/".format(str(day).zfill(2), str(hour).zfill(2))
 	for filename in os.listdir(tw_folder):
 		# load the json file into the memory

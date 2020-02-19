@@ -10,12 +10,12 @@ import emoji
 year = 2019
 month = 9
 day = 16
-keyword = "Apple"
+keyword = "Tesla"
 # en_corpus = set(nltk.corpus.words.words())
 date = "{0}-{1}-{2}".format(year, str(month).zfill(2), str(day).zfill(2))
-tw_text_file_keyword = open("./{0}_{1}.json".format(keyword, date), 'r')
-subprocess.run("rm " + "./{0}_{1}_processed.json".format(keyword, date), shell=True)
-tw_text_file_keyword_processed = open("./{0}_{1}_processed.json".format(keyword, date), 'a')
+tw_text_file_keyword = open("./subject_tw/{0}_{1}.json".format(keyword, date), 'r')
+subprocess.run("rm " + "./subject_tw/{0}_{1}_processed.json".format(keyword, date), shell=True)
+tw_text_file_keyword_processed = open("./subject_tw/{0}_{1}_processed.json".format(keyword, date), 'a')
 
 procitem = {}
 for item in [json.loads(line) for line in tw_text_file_keyword]:
