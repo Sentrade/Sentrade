@@ -4,10 +4,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 
 from navbar import Navbar
-from graph import Graph
 
 nav = Navbar()
-graph = Graph("AAPL")
 
 body = dbc.Container(
     [
@@ -42,7 +40,7 @@ Donec id elit non mi porta gravida at eget metus.Fusce dapibus, tellus ac cursus
 def Homepage():
     layout = html.Div([
         nav,
-        graph
+        body
         ])
 
     return layout
