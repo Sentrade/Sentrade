@@ -30,98 +30,74 @@ from news import News
 __author__ = "Davide Locatelli"
 __status__ = "Prototype"
 
-app = dash.Dash(__name__, meta_tags=[{"name":"viewport", "content": "width=device-width"}])
-server = app.server
-
-app.layout = html.Div(
-    children=[
-        html.Div(
-            className='top-bar',
-            children=[
-                html.H2(
-                    'SENTRADE',
-                    style={'display': 'inline',
-                    'float': 'left',
-                    'font-size': '3em',
-                    'margin-left': '7px',
-                    'font-weight': '900',
-                    'font-family': 'Product Sans',
-                    'color': 'black',
-                    'margin-top': '0px',
-                    'margin-bottom': '0'
+navbar = dbc.NavbarSimple(
+        children = [
+            dbc.NavItem(
+                dbc.NavLink(
+                    "Financial Sentiment Analysis",
+                    href = "/about",
+                    style = {
+                        'margin-right' : '1269px'
                     }
-                ),
-                html.H4(
-                    'Financial Sentiment Analysis',
-                    style={'display': 'inline',
-                    'float': 'left',
-                    'font-size': '1.8em',
-                    'margin-left': '7px',
-                    'font-weight': '500',
-                    'font-family': 'Product Sans',
-                    'color': '#9C9C9C',
-                    'margin-top': '14px',
-                    'margin-bottom': '0'
-                    }
-                ),
+                )
+            ),
+            dbc.NavItem(
                 dcc.Dropdown(
-                    id='stock-ticker-input',
-                    options=[
-                        {'label':'AMZN','value':'AMZN'},
-                        {'label':'AAPL','value':'AAPL'},
-                        {'label':'FB','value':'FB'},
-                        {'label':'GOOG','value':'GOOG'},
-                        {'label':'MSFT','value':'MSFT'},
-                        {'label':'NFLX','value':'NFLX'},
-                        {'label':'TSLA','value':'TSLA'},
-                        {'label':'UBER','value':'UBER'},
+                    id = 'stock-ticker-input',
+                    options = [
+                        {"label" : "AAPL" , "value" : "AAPL"},
+                        {"label" : "AMZN" , "value" : "AMZN"},
+                        {"label" : "FB"   , "value" : "FB"  },
+                        {"label" : "GOOG" , "value" : "GOOG"},
+                        {"label" : "MSFT" , "value" : "MSFT"},
+                        {"label" : "NFLX" , "value" : "NFLX"},
+                        {"label" : "TSLA" , "value" : "TSLA"},
+                        {"label" : "UBER" , "value" : "UBER"},
                     ],
-                    multi=False,
-                    placeholder ='Select Ticker',
-                    style={'display': 'inline',
-                    'width':'35%',
-                    'float': 'right',
-                    'font-size': '1.2em',
-                    'font-weight': '500',
-                    'font-family': 'Product Sans',
-                    'color': '#9C9C9C',
-                    'margin-top': '6px'
+                    placeholder = "Select Ticker",
+                    multi = False,
+                    style = {
+                        "width" : "100%",
+                        'margin-right' : '100px'
                     }
                 )
-            ]
-        ),
-        html.Div(
-            className= 'wrapper',
-            children= [
-                html.Div(
-                    className = 'left-bar',
-                    children = [
-                        html.Div(
-                            className='graph',
-                            id='graph',
-                        ),
-                        html.Div(
-                            className='click-data',
-                            children= [
-                                dcc.Markdown(d("""Financial Data""")),
-                                html.Pre(id='click-data'),
-                            ],
-                        ),
-                    ]
-                ),
-                html.Div(
-                    className = 'right-bar',
-                    children = [
-                        html.Div(
-                            className = 'news-bar',
-                            id = 'news',
-                        )
-                    ]
-                )
-            ]
-        )
+            )
+        ],
+        brand = "Sentrade",
+        brand_href = "/home",
+        sticky = "top",
+        fluid = True,
+)
+
+graph = html.Div(
+    className = 'graph',
+    id = 'graph',
+)
+
+news = html.Div(
+    className = 'news',
+    id = 'news',
+)
+
+contents = html.Div(
+    className = 'contents',
+    children = [
+        graph,
+        news
     ]
 )
+
+def MainPage():
+    layout = html.Div([
+        navbar,
+        contents
+    ])
+
+    return layout
+
+app = dash.Dash(__name__, meta_tags=[{"name":"viewport", "content": "width=device-width"}])
+server = app.server
+app.layout = MainPage()
 
 @app.callback(
     dash.dependencies.Output('news','children'),
