@@ -36,7 +36,7 @@ navbar = dbc.NavbarSimple(
                     "Financial Sentiment Analysis",
                     href = "/about",
                     style = {
-                        'margin-right' : '1269px'
+                        'margin-right' : '650px'
                     }
                 )
             ),
@@ -68,7 +68,6 @@ navbar = dbc.NavbarSimple(
         fluid = True,
 )
 
-
 graph = html.Div(
     className = 'graph',
     id = 'graph',
@@ -96,9 +95,12 @@ def MainPage():
 
     return layout
 
-app = dash.Dash(__name__, meta_tags=[{"name":"viewport", "content": "width=device-width"}])
+app = dash.Dash(__name__, )
 server = app.server
 app.layout = MainPage()
+
+app.css.config.serve_locally = True
+app.scripts.config.serve_locally = True
 
 @app.callback(
     dash.dependencies.Output('news','children'),
