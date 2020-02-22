@@ -42,7 +42,6 @@ for hour in range(0, 24):
 
 		for keyword in keyword_list:
 			print("Searching for the keyword", keyword)
-			start_tick = time.time()
 			tw_text_file_keyword = open(local_dir + "{0}_{1}.json".format(keyword, date), 'a')
 			
 			# load the data into the memory
