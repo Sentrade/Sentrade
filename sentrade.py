@@ -23,12 +23,15 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from plotly import tools
 from data import correlation_analysis
+from financial_data import F_data
 from graph import Graph
 from news import News
+from average_sent import Score
 
 __author__ = "Davide Locatelli"
 __status__ = "Prototype"
 
+# App layout
 navbar = dbc.NavbarSimple(
         children = [
             dbc.NavItem(
@@ -85,23 +88,41 @@ contents = html.Div(
         news
     ]
 )
+financial_data = html.Div(
+    className= 'finance',
+    id = 'finance'
+)
 
+sentiment_data = html.Div(
+    className= 'sentiment',
+    id = 'sentiment'
+)
+
+lower_contents = html.Div(
+    className= 'lower_contents',
+    children= [
+        financial_data,
+        sentiment_data
+    ]
+)
 
 def MainPage():
     layout = html.Div([
         navbar,
+        lower_contents,
         contents
     ])
 
     return layout
 
-app = dash.Dash(__name__, )
+# App set up
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 app.layout = MainPage()
-
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 
+# App callbacks
 @app.callback(
     dash.dependencies.Output('news','children'),
     [dash.dependencies.Input('stock-ticker-input', 'value')])
@@ -114,5 +135,30 @@ def update_news(ticker):
 def update_graph(ticker):
     return Graph(ticker)
 
+@app.callback(
+    dash.dependencies.Output('finance','children'),
+    [dash.dependencies.Input('stock-ticker-input', 'value')])
+def update_finance(ticker):
+    return F_data(ticker)
+
+@app.callback(
+    dash.dependencies.Output('sentiment','children'),
+    [dash.dependencies.Input('stock-ticker-input', 'value')])
+def update_finance(ticker):
+    return Score(ticker)
+
+"""
+@app.callback(
+    Output("collapse", "is_open"),
+    [Input("collapse-button", "n_clicks")],
+    [State("collapse", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+"""
+
+# Debugging
 if __name__ == "__main__":
     app.run_server(debug=True)#, host='0.0.0.0', port=80)

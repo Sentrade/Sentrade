@@ -6,22 +6,23 @@ import pymongo
 import requests
 import pandas as pd
 import datetime as dt
+import statistics
 import dash_html_components as html
 
 from sshtunnel import SSHTunnelForwarder
 
 __author__ = "Davide Locatelli"
 
-def News(ticker):
+def Score(ticker):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     db = db_client["sentrade_db"]
 
-    max_num = 10
+    max_rows = 10
     
     if not ticker:
 
-        news = html.H3(
+        polarity = html.H3(
             "No ticker selected.",
             style={
                 'margin-top':'0px',
@@ -49,44 +50,25 @@ def News(ticker):
             tweets.append(record["text"])
             tweets_polarity.append(record["polarity"])
 
-        news = html.Div(
-            children = [
-                html.H3(
-                    className = "p-news",
-                    children = "Tweets on SEPT 16"
-                ),
-                html.Table(
-                    className = "table-news",
-                    children = [
-                        html.Tr(
-                            children = [
-                                html.Td(
-                                    children = [
-                                        html.A(
-                                            className = "td-link",
-                                            children = tweets[i],
-                                            target = "_blank",
-                                            style = tweetstyle(tweets_polarity, i)
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                        for i in range(max_num)
-                    ] 
-                )
+        polarity_string = "Average sentiment for " + ticker
+        polarity_string += " on SEPT 16"
+        polarity_avg = statistics.mean(tweets_polarity)
+        polarity_avg_string = str(polarity_avg)
+        polarity = html.Div([
+            html.Div([html.H3(polarity_string)]),
+            html.Div([html.P(polarity_avg_string)],style=score_style(polarity_avg)),
             ]
         )
 
-    return news
+    return polarity
 
-def tweetstyle(tweets_polarity, i):
+def score_style(polarity_avg):
     style = { 'color' : '#e0d204' }
-    if tweets_polarity[i] < -0.3:
+    if polarity_avg < -0.3:
         style = {
             'color' : 'red'
         }
-    if tweets_polarity[i] > 0.3:
+    if polarity_avg > 0.3:
         style = {
             'color' : 'green'
         }

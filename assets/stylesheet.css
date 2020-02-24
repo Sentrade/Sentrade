@@ -9,6 +9,14 @@ html {
     display: flex;
 }
 
+.lower_contents {
+    display: flex;
+}
+
+.sentiment {
+    margin-left: 200px;
+}
+
 .graph {
     width: 70%;
 }
