@@ -51,7 +51,7 @@ def download_archive(year, month, day, run_log):
 			return True
 
 year = 2019
-month = 1
+month = sys.argv[1]
 run_log = open("./running.log", 'a')
 
 # construct the local directory containing the result
