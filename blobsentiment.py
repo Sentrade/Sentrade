@@ -7,6 +7,7 @@ __status__ = "Prototype"
 import json
 import spacy
 from textblob import TextBlob
+from pymongo import MongoClient
 
 company = "apple"
 
@@ -64,5 +65,20 @@ def raw_blob_analysis(inputfile,outputfile):
     with open(outputfile, "w") as results:
         json.dump(input_data, results)
 
+def blob_sentiment_database():
+    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    db = client.sentrade_db
+    news_db = db.news
+
+    all_news = news_db.find()
+    for news in all_news:
+        blob = TextBlob(news["text"])
+        updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
+        updated_subjectivity = {"$set": {"subjectivity": blob.sentiment.subjectivity}}
+        news_db.update_one(news, updated_polarity)
+        news_db.update_one(news, updated_subjectivity)
+
+    client.close()
+
 if __name__ == "__main__":
-    blob_analyse("newsorg.json", "blob_sent.json")
+    blob_sentiment_database()

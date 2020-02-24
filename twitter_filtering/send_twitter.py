@@ -24,10 +24,12 @@ def send_twitter(filename):
     stock_db = db.news
 
     # insert from json file
-    with open(filename) as f:
+    with open(filename, 'r', encoding='utf8', errors='ignore') as f:
         news_data = json.load(f)
 
     stock_db.insert_many(news_data)
 
+    client.close()
+
 if __name__ == "__main__":
-    send_twitter("temp_sentiment.json")
+    send_twitter("tw_all_companies.json")
