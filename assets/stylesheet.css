@@ -5,23 +5,11 @@ html {
     color: #111111;
 }
 
+.sidebar {
+    width: 25%;
+    margin-top: 1%;
+}
+
 .contents {
-    display: flex;
-}
-
-.lower_contents {
-    display: flex;
-}
-
-.sentiment {
-    margin-left: 200px;
-}
-
-.graph {
-    width: 70%;
-}
-
-.news {
-    width: 50%;
-    margin-top: 10px;
+    margin-top: 1%;
 }

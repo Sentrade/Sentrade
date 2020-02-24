@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
@@ -15,7 +16,18 @@ def Graph(ticker):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     db = db_client["sentrade_db"]
-    
+
+    companies = {
+            "AMZN" : "Amazon.com Inc.",
+            "AAPL"  : "Apple Inc.", 
+            "FB"    : "Facebook Inc.",
+            "GOOG"  : "Alphabet Inc.",
+            "MSFT"  : "Microsoft Corporation",
+            "NFLX"  : "Netflix Inc.",
+            "TSLA"  : "Tesla Inc.",
+            "UBER"  : "Uber Technologies Inc."
+        }
+
     graph = []
 
     if not ticker:
@@ -31,15 +43,38 @@ def Graph(ticker):
 
     else:
 
-        graph.append(html.H3(
-            ticker,
-            style={
-                'font-size':'2.5em',
-                'margin-left':'20px',
-                'textAlign':'left',
-                'color':'black'
-            }
+        graph.append(dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.H3(
+                            ticker,
+                            style={
+                                'font-size':'2.5em',
+                                'textAlign':'left',
+                                'color':'black'
+                                }
+                        ),
+                    ],
+                    width = "auto"
+                ),
+                dbc.Col(
+                    [
+                        html.H5(
+                            companies[ticker],
+                            style={
+                                'font-size':'0.5em',
+                                'margin-top': '55%',
+                                'textAlign':'left',
+                                'color':'grey'
+                            }
+                        )
+                    ],
+                    width = "auto"
+                )
+            ]
         ))
+
         stock_price_collection = db["stock_price"]
         sentiment_collection = db["news"]
 

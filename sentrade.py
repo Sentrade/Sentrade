@@ -11,7 +11,6 @@ import requests
 import pandas as pd
 import json
 import datetime as dt
-import datetime as dt
 import flask
 import os
 import pymongo 
@@ -25,6 +24,7 @@ from plotly import tools
 from data import correlation_analysis
 from financial_data import F_data
 from graph import Graph
+from tweets import Tweets
 from news import News
 from average_sent import Score
 
@@ -45,7 +45,7 @@ navbar = dbc.NavbarSimple(
             ),
             dbc.NavItem(
                 dcc.Dropdown(
-                    id = 'stock-ticker-input',
+                    id = 'stock-ticker',
                     options = [
                         {"label" : "AAPL" , "value" : "AAPL"},
                         {"label" : "AMZN" , "value" : "AMZN"},
@@ -71,23 +71,52 @@ navbar = dbc.NavbarSimple(
         fluid = True,
 )
 
+sidebar = html.Div(
+            className="sidebar",
+            children=[
+                html.H1(className="title-header", children="SENTRADE"),
+                html.P(
+                    """
+                    This app lets you explore the correlation between financial and sentiment
+                    analysis.
+                    """
+                ),
+                dcc.Dropdown(
+                    id = 'stock-ticker-input',
+                    options = [
+                        {"label" : "AAPL" , "value" : "AAPL"},
+                        {"label" : "AMZN" , "value" : "AMZN"},
+                        {"label" : "FB"   , "value" : "FB"  },
+                        {"label" : "GOOG" , "value" : "GOOG"},
+                        {"label" : "MSFT" , "value" : "MSFT"},
+                        {"label" : "NFLX" , "value" : "NFLX"},
+                        {"label" : "TSLA" , "value" : "TSLA"},
+                        {"label" : "UBER" , "value" : "UBER"},
+                    ],
+                    placeholder = "Select Ticker",
+                    multi = False,
+                    style = {
+                        "width" : "100%",
+                        'margin-right' : '100px'
+                    }
+                ),
+                html.Div(
+                className="div-news",
+                children=[html.Div(id="news")],
+                ),
+            ]
+)
+
 graph = html.Div(
     className = 'graph',
     id = 'graph',
 )
 
-news = html.Div(
-    className = 'news',
-    id = 'news',
+tweets = html.Div(
+    className = 'tweets',
+    id = 'tweets',
 )
 
-contents = html.Div(
-    className = 'contents',
-    children = [
-        graph,
-        news
-    ]
-)
 financial_data = html.Div(
     className= 'finance',
     id = 'finance'
@@ -98,20 +127,22 @@ sentiment_data = html.Div(
     id = 'sentiment'
 )
 
-lower_contents = html.Div(
-    className= 'lower_contents',
+contents = html.Div(
+    className= 'contents',
     children= [
+        graph,
         financial_data,
+        tweets,
         sentiment_data
     ]
 )
 
 def MainPage():
     layout = html.Div([
-        navbar,
-        lower_contents,
-        contents
-    ])
+        sidebar,
+        contents,
+    ],
+    style={'display':'flex'})
 
     return layout
 
@@ -124,9 +155,15 @@ app.scripts.config.serve_locally = True
 
 # App callbacks
 @app.callback(
+    dash.dependencies.Output('tweets','children'),
+    [dash.dependencies.Input('stock-ticker-input', 'value')])
+def update_tweets(ticker):
+    return Tweets(ticker)
+
+@app.callback(
     dash.dependencies.Output('news','children'),
     [dash.dependencies.Input('stock-ticker-input', 'value')])
-def update_news(ticker):
+def update_tweets(ticker):
     return News(ticker)
 
 @app.callback(

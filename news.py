@@ -1,92 +1,93 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import json
-import pymongo
-import requests
-import pandas as pd
-import datetime as dt
+import dash
+import dash_core_components as dcc
+import dash_bootstrap_components as dbc
 import dash_html_components as html
+import requests
+import datetime as dt
+import pandas as pd
+from textblob import TextBlob
 
-from sshtunnel import SSHTunnelForwarder
-
-__author__ = "Davide Locatelli"
-
+'''
+response = requests.get('https://newsapi.org/v2/everything?'
+       'q=Apple&'
+       'from=2020-01-20&'
+       'sortBy=popularity&'
+       'apiKey=954c05db19404ee99531875f66d9d138')
+'''
 def News(ticker):
-
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-    db = db_client["sentrade_db"]
-
-    max_num = 10
-    
     if not ticker:
-
-        news = html.H3(
-            "No ticker selected.",
-            style={
-                'margin-top':'0px',
-                'textAlign':'center',
-                'color':'#9C9C9C'
-            }
+        return html.Div(
+            [html.H3(
+                "No ticker selected.",
+                style={
+                    'margin-top':'0px',
+                    'textAlign':'center',
+                    'color':'#9C9C9C'
+                }
+            )]
         )
+    companies = {
+        "AMZN" : "Amazon",
+        "AAPL"  : "Apple", 
+        "FB"    : "Facebook",
+        "GOOG"  : "Google",
+        "MSFT"  : "Microsoft",
+        "NFLX"  : "Netflix",
+        "TSLA"  : "Tesla",
+        "UBER"  : "Uber"
+    }
+    request_string = 'https://newsapi.org/v2/everything?q='
+    request_string += companies[ticker]
+    request_string += '&from=2020-02-24&sortBy=popularity&language=en&'
+    request_string += 'apiKey=13ac274ab9a140f5a052721187a8d0ef'
+    response = requests.get(request_string)
+    articles = response.json()["articles"]
+    df = pd.DataFrame(articles)
+    df = pd.DataFrame(df[["title","url"]])
+    max_rows = 10
+    return html.Div(
+        children =[
+            html.H3(className="p-news",children="Headlines"),
+            html.P(
+                className="p-news-float-left",
+                children="Last update: "
+                + dt.datetime.now().strftime("%H:%M:%S")
+            ),
+            html.Table(
+                className="table-news",
+                children= [
+                    html.Tr(
+                        children=[
+                            html.Td(
+                                children=[
+                                    html.A(
+                                        className="td-link",
+                                        children=df.iloc[i]["title"],
+                                        style= newsStyle(df.iloc[i]["title"]),
+                                        href=df.iloc[i]["url"],
+                                        target="_blank",
+                                    )
+                                ]
+                            )
+                        ]
+                    )
+                    for i in range(min(len(df),max_rows))
+                ],
+            ),
+        ]
+    )
 
-    else:
-        companies = {
-            "AMZN" : "Amazon",
-            "AAPL"  : "Apple", 
-            "FB"    : "Facebook",
-            "GOOG"  : "Google",
-            "MSFT"  : "Microsoft",
-            "NFLX"  : "Netflix",
-            "TSLA"  : "Tesla",
-            "UBER"  : "Uber"
-        }
-
-        twitter_collection = db["news"]
-        tweets = []
-        tweets_polarity = []
-        for record in twitter_collection.find({"company" : companies[ticker]}):
-            tweets.append(record["text"])
-            tweets_polarity.append(record["polarity"])
-
-        news = html.Div(
-            children = [
-                html.H3(
-                    className = "p-news",
-                    children = "Tweets on SEPT 16"
-                ),
-                html.Table(
-                    className = "table-news",
-                    children = [
-                        html.Tr(
-                            children = [
-                                html.Td(
-                                    children = [
-                                        html.A(
-                                            className = "td-link",
-                                            children = tweets[i],
-                                            target = "_blank",
-                                            style = tweetstyle(tweets_polarity, i)
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                        for i in range(max_num)
-                    ] 
-                )
-            ]
-        )
-
-    return news
-
-def tweetstyle(tweets_polarity, i):
+def newsStyle(news_title):
+    analysis = TextBlob(news_title)
     style = { 'color' : '#e0d204' }
-    if tweets_polarity[i] < -0.3:
+    if analysis.sentiment.polarity < -0.3:
         style = {
             'color' : 'red'
         }
-    if tweets_polarity[i] > 0.3:
+    if analysis.sentiment.polarity > 0.3:
         style = {
             'color' : 'green'
         }
