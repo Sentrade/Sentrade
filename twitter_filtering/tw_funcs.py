@@ -31,3 +31,19 @@ def search_keyword(keyword, filename, local_dir, date_filename):
 				json.dump(item, tw_text_file_keyword)
 				tw_text_file_keyword.write('\n')
 	tw_text_file_keyword.close()
+
+def search_keyword_db(keyword, filename, local_dir, db):
+	print("Searching for the keyword", keyword)
+	# tw_text_file_keyword = open(local_dir + keyword + ".json", 'a')
+	
+	# load the data into the memory
+	with open(filename, 'r') as f:
+		data = [json.loads(line) for line in f]
+
+	# write the selected items into a new json file
+	for item in data:
+		keys = item.keys()
+		if "text" in keys and "lang" in keys and item["lang"] == "en":
+			if re.search(re.compile(keyword), item["text"].lower()): # search based on the lower case
+				db[keyword].insert(item)
+
