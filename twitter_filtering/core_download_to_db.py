@@ -15,8 +15,8 @@ month = sys.argv[1]
 day_start = int(sys.argv[2])
 day_end = int(sys.argv[3])
 time_log_dir = create_dir("./time_log/")
-# db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-db_client = pymongo.MongoClient("mongodb://admin:sentrade@127.0.0.1", 27017)
+db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+# db_client = pymongo.MongoClient("mongodb://admin:sentrade@127.0.0.1", 27017)
 # db = db_client["temp"]
 db = db_client["twitter_data"]
 keyword_list = ["netflix", "amazon", "apple", "microsoft", "google", "tesla", "facebook"]
@@ -60,5 +60,5 @@ for day in range(day_start, day_end + 1):
 	date_tar.close()
 	print("Remove " + date_tar_filename)
 	subprocess.run("rm " + date_tar_filename, shell=True)
-	print("Remove dirs")
-	subprocess.run("rm -r ./{0}".format(str(day).zfill(2)), shell=True)
+	# print("Remove dirs")
+	# subprocess.run("rm -r ./{0}".format(str(day).zfill(2)), shell=True)
