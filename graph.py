@@ -101,13 +101,16 @@ def Graph(ticker):
             line=dict(color="#7a90e0")
         )
         
-        eth_polarity = go.Scatter(
+        # eth_polarity = go.Scatter(
+        eth_polarity = go.Histogram(
             y = polarity,
             # y = normalised_polarity,
             x = sent_date,
             name = "Sentiment",
-            mode = "lines",
-            line=dict(color="#FFC300")
+            # mode = "lines",
+            histnorm='probability',
+            # line=dict(color="#FFC300")
+            marker=dict(color='#FFC300',)
         )
         
         fig = make_subplots(specs=[[{"secondary_y":True}]])
