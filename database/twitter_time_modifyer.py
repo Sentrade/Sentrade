@@ -9,7 +9,7 @@ from pymongo import MongoClient
 import json
 
 __author__ = "Ziyou Zhang"
-__status__ = "Prototype"
+__status__ = "Production"
 
 day = {
     "Mon": "01",

@@ -9,21 +9,16 @@ from pymongo import MongoClient
 import json
 
 __author__ = "Ziyou Zhang"
-__status__ = "Prototype"
+__status__ = "Development"
 
 def process_sentiment():
 
     client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
     db = client.sentrade_db
-    stock_db = db.stock_price
-    stock_list = ['AAPL', 'TSLA', 'AMZN','FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
+    twitter_db = client.twitter_data
+    
 
-    news_dates = []
-    news_scores = []
-    today_news_count = 0
-    today_news_score = 0
 
-    # print("json objects prepared")
 
     for sentiment_entry in sentiment_data:
         if sentiment_entry["date"] not in news_dates:
