@@ -93,7 +93,8 @@ def Graph(ticker):
         normalised_polarity = [i / max(polarity) for i in polarity]
         
         eth_close = go.Scatter(
-            y = normalised_close,
+            y = close,
+            # y = normalised_close,
             x = stock_date,
             name = "Close",
             mode = "lines",
@@ -101,7 +102,8 @@ def Graph(ticker):
         )
         
         eth_polarity = go.Scatter(
-            y = normalised_polarity,
+            y = polarity,
+            # y = normalised_polarity,
             x = sent_date,
             name = "Sentiment",
             mode = "lines",
