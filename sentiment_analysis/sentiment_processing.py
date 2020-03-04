@@ -16,9 +16,11 @@ def process_sentiment():
     client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
     db = client.sentrade_db
     twitter_db = client.twitter_data
-    
 
-
+    apple_news_db = twitter_db.apple
+    apple_news = apple_news_db.find()
+    for apple_news_entry in apple_news:
+        pass
 
     for sentiment_entry in sentiment_data:
         if sentiment_entry["date"] not in news_dates:
@@ -32,3 +34,6 @@ def process_sentiment():
     
     if today_news_count != 0:
         news_scores.append(today_news_score / today_news_count)
+
+if __name__ == "__main__":
+    process_sentiment()
