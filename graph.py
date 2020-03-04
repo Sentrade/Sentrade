@@ -83,15 +83,17 @@ def Graph(ticker):
         for record in stock_price_collection.find({"company_name":ticker}):
             close.append(record["close"])
             stock_date.append(record["date"])
+        normalised_close = [i / max(close) for i in close]
         
         polarity = []
         sent_date = []
         for record in sentiment_collection.find():
             polarity.append(record["polarity"])
             sent_date.append(record["date"])
+        normalised_polarity = [i / max(polarity) for i in polarity]
         
         eth_close = go.Scatter(
-            y = close,
+            y = normalised_close,
             x = stock_date,
             name = "Close",
             mode = "lines",
@@ -99,7 +101,7 @@ def Graph(ticker):
         )
         
         eth_polarity = go.Scatter(
-            y = polarity,
+            y = normalised_polarity,
             x = sent_date,
             name = "Sentiment",
             mode = "lines",
