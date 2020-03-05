@@ -104,7 +104,6 @@ def Graph(ticker):
         
         eth_close = go.Scatter(
             y = close,
-            # y = normalised_close,
             x = stock_date,
             name = "Close",
             mode = "lines",
@@ -128,11 +127,10 @@ def Graph(ticker):
         #     mode = "lines",
         #     line=dict(color="#FFC300")
         # )
-
+        
         eth_polarity = go.Bar(
             x = sent_date, 
             y = polarity,
-            # base=[-1,1],
             marker_color='#FFC300',
             name='Sentiment')
         
