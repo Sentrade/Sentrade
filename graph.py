@@ -120,16 +120,12 @@ def Graph(ticker):
         #     marker=dict(color='#FFC300',)
         # )
 
-        # # eth_polarity = go.Scatter(
-        # eth_polarity = go.Histogram(
+        # eth_polarity = go.Scatter(
         #     y = polarity,
-        #     # y = normalised_polarity,
         #     x = sent_date,
         #     name = "Sentiment",
-        #     # mode = "lines",
-        #     histnorm='probability',
-        #     # line=dict(color="#FFC300")
-        #     marker=dict(color='#FFC300',)
+        #     mode = "lines",
+        #     line=dict(color="#FFC300")
         # )
 
         eth_polarity = go.Bar(
