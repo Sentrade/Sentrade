@@ -26,7 +26,18 @@ def Graph(ticker):
             "NFLX"  : "Netflix Inc.",
             "TSLA"  : "Tesla Inc.",
             "UBER"  : "Uber Technologies Inc."
-        }
+    }
+        
+    company_db_name = {
+        "AMZN" : "amazon",
+        "AAPL"  : "apple", 
+        "FB"    : "facebook",
+        "GOOG"  : "google",
+        "MSFT"  : "microsoft",
+        "NFLX"  : "netflix",
+        "TSLA"  : "tesla",
+        "UBER"  : "uber"
+    }
 
     graph = []
 
@@ -76,18 +87,17 @@ def Graph(ticker):
         ))
 
         stock_price_collection = db["stock_price"]
-        sentiment_collection = db["news"]
+        sentiment_collection = db["sentiment_data"]
 
         close = []
         stock_date = []
         for record in stock_price_collection.find({"company_name":ticker}):
             close.append(record["close"])
             stock_date.append(record["date"])
-        normalised_close = [i / max(close) for i in close]
         
         polarity = []
         sent_date = []
-        for record in sentiment_collection.find():
+        for record in sentiment_collection[company_db_name[ticker]].find():
             polarity.append(record["polarity"])
             sent_date.append(record["date"])
         
