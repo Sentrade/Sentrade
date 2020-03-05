@@ -90,7 +90,6 @@ def Graph(ticker):
         for record in sentiment_collection.find():
             polarity.append(record["polarity"])
             sent_date.append(record["date"])
-        normalised_polarity = [i / max(polarity) for i in polarity]
         
         eth_close = go.Scatter(
             y = close,
@@ -111,16 +110,12 @@ def Graph(ticker):
         #     marker=dict(color='#FFC300',)
         # )
 
-        # # eth_polarity = go.Scatter(
-        # eth_polarity = go.Histogram(
+        # eth_polarity = go.Scatter(
         #     y = polarity,
-        #     # y = normalised_polarity,
         #     x = sent_date,
         #     name = "Sentiment",
-        #     # mode = "lines",
-        #     histnorm='probability',
-        #     # line=dict(color="#FFC300")
-        #     marker=dict(color='#FFC300',)
+        #     mode = "lines",
+        #     line=dict(color="#FFC300")
         # )
 
         eth_polarity = go.Bar(
