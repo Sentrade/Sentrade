@@ -104,7 +104,6 @@ def Graph(ticker):
         
         eth_close = go.Scatter(
             y = close,
-            # y = normalised_close,
             x = stock_date,
             name = "Close",
             mode = "lines",
@@ -121,20 +120,19 @@ def Graph(ticker):
         #     marker=dict(color='#FFC300',)
         # )
 
-        # eth_polarity = go.Scatter(
-        #     y = polarity,
-        #     x = sent_date,
-        #     name = "Sentiment",
-        #     mode = "lines",
-        #     line=dict(color="#FFC300")
-        # )
-
-        eth_polarity = go.Bar(
-            x = sent_date, 
+        eth_polarity = go.Scatter(
             y = polarity,
-            # base=[-1,1],
-            marker_color='#FFC300',
-            name='Sentiment')
+            x = sent_date,
+            name = "Sentiment",
+            mode = "lines",
+            line=dict(color="#FFC300")
+        )
+        
+        # eth_polarity = go.Bar(
+        #     x = sent_date, 
+        #     y = polarity,
+        #     marker_color='#FFC300',
+        #     name='Sentiment')
         
         fig = make_subplots(specs=[[{"secondary_y":True}]])
         fig.add_trace(eth_close,secondary_y=False)
