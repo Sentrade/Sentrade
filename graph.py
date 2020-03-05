@@ -98,7 +98,7 @@ def Graph(ticker):
         
         polarity = []
         sent_date = []
-        for record in sentiment_collection.find():
+        for record in sentiment_collection.find().sort("date"):
             polarity.append(record["1_day_sentiment_score"])
             sent_date.append(record["date"])
         
