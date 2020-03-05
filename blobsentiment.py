@@ -129,4 +129,3 @@ if __name__ == "__main__":
     # generate_sentiment_database("microsoft")
     # generate_sentiment_database("netflix")
     # generate_sentiment_database("tesla")
-

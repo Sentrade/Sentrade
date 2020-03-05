@@ -1,89 +1,15 @@
 html {
     font-family: "Product Sans";
     font-weight: 200;
-    font-size: 62.5%;
+    font-size: 90%;
     color: #111111;
 }
 
-.top-bar {
-    background-color: white;
-    border-radius: 0px;
-    border: thin solid #BABABA;
-    padding-top: 0px;
-    padding-bottom: 50px;
-    margin-left: 7px;
-    margin-right: 7px;
-    size: 0em;
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 98%;
+.sidebar {
+    width: 25%;
+    margin-top: 1%;
 }
 
-.left-bar {
-    background-color: white;
-    border: thin solid #BABABA;
-    border-radius: 10px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-top: 15px;
-    margin-left: 25px;
-    margin-right: 10px;
-    float: left;
-
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 60%;
-}
-
-.graph {
-    background-color: white;
-    border: thin solid #BABABA;
-    border-radius: 10px;
-    margin-top: 5px;
-    padding-top: 0px;
-    padding-bottom: 10px;
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-.click-data {
-    background-color: white;
-    border-radius: 10px;
-    border: thin solid #BABABA;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 20px;
-    padding-right: 0px;
-    font-weight: 900;
-    font-size: 2.5em;
-}
-
-.right-bar {
-    background-color: white;
-    border: thin solid #BABABA;
-    border-radius: 10px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-top: 15px;
-    margin-left: 25px;
-    margin-right: 10px;
-
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 60%;
-}
-
-.wrapper {
-
-    display: flex;
+.contents {
+    margin-top: 1%;
 }
