@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 __author__ = "Davide Locatelli, Ziyou Zhang"
-__status__ = "Prototype"
+__status__ = "Development"
 
 import json
 import spacy
+import sys
 from textblob import TextBlob
+from pymongo import MongoClient
 
 company = "apple"
 
@@ -64,5 +66,66 @@ def raw_blob_analysis(inputfile,outputfile):
     with open(outputfile, "w") as results:
         json.dump(input_data, results)
 
+def blob_sentiment_database(company_name):
+    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    db = client.sentrade_db
+    twitter_db = client.twitter_data
+
+    count = 0
+
+    all_news = twitter_db[company_name].find()
+    for news in all_news:
+        blob = TextBlob(news["processed_text"])
+        updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
+        updated_subjectivity = {"$set": {"subjectivity": blob.sentiment.subjectivity}}
+        twitter_db["company_name"].update_one(news, updated_polarity)
+        twitter_db["company_name"].update_one(news, updated_subjectivity)
+        count += 1
+        print(count)
+        if (count >= 150000):
+            break
+
+    client.close()
+
+def generate_sentiment_database(company_name):
+    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    db = client.sentrade_db
+    twitter_db = client.twitter_data
+    sentiment_db = client.sentiment_data
+
+    news_dates = []
+    news_scores = []
+    today_news_count = 0
+
+    all_date = twitter_db[company_name].distinct("date")
+
+    progress_full = len(all_date)
+    progress_count = 0
+    for date in all_date:
+        news_score = 0  
+        news_count = sys.float_info.epsilon
+        company_tweets = twitter_db[company_name].find({"date": date})
+        for company_tweet in company_tweets:
+            if "polarity" in company_tweet:
+                news_score += company_tweet["polarity"]
+                news_count += 1
+        sentiment = {"company": company_name, "date": date, "1_day_sentiment_score": news_score / news_count}
+        if (sentiment_db[company_name].find({"date": date}).count() == 0):
+            sentiment_db[company_name].insert_one(sentiment)
+        else:
+            updated_sentiment_score = {"$set": {"1_day_sentiment_score": news_score / news_count}}
+            sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
+        progress_count += 1
+        print("current progress:", progress_count, "/", progress_full)
+        
+    client.close()
+
 if __name__ == "__main__":
-    blob_analyse("newsorg.json", "blob_sent.json")
+    blob_sentiment_database()
+    generate_sentiment_database("apple")
+    # generate_sentiment_database("amazon")
+    # generate_sentiment_database("facebook")
+    # generate_sentiment_database("google")
+    # generate_sentiment_database("microsoft")
+    # generate_sentiment_database("netflix")
+    # generate_sentiment_database("tesla")

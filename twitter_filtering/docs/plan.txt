@@ -1,0 +1,7 @@
+Filter to get English texts (ok)
+To lower cases
+Remove special characters (e.g. emoji, punctuation)
+	do we remove # and @ as they carry special meaning in twitter?
+Normalization
+Disambiguation
+Keyword matching
