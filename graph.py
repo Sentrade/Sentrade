@@ -121,7 +121,7 @@ def Graph(ticker):
         eth_polarity = go.Bar(
             x = sent_date, 
             y = polarity,
-            base=[-1,1],
+            # base=[-1,1],
             marker_color='#FFC300',
             name='Sentiment')
         
@@ -131,6 +131,7 @@ def Graph(ticker):
         fig.update_layout(
             margin= {'b': 0, 'r': 10, 'l': 60, 't': 0},                   
             legend= {'x': 0},
+            # barmode='group', # rm 
             xaxis=go.layout.XAxis(
                 rangeslider=dict(
                     visible=False
