@@ -66,20 +66,20 @@ def raw_blob_analysis(inputfile,outputfile):
     with open(outputfile, "w") as results:
         json.dump(input_data, results)
 
-def blob_sentiment_database():
+def blob_sentiment_database(company_name):
     client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
     db = client.sentrade_db
     twitter_db = client.twitter_data
 
     count = 0
 
-    all_news = twitter_db.apple.find()
+    all_news = twitter_db[company_name].find()
     for news in all_news:
         blob = TextBlob(news["processed_text"])
         updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
         updated_subjectivity = {"$set": {"subjectivity": blob.sentiment.subjectivity}}
-        twitter_db.apple.update_one(news, updated_polarity)
-        twitter_db.apple.update_one(news, updated_subjectivity)
+        twitter_db["company_name"].update_one(news, updated_polarity)
+        twitter_db["company_name"].update_one(news, updated_subjectivity)
         count += 1
         print(count)
         if (count >= 150000):
