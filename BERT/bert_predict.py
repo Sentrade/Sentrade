@@ -1,4 +1,7 @@
-from bertsentiment import get_score
+__author__ = "Davide Locatelli"
+__status__ = "Development"
+
+from bert import get_score
 from pytorch_pretrained_bert.modeling import BertForSequenceClassification
 import argparse
 from pathlib import Path

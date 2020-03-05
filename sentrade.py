@@ -70,16 +70,16 @@ navbar = dbc.NavbarSimple(
         sticky = "top",
         fluid = True,
 )
-
-sidebar = html.Div(
+"""
+navbar = html.Div(
             className="sidebar",
             children=[
                 html.H1(className="title-header", children="SENTRADE"),
                 html.P(
-                    """
+                    
                     This app lets you explore the correlation between financial and sentiment
                     analysis.
-                    """
+                    
                 ),
                 dcc.Dropdown(
                     id = 'stock-ticker-input',
@@ -105,6 +105,12 @@ sidebar = html.Div(
                 children=[html.Div(id="news")],
                 ),
             ]
+)
+"""
+
+news = html.Div(
+    className= "div-news",
+    children= [html.Div(id="news")]
 )
 
 graph = html.Div(
@@ -133,16 +139,17 @@ contents = html.Div(
         graph,
         financial_data,
         tweets,
-        sentiment_data
+        sentiment_data,
+        news
     ]
 )
 
 def MainPage():
     layout = html.Div([
-        sidebar,
+        navbar,
         contents,
-    ],
-    style={'display':'flex'})
+    ]
+    )
 
     return layout
 
@@ -156,31 +163,31 @@ app.scripts.config.serve_locally = True
 # App callbacks
 @app.callback(
     dash.dependencies.Output('tweets','children'),
-    [dash.dependencies.Input('stock-ticker-input', 'value')])
+    [dash.dependencies.Input('stock-ticker', 'value')])
 def update_tweets(ticker):
     return Tweets(ticker)
 
 @app.callback(
     dash.dependencies.Output('news','children'),
-    [dash.dependencies.Input('stock-ticker-input', 'value')])
+    [dash.dependencies.Input('stock-ticker', 'value')])
 def update_tweets(ticker):
     return News(ticker)
 
 @app.callback(
     dash.dependencies.Output('graph','children'),
-    [dash.dependencies.Input('stock-ticker-input', 'value')])
+    [dash.dependencies.Input('stock-ticker', 'value')])
 def update_graph(ticker):
     return Graph(ticker)
 
 @app.callback(
     dash.dependencies.Output('finance','children'),
-    [dash.dependencies.Input('stock-ticker-input', 'value')])
+    [dash.dependencies.Input('stock-ticker', 'value')])
 def update_finance(ticker):
     return F_data(ticker)
 
 @app.callback(
     dash.dependencies.Output('sentiment','children'),
-    [dash.dependencies.Input('stock-ticker-input', 'value')])
+    [dash.dependencies.Input('stock-ticker', 'value')])
 def update_finance(ticker):
     return Score(ticker)
 
