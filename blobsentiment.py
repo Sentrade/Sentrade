@@ -10,25 +10,23 @@ import sys
 from textblob import TextBlob
 from pymongo import MongoClient
 
-company = "apple"
-
-def is_org(news,company):
+def is_org(news, company_name):
     """
     Function to check if a company is named in a piece of news
 
     :param news: the news being checked (in JSON format)
-    :param company: the name of the company (lowercase)
+    :param company_name: the name of the company (lowercase)
     :returns: true if the company is named, false otherwise
     """
     nlp = spacy.load("en_core_web_sm") #create a spaCy Language object
     doc = nlp(news["text"]) #select text of the news
     for t in doc.ents:
-        if t.lower_ == company: #if company name is called
+        if t.lower_ == company_name: #if company name is called
             if t.label_ == "ORG": #check they actually mean the company
                 return True
     return False
 
-def blob_analyse(inputfile,outputfile):
+def blob_analyse(inputfile, outputfile):
     """
     Function to analyze the sentiment of news about a company using TextBlob
     For each news about the company, a polarity and subjectivity score is added
@@ -67,13 +65,18 @@ def raw_blob_analysis(inputfile,outputfile):
         json.dump(input_data, results)
 
 def blob_sentiment_database(company_name):
+    """
+    Ananlyse the textblob sentiment scores and add them in the database.
+
+    :param company_name: the name of the company. Used as the entry in the database.
+    """
     client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
     db = client.sentrade_db
     twitter_db = client.twitter_data
 
-    count = 0
-
     all_news = twitter_db[company_name].find()
+    count = 0
+    total_count = all_news.count()
     for news in all_news:
         blob = TextBlob(news["processed_text"])
         updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
@@ -81,13 +84,15 @@ def blob_sentiment_database(company_name):
         twitter_db["company_name"].update_one(news, updated_polarity)
         twitter_db["company_name"].update_one(news, updated_subjectivity)
         count += 1
-        print(count)
-        if (count >= 150000):
-            break
+        print("analyse", company_name, "progress:", count, "/", total_count)
 
     client.close()
 
 def generate_sentiment_database(company_name):
+    """
+    
+    :param company_name: the name of the company. Used as the entry in the database.
+    """
     client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
     db = client.sentrade_db
     twitter_db = client.twitter_data
@@ -116,16 +121,12 @@ def generate_sentiment_database(company_name):
             updated_sentiment_score = {"$set": {"1_day_sentiment_score": news_score / news_count}}
             sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
         progress_count += 1
-        print("current progress:", progress_count, "/", progress_full)
+        print("summarise", company_name, "progress:", progress_count, "/", progress_full)
         
     client.close()
 
 if __name__ == "__main__":
-    blob_sentiment_database()
-    generate_sentiment_database("apple")
-    # generate_sentiment_database("amazon")
-    # generate_sentiment_database("facebook")
-    # generate_sentiment_database("google")
-    # generate_sentiment_database("microsoft")
-    # generate_sentiment_database("netflix")
-    # generate_sentiment_database("tesla")
+    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    for company in companies:
+        blob_sentiment_database(company)
+        generate_sentiment_database(company)
