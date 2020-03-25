@@ -9,6 +9,7 @@ import spacy
 import sys
 from textblob import TextBlob
 from pymongo import MongoClient
+from pymongo import errors
 
 def is_org(news, company_name):
     """
@@ -74,23 +75,27 @@ def blob_sentiment_database(company_name):
     db = client.sentrade_db
     twitter_db = client.twitter_data
 
-    all_news = twitter_db[company_name].find()
     count = 0
+    all_news = twitter_db[company_name].find()
     total_count = len(all_news)
-    for news in all_news:
-        blob = TextBlob(news["processed_text"])
-        updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
-        updated_subjectivity = {"$set": {"subjectivity": blob.sentiment.subjectivity}}
-        twitter_db["company_name"].update_one(news, updated_polarity)
-        twitter_db["company_name"].update_one(news, updated_subjectivity)
-        count += 1
-        print("analyse", company_name, "progress:", count, "/", total_count)
-
+    for news in twitter_db[company_name].find(timeout=False):
+        try:
+            blob = TextBlob(news["processed_text"])
+            updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
+            updated_subjectivity = {"$set": {"subjectivity": blob.sentiment.subjectivity}}
+            twitter_db["company_name"].update_one(news, updated_polarity)
+            twitter_db["company_name"].update_one(news, updated_subjectivity)
+            count += 1
+            print("analyse", company_name, "progress:", count, "/", total_count)
+        except errors.CursorNotFound:
+            count += 1
+            print("skip analyse", company_name, "progress:", count, "/", total_count)
     client.close()
 
 def generate_sentiment_database(company_name):
     """
-    
+    Calculate the sentiment scores and put them into another database.
+
     :param company_name: the name of the company. Used as the entry in the database.
     """
     client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
@@ -129,4 +134,4 @@ if __name__ == "__main__":
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     for company in companies:
         blob_sentiment_database(company)
-        generate_sentiment_database(company)
+        # generate_sentiment_database(company)
