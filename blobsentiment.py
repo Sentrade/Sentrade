@@ -76,7 +76,7 @@ def blob_sentiment_database(company_name):
 
     all_news = twitter_db[company_name].find()
     count = 0
-    total_count = all_news.count()
+    total_count = len(all_news)
     for news in all_news:
         blob = TextBlob(news["processed_text"])
         updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
