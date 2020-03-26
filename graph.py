@@ -195,5 +195,5 @@ def Graph(ticker):
                 type="date"
             )
         )
-        graph.append(dcc.Graph(figure=fig,style={'height':'400'}))
+        graph.append(dcc.Graph(figure=fig,style={'margin-top':'0.6%','height':'400'}))
     return graph

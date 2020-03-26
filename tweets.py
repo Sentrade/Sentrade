@@ -59,10 +59,11 @@ def Tweets(ticker):
                         'font-weight':'500',
                         'letter-spacing':'1.5px',
                         'font-size':'1.1rem',
-                        'textAlign':'center',
+                        'textAlign':'left',
                         'color':'black',
-                        'position':'absolute',
-                        'margin-top':'1%'
+                        'position':'relative',
+                        'margin-top':'1.2%',
+                        'margin-left' : '1%'
                     }
                 ),
                 html.Div(
@@ -89,17 +90,21 @@ def Tweets(ticker):
                         for i in range(max_num)
                     ],
                     style={
-                        'margin-top' : '2%',
-                        'padding-top':'8%',
-                        'height':'592px',
-                        'overflow-y':'scroll',
-                        'display':'block',
-                        'background-color': 'rgba(120,120,120,0.15)',
-                        'border-radius':'5px',
-                        'margin-right' : '5.5%'
+                        'margin-left' :'1%',
+                        'margin-right': '1%',
+                        'margin-bottom': '1%'
                     }
                 )
-            ]
+            ],
+            style={
+                'background-color': 'rgba(120,120,120,0.15)',
+                'border-radius':'5px',
+                'margin-right' : '5.5%',
+                'overflow':'scroll',
+                'display':'block',
+                'margin-top' : '1.3%',
+                'height':'597px'
+            }
         )
 
     return news
