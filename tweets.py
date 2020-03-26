@@ -112,13 +112,13 @@ def tweetstyle(tweets_polarity, i):
         }
     if tweets_polarity[i] < -0.3:
         style = {
-            'background-color' : 'red',
+            'background-color' : 'rgba(233,82,82,0.5)',
             'border-radius' : '5px',
             'margin-top' : '1%'
         }
     if tweets_polarity[i] > 0.3:
         style = {
-            'background-color' : 'green',
+            'background-color' : 'rgba(9,168,17,0.5)',
             'border-radius' : '5px',
             'margin-top' : '1%'
         }
