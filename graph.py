@@ -8,6 +8,7 @@ import plotly.graph_objs as go
 import pymongo 
 from sshtunnel import SSHTunnelForwarder
 from plotly.subplots import make_subplots
+from datetime import datetime, timedelta
 
 __author__ = "Davide Locatelli"
 __status__ = "Prototype"
@@ -44,10 +45,11 @@ def Graph(ticker):
 
     if not ticker:
 
-        graph.append(html.H3(
+        graph.append(html.H6(
             "No ticker selected.",
             style={
-                'margin-top':'0px',
+                'margin-top':'35%',
+                'margin-left':'50%',
                 'textAlign':'center',
                 'color':'#9C9C9C'
             }
@@ -55,37 +57,39 @@ def Graph(ticker):
 
     else:
 
-        graph.append(dbc.Row(
+        row = html.Div(
             [
-                dbc.Col(
+                dbc.Row(
                     [
-                        html.H3(
-                            ticker,
-                            style={
-                                'font-size':'2.5em',
+                        dbc.Col(html.H3(ticker, style={
+                                'font-family':'sans-serif',
+                                'font-weight':'500',
+                                'letter-spacing':'1.5px',
+                                'font-size':'1.1rem',
+                                'textAlign':'center',
+                                'color':'black',
+                                'position':'absolute',
+                                'margin-left': '44.4%',
+                                'margin-top' : '5%'
+                                }),width=1),
+                        dbc.Col(html.H6(companies[ticker], style={
+                                'font-size':'0.75rem',
                                 'textAlign':'left',
-                                'color':'black'
-                                }
-                        ),
-                    ],
-                    width = "auto"
-                ),
-                dbc.Col(
-                    [
-                        html.H5(
-                            companies[ticker],
-                            style={
-                                'font-size':'0.5em',
-                                'margin-top': '55%',
-                                'textAlign':'left',
-                                'color':'grey'
+                                'margin-top':'0.8%',
+                                'margin-left': '16.4%',
+                                'color':'grey',
+                                'white-space':'nowrap',
+                                'font-weight': '600'
                             }
-                        )
-                    ],
-                    width = "auto"
-                )
+                        )),
+                    ]
+                ),
             ]
-        ))
+)
+
+        graph.append(row)
+            
+           
 
         stock_price_collection = db["stock_price"]
         sentiment_collection = sentiment_db[company_db_name[ticker]]
@@ -134,6 +138,9 @@ def Graph(ticker):
             marker_color='#FFC300',
             name='Sentiment')
         
+        yesterday = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
+        three_months_ago = (datetime.now() - timedelta(92)).strftime('%Y-%m-%d')
+
         fig = make_subplots(specs=[[{"secondary_y":True}]])
         fig.add_trace(eth_close,secondary_y=False)
         fig.add_trace(eth_polarity,secondary_y=True)
@@ -145,6 +152,7 @@ def Graph(ticker):
                 rangeslider=dict(
                     visible=False
                 ),
+                range= [three_months_ago,yesterday],
                 rangeselector=dict(
                     buttons=list([
                         dict(count=1,
@@ -166,12 +174,14 @@ def Graph(ticker):
                         dict(count=6,
                             label="6M",
                             step="month",
-                            stepmode="backward"),
+                            stepmode="backward"
+                            ),
                         dict(count=1,
                             label="1Y",
                             step="year",
                             stepmode="backward"),
-                        dict(label='ALL',step="all")
+                        dict(label='ALL',
+                        step="all")
                     ]),
                     font=dict(
                         family="Arial",
@@ -185,5 +195,5 @@ def Graph(ticker):
                 type="date"
             )
         )
-        graph.append(dcc.Graph(figure=fig,style={'margin-top':'0','height':'400'}))
+        graph.append(dcc.Graph(figure=fig,style={'height':'400'}))
     return graph

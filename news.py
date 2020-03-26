@@ -21,7 +21,7 @@ def News(ticker):
     if not ticker:
         return html.Div(
             [html.H3(
-                "No ticker selected.",
+                "",
                 style={
                     'margin-top':'0px',
                     'textAlign':'center',

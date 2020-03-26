@@ -8,11 +8,6 @@ from pytorch_pretrained_bert.modeling import *
 import numpy as np
 import torch
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
-                    datefmt='%m/%d/%Y %H:%M:%S',
-                    level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 class TextInput(object):
     
     def __init__(self, uid, text, label=None, agree=None):
@@ -69,17 +64,6 @@ def convert_textinput_to_bertinput(text, label_list, max_seq_length, tokenizer, 
             agree = mapagree[agree]
         except:
             agree = 0
-
-        if txt_i < 1:
-            logger.info("*** Example ***")
-            logger.info("guid: %s" % (txt.uid))
-            logger.info("tokens: %s" % " ".join(
-                [str(x) for x in tokens]))
-            logger.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
-            logger.info("input_mask: %s" % " ".join([str(x) for x in input_mask]))
-            logger.info(
-                "segment_ids: %s" % " ".join([str(x) for x in segment_ids]))
-            logger.info("label: %s (id = %d)" % (txt.label, label_id))
 
         features.append(
             BertInput(input_ids=input_ids,

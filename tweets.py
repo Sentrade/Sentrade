@@ -22,7 +22,7 @@ def Tweets(ticker):
     if not ticker:
 
         news = html.H3(
-            "No ticker selected.",
+            "",
             style={
                 'margin-top':'0px',
                 'textAlign':'center',
@@ -53,27 +53,51 @@ def Tweets(ticker):
             children = [
                 html.H3(
                     className = "p-news",
-                    children = "Tweets on SEPT 16"
+                    children = "Tweets",
+                    style={
+                        'font-family':'sans-serif',
+                        'font-weight':'500',
+                        'letter-spacing':'1.5px',
+                        'font-size':'1.1rem',
+                        'textAlign':'center',
+                        'color':'black',
+                        'position':'absolute',
+                        'margin-top':'1%'
+                    }
                 ),
-                html.Table(
+                html.Div(
                     className = "table-news",
                     children = [
-                        html.Tr(
+                        html.Div(
                             children = [
-                                html.Td(
+                                html.Div(
                                     children = [
                                         html.A(
                                             className = "td-link",
                                             children = tweets[i],
                                             target = "_blank",
-                                            style = tweetstyle(tweets_polarity, i)
                                         )
-                                    ]
+                                    ],
+                                    style={
+                                        'font-size' : '0.8rem',
+                                        'font-family' : 'sans-serif'
+                                    }
                                 )
-                            ]
+                            ],
+                            style=tweetstyle(tweets_polarity,i)
                         )
                         for i in range(max_num)
-                    ] 
+                    ],
+                    style={
+                        'margin-top' : '2%',
+                        'padding-top':'8%',
+                        'height':'592px',
+                        'overflow-y':'scroll',
+                        'display':'block',
+                        'background-color': 'rgba(120,120,120,0.15)',
+                        'border-radius':'5px',
+                        'margin-right' : '5.5%'
+                    }
                 )
             ]
         )
@@ -81,13 +105,21 @@ def Tweets(ticker):
     return news
 
 def tweetstyle(tweets_polarity, i):
-    style = { 'color' : '#e0d204' }
+    style = {
+        'background-color' : 'rgba(235,158,62,0.5)',
+        'border-radius' : '5px',
+        'margin-top':'1%'
+        }
     if tweets_polarity[i] < -0.3:
         style = {
-            'color' : 'red'
+            'background-color' : 'red',
+            'border-radius' : '5px',
+            'margin-top' : '1%'
         }
     if tweets_polarity[i] > 0.3:
         style = {
-            'color' : 'green'
+            'background-color' : 'green',
+            'border-radius' : '5px',
+            'margin-top' : '1%'
         }
     return style

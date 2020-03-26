@@ -8,6 +8,7 @@ import pandas as pd
 import datetime as dt
 import statistics
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 
 from sshtunnel import SSHTunnelForwarder
 
@@ -23,7 +24,7 @@ def Score(ticker):
     if not ticker:
 
         polarity = html.H3(
-            "No ticker selected.",
+            "",
             style={
                 'margin-top':'0px',
                 'textAlign':'center',
@@ -50,26 +51,22 @@ def Score(ticker):
             tweets.append(record["text"])
             tweets_polarity.append(record["polarity"])
 
-        polarity_string = "Average sentiment for " + ticker
-        polarity_string += " on SEPT 16"
         polarity_avg = statistics.mean(tweets_polarity)
-        polarity_avg_string = str(polarity_avg)
+        polarity_value = polarity_avg + 1
+        polarity_value /= 2
+        polarity_value *= 100
+        polarity_value_string = "{:.0f}%".format(polarity_value) 
         polarity = html.Div([
-            html.Div([html.H3(polarity_string)]),
-            html.Div([html.P(polarity_avg_string)],style=score_style(polarity_avg)),
+            html.Div(dbc.Progress(polarity_value_string, value=polarity_value, color=score_style(polarity_avg),className="mb-3")),
             ]
         )
 
     return polarity
 
 def score_style(polarity_avg):
-    style = { 'color' : '#e0d204' }
+    color = 'warning'
     if polarity_avg < -0.3:
-        style = {
-            'color' : 'red'
-        }
+        color = 'danger'
     if polarity_avg > 0.3:
-        style = {
-            'color' : 'green'
-        }
-    return style
+        color = 'success'
+    return color
