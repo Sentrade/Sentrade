@@ -12,17 +12,16 @@ from pymongo import MongoClient
 # def is_business_day(date):
 #     return bool(len(pd.bdate_range(date, date)))
 
-def history_stock_price(stock_name="AAPL", period="2d"):
+def history_stock_price(stock_name):
     """
 	get historical stock price 
 
     :param stock_name:stock ticker
-    :param period:time period from 1d to max (1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max)
     :param json_name: name of the output file
     :return: json file including 'date', 'open','high','low','close','volume'
     """
     stock = yf.Ticker(stock_name)  
-    hist = stock.history(period=period)  
+    hist = stock.history(start="2018-11-01")  
     
     # create the temp list dictionary
     temp = {}
@@ -65,7 +64,7 @@ if __name__ == "__main__":
 
     for stocks in stock_list: 
         # if date today exist
-        stock_output = history_stock_price(stock_name=stocks, period='max')
+        stock_output = history_stock_price(stock_name=stocks)
         stock_db.insert_many(stock_output)    
 
     client.close()
