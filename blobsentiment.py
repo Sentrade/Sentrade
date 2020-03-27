@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 __author__ = "Davide Locatelli, Ziyou Zhang"
-__status__ = "Development"
+__status__ = "Production"
 
 import json
 import spacy
