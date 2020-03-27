@@ -125,8 +125,8 @@ def generate_sentiment_database(company_name):
             sentiment_db[company_name].insert_one(sentiment)
         else:
             updated_sentiment_score = {"$set": {"1_day_sentiment_score": news_score / news_count,
-                                                    "1_day_overall_sentiment_score": news_score,
-                                                    "1_day_news_count": news_count}}
+                                                "1_day_overall_sentiment_score": news_score,
+                                                "1_day_news_count": news_count}}
             sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
         progress_count += 1
         print("summarise", company_name, "progress:", progress_count, "/", progress_full)
@@ -134,8 +134,7 @@ def generate_sentiment_database(company_name):
     client.close()
 
 if __name__ == "__main__":
-    # companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    companies = ["uber"]
+    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     for company in companies:
-        # blob_sentiment_database(company)
+        blob_sentiment_database(company)
         generate_sentiment_database(company)
