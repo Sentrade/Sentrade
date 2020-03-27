@@ -72,7 +72,6 @@ def blob_sentiment_database(company_name):
     :param company_name: the name of the company. Used as the entry in the database.
     """
     client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
-    db = client.sentrade_db
     twitter_db = client.twitter_data
 
     count = 0
@@ -82,8 +81,8 @@ def blob_sentiment_database(company_name):
             blob = TextBlob(news["processed_text"])
             updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
             updated_subjectivity = {"$set": {"subjectivity": blob.sentiment.subjectivity}}
-            twitter_db["company_name"].update_one(news, updated_polarity)
-            twitter_db["company_name"].update_one(news, updated_subjectivity)
+            twitter_db[company_name].update_one(news, updated_polarity)
+            twitter_db[company_name].update_one(news, updated_subjectivity)
             count += 1
             print("analyse", company_name, "progress:", count, "/", total_count)
         except errors.CursorNotFound:
@@ -129,7 +128,8 @@ def generate_sentiment_database(company_name):
     client.close()
 
 if __name__ == "__main__":
-    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    # companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    companies = ["uber"]
     for company in companies:
-        # blob_sentiment_database(company)
+        blob_sentiment_database(company)
         generate_sentiment_database(company)
