@@ -113,8 +113,7 @@ def generate_sentiment_database(company_name):
     for date in all_date:
         news_score = 0  
         news_count = sys.float_info.epsilon
-        company_tweets = twitter_db[company_name].find({"date": date})
-        for company_tweet in company_tweets:
+        for company_tweet in twitter_db[company_name].find({"date": date}).batch_size(1000):
             if "polarity" in company_tweet:
                 news_score += company_tweet["polarity"]
                 news_count += 1
@@ -132,5 +131,5 @@ def generate_sentiment_database(company_name):
 if __name__ == "__main__":
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     for company in companies:
-        blob_sentiment_database(company)
-        # generate_sentiment_database(company)
+        # blob_sentiment_database(company)
+        generate_sentiment_database(company)
