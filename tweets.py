@@ -15,9 +15,6 @@ __author__ = "Davide Locatelli"
 def Tweets(ticker):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-    db = db_client["sentrade_db"]
-
-    max_num = 10
     
     if not ticker:
 
@@ -31,22 +28,23 @@ def Tweets(ticker):
         )
 
     else:
-        companies = {
-            "AMZN" : "Amazon",
-            "AAPL"  : "Apple", 
-            "FB"    : "Facebook",
-            "GOOG"  : "Google",
-            "MSFT"  : "Microsoft",
-            "NFLX"  : "Netflix",
-            "TSLA"  : "Tesla",
-            "UBER"  : "Uber"
+        company_db_name = {
+            "AMZN" : "amazon",
+            "AAPL"  : "apple", 
+            "FB"    : "facebook",
+            "GOOG"  : "google",
+            "MSFT"  : "microsoft",
+            "NFLX"  : "netflix",
+            "TSLA"  : "tesla",
+            "UBER"  : "uber"
         }
+        
+        db = db_client.twitter_data[company_db_name[ticker]]
 
-        twitter_collection = db["news"]
         tweets = []
         tweets_polarity = []
-        for record in twitter_collection.find({"company" : companies[ticker]}):
-            tweets.append(record["text"])
+        for record in db.find():
+            tweets.append(record["original_text"])
             tweets_polarity.append(record["polarity"])
 
         news = html.Div(
@@ -87,7 +85,7 @@ def Tweets(ticker):
                             ],
                             style=tweetstyle(tweets_polarity,i)
                         )
-                        for i in range(max_num)
+                        for i in range(100)
                     ],
                     style={
                         'margin-left' :'1%',
