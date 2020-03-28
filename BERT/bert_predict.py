@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 __author__ = "Davide Locatelli"
 __status__ = "Development"
 
@@ -10,7 +13,7 @@ import os
 
 def predict_score(sentence):
 
-    model_path = 'BERT/models/classifier_model/sentiment/'
+    model_path = './models/classifier_model/sentiment/'
     model = BertForSequenceClassification.from_pretrained(model_path, num_labels=3,cache_dir=None)
 
     result = get_score(sentence,model)
