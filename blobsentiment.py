@@ -121,10 +121,10 @@ def generate_blob_sentiment_database(company_name, client_address):
         # check if the date is not yet in the database
         if (sentiment_db[company_name].count_documents({"date": date}) == 0):
             sentiment = {"company": company_name,
-                "date": date,
-                "1_day_sentiment_score": news_score / news_count,
-                "1_day_overall_sentiment_score": news_score,
-                "1_day_news_count": news_count}
+                         "date": date,
+                         "1_day_sentiment_score": news_score / news_count,
+                         "1_day_overall_sentiment_score": news_score,
+                         "1_day_news_count": news_count}
             sentiment_db[company_name].insert_one(sentiment)
         else:
             updated_sentiment_score = {"$set": {"1_day_sentiment_score": news_score / news_count,

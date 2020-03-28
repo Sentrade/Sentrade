@@ -21,7 +21,7 @@ def bert_sentiment_database(company_name, client_address):
     count = 0
     total_count = twitter_db[company_name].count_documents({})
     
-    for news in twitter_db[company_name].find().batch_size(1000):
+    for news in twitter_db[company_name].find().batch_size(100):
         try:
             score = predict_score(news["processed_text"])
             bert_polarity = {"$set": {"bert_polarity": score}}
@@ -64,9 +64,9 @@ def generate_bert_sentiment_database(company_name, client_address):
         # check if the date is not yet in the database
         if (sentiment_db[company_name].count_documents({"date": date}) == 0):
             sentiment = {"company": company_name,
-                "date": date,
-                "1_day_bert_sentiment_score": news_score / news_count,
-                "1_day_overall_bert_sentiment_score": news_score}
+                         "date": date,
+                         "1_day_bert_sentiment_score": news_score / news_count,
+                         "1_day_overall_bert_sentiment_score": news_score}
             sentiment_db[company_name].insert_one(sentiment)
         else:
             updated_sentiment_score = {"$set": {"1_day_bert_sentiment_score": news_score / news_count,
