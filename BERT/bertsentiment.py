@@ -25,7 +25,7 @@ def bert_sentiment_database(company_name, client_address):
         try:
             score = predict_score(news["processed_text"])
             bert_polarity = {"$set": {"bert_polarity": score}}
-            twitter_db["company_name"].update_one(news, bert_polarity)
+            twitter_db[company_name].update_one(news, bert_polarity)
             count += 1
             print("analyse", company_name, "progress:", count, "/", total_count)
         except errors.CursorNotFound:
