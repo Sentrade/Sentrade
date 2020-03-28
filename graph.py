@@ -120,19 +120,19 @@ def Graph(ticker):
         #     marker=dict(color='#FFC300',)
         # )
 
-        # eth_polarity = go.Scatter(
-        #     y = polarity,
-        #     x = sent_date,
-        #     name = "Sentiment",
-        #     mode = "lines",
-        #     line=dict(color="#FFC300")
-        # )
-        
-        eth_polarity = go.Bar(
-            x = sent_date, 
+        eth_polarity = go.Scatter(
             y = polarity,
-            marker_color='#FFC300',
-            name='Sentiment')
+            x = sent_date,
+            name = "Sentiment",
+            mode = "lines",
+            line=dict(color="#FFC300")
+        )
+        
+        #eth_polarity = go.Bar(
+         #   x = sent_date, 
+          #  y = polarity,
+           # marker_color='#FFC300',
+            #name='Sentiment')
         
         yesterday = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
         three_months_ago = (datetime.now() - timedelta(92)).strftime('%Y-%m-%d')

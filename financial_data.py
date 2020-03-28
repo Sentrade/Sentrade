@@ -3,7 +3,7 @@ import pymongo
 import requests
 import pandas as pd
 import datetime as dt
-from datetime import datetime
+from datetime import datetime, timedelta
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
@@ -26,9 +26,9 @@ def F_data(ticker):
         )
     else:
         stock_price_collection = db["stock_price"]
-        
+        date = (datetime.now() - timedelta(1)).strftime("%Y-%m-%d")
         f_data = {}
-        for record in stock_price_collection.find({"company_name":ticker, "date": "2019-09-16"}):
+        for record in stock_price_collection.find({"company_name":ticker, "date": date}):
             f_data["open"] = record["open"]
             f_data["close"] = record["close"]
             f_data["high"] = record["high"]

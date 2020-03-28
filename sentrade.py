@@ -179,13 +179,6 @@ app.scripts.config.serve_locally = True
 def update_tweets(ticker):
     return Tweets(ticker)
 
-"""
-@app.callback(
-    dash.dependencies.Output('news','children'),
-    [dash.dependencies.Input('stock-ticker', 'value')])
-def update_tweets(ticker):
-    return News(ticker)
-"""
 @app.callback(
     dash.dependencies.Output('graph','children'),
     [dash.dependencies.Input('stock-ticker', 'value')])
