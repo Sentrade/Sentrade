@@ -6,6 +6,7 @@ __status__ = "Production"
 
 import json
 import sys
+import spacy
 from textblob import TextBlob
 from pymongo import MongoClient
 from pymongo import errors
@@ -118,7 +119,7 @@ def generate_blob_sentiment_database(company_name, client_address):
                 news_score += company_tweet["polarity"]
                 news_count += 1
         # check if the date is not yet in the database
-        if (sentiment_db[company_name].find({"date": date}).count() == 0):
+        if (sentiment_db[company_name].count_documents({"date": date}) == 0):
             sentiment = {"company": company_name,
                 "date": date,
                 "1_day_sentiment_score": news_score / news_count,

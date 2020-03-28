@@ -62,7 +62,7 @@ def generate_bert_sentiment_database(company_name, client_address):
                 news_score += company_tweet["bert_polarity"]
                 news_count += 1
         # check if the date is not yet in the database
-        if (sentiment_db[company_name].find({"date": date}).count() == 0):
+        if (sentiment_db[company_name].count_documents({"date": date}) == 0):
             sentiment = {"company": company_name,
                 "date": date,
                 "1_day_bert_sentiment_score": news_score / news_count,
@@ -82,5 +82,5 @@ if __name__ == "__main__":
     # companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     unambiguous_companies = ["facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     for company in unambiguous_companies:
-        bert_sentiment_database(company, client_address)
+        # bert_sentiment_database(company, client_address)
         generate_bert_sentiment_database(company, client_address)
