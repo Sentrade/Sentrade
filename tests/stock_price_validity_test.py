@@ -5,7 +5,7 @@ import pytest
 from pymongo import MongoClient
 
 __author__ = "Yiwen Sun and Ziyou Zhang"
-__status__ = "Prototype"
+__status__ = "Production"
       
 def test_data_vlidity():
     with MongoClient('mongodb://admin:sentrade@45.76.133.175:27017') as client:

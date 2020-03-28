@@ -17,10 +17,7 @@ __author__ = "Davide Locatelli"
 def Score(ticker):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-    db = db_client["sentrade_db"]
 
-    max_rows = 10
-    
     if not ticker:
 
         polarity = html.H3(
@@ -33,31 +30,35 @@ def Score(ticker):
         )
 
     else:
-        companies = {
-            "AMZN" : "Amazon",
-            "AAPL"  : "Apple", 
-            "FB"    : "Facebook",
-            "GOOG"  : "Google",
-            "MSFT"  : "Microsoft",
-            "NFLX"  : "Netflix",
-            "TSLA"  : "Tesla",
-            "UBER"  : "Uber"
+        company_db_name = {
+            "AMZN" : "amazon",
+            "AAPL"  : "apple", 
+            "FB"    : "facebook",
+            "GOOG"  : "google",
+            "MSFT"  : "microsoft",
+            "NFLX"  : "netflix",
+            "TSLA"  : "tesla",
+            "UBER"  : "uber"
         }
+        
+        db = db_client.sentiment_data[company_db_name[ticker]]
+        scores = []
+        dates = []
+        for record in db.find():
+            scores.append(record["1_day_sentiment_score"])
+            dates.append(record["date"])
 
-        twitter_collection = db["news"]
-        tweets = []
-        tweets_polarity = []
-        for record in twitter_collection.find({"company" : companies[ticker]}):
-            tweets.append(record["text"])
-            tweets_polarity.append(record["polarity"])
+        polarity_values = []
+        for score in scores:
+            polarity_value = score + 1
+            polarity_value /= 2
+            polarity_value *= 100
+            polarity_values.append(polarity_value)
 
-        polarity_avg = statistics.mean(tweets_polarity)
-        polarity_value = polarity_avg + 1
-        polarity_value /= 2
-        polarity_value *= 100
+        polarity_value = polarity_values[-1]
         polarity_value_string = "{:.0f}%".format(polarity_value) 
         polarity = html.Div([
-            html.Div(dbc.Progress(polarity_value_string, value=polarity_value, color=score_style(polarity_avg),className="mb-3")),
+            html.Div(dbc.Progress(polarity_value_string, value=polarity_value, color=score_style(scores[-1]),className="mb-3")),
             ]
         )
 

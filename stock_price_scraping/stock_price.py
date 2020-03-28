@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-__author__= "Nora&Yiwen"
-__status__ = "Development"
+__author__= "Longzhen Li, Yiwen Sun"
+__status__ = "Production"
 
 import yfinance as yf
 import json
@@ -17,7 +17,6 @@ def history_stock_price(stock_name):
 	get historical stock price 
 
     :param stock_name:stock ticker
-    :param json_name: name of the output file
     :return: json file including 'date', 'open','high','low','close','volume'
     """
     stock = yf.Ticker(stock_name)  
@@ -28,11 +27,8 @@ def history_stock_price(stock_name):
     temp['Date'] = []
     for date in hist.index:
         temp['Date'].append(str(date)[:10])
-    # print(temp['Date'][1])
     for hist_key, hist_value in hist.items():
         temp[hist_key] = list(hist_value)
-    # print(temp['Open'][1])
-    # DataFrame to json
     results = {}
     print (hist_value)
     results = [{'date': "", 'company_name':"", 'open': 0, 'high':0, 'low': 0, 'close':0, 'volume':0} for x in range(len(list(hist_value)))]

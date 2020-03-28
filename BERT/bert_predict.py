@@ -1,8 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 __author__ = "Davide Locatelli"
 __status__ = "Development"
 
 from bert import get_score
 from pytorch_pretrained_bert.modeling import BertForSequenceClassification
+from pathlib import Path
 import argparse
 from pathlib import Path
 import datetime
@@ -10,7 +14,7 @@ import os
 
 def predict_score(sentence):
 
-    model_path = 'BERT/models/classifier_model/sentiment/'
+    model_path = Path("models/classifier_model/sentiment/")
     model = BertForSequenceClassification.from_pretrained(model_path, num_labels=3,cache_dir=None)
 
     result = get_score(sentence,model)

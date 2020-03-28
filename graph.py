@@ -16,8 +16,6 @@ __status__ = "Prototype"
 def Graph(ticker):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-    db = db_client["sentrade_db"]
-    sentiment_db = db_client["sentiment_data"]
 
     companies = {
             "AMZN" : "Amazon.com Inc.",
@@ -40,7 +38,7 @@ def Graph(ticker):
         "TSLA"  : "tesla",
         "UBER"  : "uber"
     }
-
+    
     graph = []
 
     if not ticker:
@@ -88,21 +86,19 @@ def Graph(ticker):
 )
 
         graph.append(row)
-            
-           
 
-        stock_price_collection = db["stock_price"]
-        sentiment_collection = sentiment_db[company_db_name[ticker]]
+        stock_price_db = db_client.sentrade_db.stock_price
+        sentiment_db = db_client.sentiment_data[company_db_name[ticker]]
 
         close = []
         stock_date = []
-        for record in stock_price_collection.find({"company_name":ticker}):
+        for record in stock_price_db.find({"company_name":ticker}):
             close.append(record["close"])
             stock_date.append(record["date"])
         
         polarity = []
         sent_date = []
-        for record in sentiment_collection.find().sort("date"):
+        for record in sentiment_db.find().sort("date"):
             polarity.append(record["1_day_sentiment_score"])
             sent_date.append(record["date"])
         
