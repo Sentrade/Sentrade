@@ -8,7 +8,6 @@ from bert import get_score
 from pytorch_pretrained_bert.modeling import BertForSequenceClassification
 from pathlib import Path
 import argparse
-from pathlib import Path
 import datetime
 import os
 

@@ -4,6 +4,7 @@
 import pprint
 from pymongo import MongoClient
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 __author__ = "Yiwen Sun, Ziyou Zhang ;)"
 __status__ = "Development"
@@ -61,11 +62,12 @@ def data_study(company_name, client_address):
                 change_plot.append(stock_change[i])
                 sentiment_plot.append(sentiment_score[j])
 
-    plt.plot(sentiment_plot, change_plot, '.')
+    plt.plot(sentiment_plot, change_plot, 'k.')
     plt.title(company_name)
     plt.xlabel("1 day average sentiment score")
     plt.ylabel("stock price change")
-    plt.show()
+    plt.savefig(Path("data_processing/scatter/" + company_name + ".png"))
+    # plt.show()
 
 def get_previous_date(current_date):
     previous_date = ""
