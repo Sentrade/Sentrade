@@ -8,59 +8,63 @@ import matplotlib.pyplot as plt
 __author__ = "Yiwen Sun, Ziyou Zhang ;)"
 __status__ = "Development"
 
-def data_study(ticker_name):
+def data_study(company_name, client_address):
 
-    company_db_name = {
-    "AMZN"  : "amazon",
-    "AAPL"  : "apple", 
-    "FB"    : "facebook",
-    "GOOG"  : "google",
-    "MSFT"  : "microsoft",
-    "NFLX"  : "netflix",
-    "TSLA"  : "tesla",
-    "UBER"  : "uber"
+    company_to_ticker = {
+        "amazon"    : "AMZN",
+        "apple"     : "AAPL", 
+        "facebook"  : "FB",
+        "google"    : "GOOG",
+        "microsoft" : "MSFT",
+        "netflix"   : "NFLX",
+        "tesla"     : "TSLA",
+        "uber"      : "UBER"
     }
 
     # Setup the connection.
-    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    client = MongoClient(client_address)
 
     # Use the database sentrade_db. Select the table to use.
     stock_db = client.sentrade_db.stock_price
-    sentiment_db = client.sentiment_data[company_db_name[ticker_name]]
+    sentiment_db = client.sentiment_data[company_name]
     # get all data
-    all_stock = stock_db.find({'company_name': ticker_name}).sort("date")
+    all_stock = stock_db.find({'company_name': company_to_ticker[company_name]}).sort("date")
     all_sentiment = sentiment_db.find().sort("date")
 
-    date = []
-    open = []
-    close = []
-    change = []
+    stock_date = []
+    stock_open = []
+    stock_close = []
+    stock_change = []
     sentiment_date = []
-    sentiment = []
+    sentiment_score = []
 
     for stock in all_stock:
-        date.append(stock["date"])
-        open.append(stock["open"])
-        close.append(stock["close"])
+        stock_date.append(stock["date"])
+        stock_open.append(stock["open"])
+        stock_close.append(stock["close"])
     
-    for i in range(len(date)-1):
-        change.append(open[i+1] - close[i])
+    # stock price difference between tomorrow's open and today's close
+    for i in range(len(stock_date)-1):
+        stock_change.append(stock_open[i+1] - stock_close[i])
 
     for entry in all_sentiment:
         sentiment_date.append(entry["date"])
-        sentiment.append(entry["1_day_sentiment_score"])
+        sentiment_score.append(entry["1_day_sentiment_score"])
 
     client.close()
 
     change_plot = []
     sentiment_plot = []
-    for i in range(len(date)):
+    for i in range(len(stock_date)):
         for j in range(len(sentiment_date)):
-            if date[i] == sentiment_date[j]:
-                change_plot.append(change[i])
-                sentiment_plot.append(sentiment[j])
+            if stock_date[i] == sentiment_date[j]:
+                change_plot.append(stock_change[i])
+                sentiment_plot.append(sentiment_score[j])
 
     plt.plot(sentiment_plot, change_plot, '.')
+    plt.title(company_name)
+    plt.xlabel("1 day average sentiment score")
+    plt.ylabel("stock price change")
     plt.show()
 
 def get_previous_date(current_date):
@@ -68,6 +72,7 @@ def get_previous_date(current_date):
     return previous_date
 
 if __name__ == "__main__":
-    tickers = ["AMZN", "AAPL", "FB", "GOOG", "MSFT", "NFLX", "TSLA", "UBER"]
-    for ticker in tickers:
-        data_study(ticker)
+    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    for company in companies:
+        data_study(company, client_address)
