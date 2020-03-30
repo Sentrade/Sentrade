@@ -38,6 +38,7 @@ def data_study(company_name, client_address):
     stock_change = []
     sentiment_date = []
     sentiment_score = []
+    sentiment_overall = []
 
     for stock in all_stock:
         stock_date.append(stock["date"])
@@ -48,26 +49,36 @@ def data_study(company_name, client_address):
     for i in range(len(stock_date)-1):
         stock_change.append(stock_open[i+1] - stock_close[i])
 
-    for entry in all_sentiment:
-        sentiment_date.append(entry["date"])
-        sentiment_score.append(entry["1_day_sentiment_score"])
+    for sentiment in all_sentiment:
+        sentiment_date.append(sentiment["date"])
+        sentiment_score.append(sentiment["1_day_sentiment_score"])
+        # sentiment_overall.append(sentiment["1_day_overall_sentiment_score"])
 
     client.close()
 
     change_plot = []
     sentiment_plot = []
+    sentiment_overall_plot = []
     for i in range(len(stock_date)):
         for j in range(len(sentiment_date)):
             if stock_date[i] == sentiment_date[j]:
                 change_plot.append(stock_change[i])
                 sentiment_plot.append(sentiment_score[j])
+                # sentiment_overall_plot.append(sentiment_overall[j])
 
     plt.plot(sentiment_plot, change_plot, 'k.')
     plt.title(company_name)
     plt.xlabel("1 day average sentiment score")
     plt.ylabel("stock price change")
-    plt.savefig(Path("data_processing/scatter/" + company_name + ".png"))
-    # plt.show()
+    plt.savefig(Path("data_processing/scatter/" + company_name + "_average.png"))
+
+    # plt.clf()
+
+    # plt.plot(sentiment_plot, change_plot, 'b.')
+    # plt.title(company_name)
+    # plt.xlabel("1 day average overall sentiment score")
+    # plt.ylabel("stock price change")
+    # plt.savefig(Path("data_processing/scatter/" + company_name + "_overall.png"))
 
 def get_previous_date(current_date):
     previous_date = ""
