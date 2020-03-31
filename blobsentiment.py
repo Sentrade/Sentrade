@@ -116,8 +116,10 @@ def generate_blob_sentiment_database(company_name, client_address):
         # sum all scores
         for company_tweet in twitter_db[company_name].find({"date": date}):
             if "polarity" in company_tweet:
-                news_score += company_tweet["polarity"]
-                news_count += 1
+                # get rid of the neutral results
+                if company_tweet["polarity"] < -0.3 or company_tweet["polarity"] > 0.3:
+                    news_score += company_tweet["polarity"]
+                    news_count += 1
         # check if the date is not yet in the database
         if (sentiment_db[company_name].count_documents({"date": date}) == 0):
             sentiment = {"company": company_name,
@@ -140,5 +142,5 @@ if __name__ == "__main__":
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     for company in companies:
-        blob_sentiment_database(company, client_address)
+        # blob_sentiment_database(company, client_address)
         generate_blob_sentiment_database(company, client_address)
