@@ -45,9 +45,9 @@ def data_study(company_name, client_address):
         stock_open.append(stock["open"])
         stock_close.append(stock["close"])
     
-    # stock price difference between tomorrow's open and today's close
+    # stock price difference between tomorrow's close and today's close
     for i in range(len(stock_date)-1):
-        stock_change.append(stock_open[i+1] - stock_close[i])
+        stock_change.append(stock_close[i+1] - stock_close[i])
 
     for sentiment in all_sentiment:
         sentiment_date.append(sentiment["date"])
@@ -71,8 +71,7 @@ def data_study(company_name, client_address):
     plt.xlabel("1 day average sentiment score")
     plt.ylabel("stock price change")
     plt.savefig(Path("data_processing/scatter/" + company_name + "_average.png"))
-
-    # plt.clf()
+    plt.clf()
 
     # plt.plot(sentiment_plot, change_plot, 'b.')
     # plt.title(company_name)
