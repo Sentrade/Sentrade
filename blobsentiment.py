@@ -117,9 +117,9 @@ def generate_blob_sentiment_database(company_name, client_address):
         for company_tweet in twitter_db[company_name].find({"date": date}):
             if "polarity" in company_tweet:
                 # get rid of the neutral results
-                if company_tweet["polarity"] < -0.3 or company_tweet["polarity"] > 0.3:
-                    news_score += company_tweet["polarity"]
-                    news_count += 1
+                # if company_tweet["polarity"] < -0.3 or company_tweet["polarity"] > 0.3:
+                news_score += company_tweet["polarity"]
+                news_count += 1
         # check if the date is not yet in the database
         if (sentiment_db[company_name].count_documents({"date": date}) == 0):
             sentiment = {"company": company_name,
