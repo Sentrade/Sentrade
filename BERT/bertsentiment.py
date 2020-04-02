@@ -19,9 +19,9 @@ def bert_sentiment_database(company_name, client_address):
     twitter_db = client.twitter_data
 
     count = 0
-    total_count = twitter_db[company_name].count_documents({})
+    total_count = twitter_db[company_name].count_documents({"date": /2019-05/})
     
-    for news in twitter_db[company_name].find().batch_size(100):
+    for news in twitter_db[company_name].find({"date": /2019-05/}).batch_size(100):
         try:
             score = predict_score(news["processed_text"])
             bert_polarity = {"$set": {"bert_polarity": score}}
@@ -80,7 +80,8 @@ def generate_bert_sentiment_database(company_name, client_address):
 if __name__ == "__main__":
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
     # companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    unambiguous_companies = ["facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    # unambiguous_companies = ["facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    unambiguous_companies = ["tesla"]
     for company in unambiguous_companies:
-        # bert_sentiment_database(company, client_address)
+        bert_sentiment_database(company, client_address)
         generate_bert_sentiment_database(company, client_address)
