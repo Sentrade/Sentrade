@@ -19,9 +19,9 @@ def bert_sentiment_database(company_name, client_address):
     twitter_db = client.twitter_data
 
     count = 0
-    total_count = twitter_db[company_name].count_documents({"date": /2019-05/})
+    total_count = twitter_db[company_name].count_documents({"date": {'$regex': '2019-05'}})
     
-    for news in twitter_db[company_name].find({"date": /2019-05/}).batch_size(100):
+    for news in twitter_db[company_name].find({"date": {'$regex': '2019-05'}}).batch_size(100):
         try:
             score = predict_score(news["processed_text"])
             bert_polarity = {"$set": {"bert_polarity": score}}
