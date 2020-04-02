@@ -11,6 +11,8 @@ from pytorch_pretrained_bert.modeling import *
 import numpy as np
 import torch
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 class TextInput(object):
     
     def __init__(self, uid, text, label=None, agree=None):
@@ -100,13 +102,13 @@ def get_score(text, model):
 
         bert_input = convert_textinput_to_bertinput(text_input, label_list, 64, tokenizer)
 
-        all_input_ids = torch.tensor([f.input_ids for f in bert_input], dtype=torch.long)
-        all_input_mask = torch.tensor([f.input_mask for f in bert_input], dtype=torch.long)
-        all_segment_ids = torch.tensor([f.segment_ids for f in bert_input], dtype=torch.long)
+        all_input_ids = torch.tensor([f.input_ids for f in bert_input], dtype=torch.long).to(device)
+        all_input_mask = torch.tensor([f.input_mask for f in bert_input], dtype=torch.long).to(device)
+        all_segment_ids = torch.tensor([f.segment_ids for f in bert_input], dtype=torch.long).to(device)
 
         with torch.no_grad():
             logits = model(all_input_ids, all_segment_ids, all_input_mask)
-            logits = softmax(np.array(logits))
+            logits = softmax(logits.cpu().numpy())
             sentiment_score = pd.Series(logits[:,0] - logits[:,1])
             predictions = np.squeeze(np.argmax(logits, axis=1))
 

@@ -10,11 +10,14 @@ from pathlib import Path
 import argparse
 import datetime
 import os
+import torch
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def predict_score(sentence):
 
     model_path = Path("models/classifier_model/sentiment/")
-    model = BertForSequenceClassification.from_pretrained(model_path, num_labels=3,cache_dir=None)
+    model = BertForSequenceClassification.from_pretrained(model_path, num_labels=3,cache_dir=None).to(device)
 
     result = get_score(sentence,model)
     scores = result['sentiment_score']
@@ -30,5 +33,8 @@ def predict_score(sentence):
     return total_score
 
 if __name__ == "__main__":
+    import time
+    start_time = time.time()
     sentence = "Euronext had given an indicative price of 58.70 euros per share for Prosus, implying a market value of 95.3 billion euros ($105 billion)."
     print(predict_score(sentence))
+    print("execution time {:.2f}s".format(time.time() - start_time))
