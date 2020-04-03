@@ -50,7 +50,7 @@ def F_data(ticker):
             f_data["volume"] = record["volume"]
         
         string = datetime.strptime(dates[-1], "%Y-%m-%d")
-        string = string.strftime("%b %d %Y").replace("SEP","SEPT") #(datetime.now() - timedelta(3)).strftime("%b %d %Y")
+        string = string.strftime("%b %d %Y") #(datetime.now() - timedelta(3)).strftime("%b %d %Y")
         open_string = "Open: " 
         open_string += str(f_data["open"])
         close_string = "Close: " 
