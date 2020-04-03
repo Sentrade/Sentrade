@@ -25,17 +25,32 @@ def F_data(ticker):
             }
         )
     else:
+        company_db_name = {
+            "AMZN" : "amazon",
+            "AAPL"  : "apple", 
+            "FB"    : "facebook",
+            "GOOG"  : "google",
+            "MSFT"  : "microsoft",
+            "NFLX"  : "netflix",
+            "TSLA"  : "tesla",
+            "UBER"  : "uber"
+        }
+        
         stock_price_collection = db["stock_price"]
-        date = (datetime.now() - timedelta(1)).strftime("%Y-%m-%d")
+        tweets = db_client.twitter_data[company_db_name[ticker]]
+        dates = tweets.distinct("date")
+        dates.sort()
+
         f_data = {}
-        for record in stock_price_collection.find({"company_name":ticker, "date": date}):
+        for record in stock_price_collection.find({"company_name":ticker, "date": dates[-1]}):
             f_data["open"] = record["open"]
             f_data["close"] = record["close"]
             f_data["high"] = record["high"]
             f_data["low"] = record["low"]
             f_data["volume"] = record["volume"]
         
-        string = datetime.today().strftime("%b %d %Y")
+        string = datetime.strptime(dates[-1], "%Y-%m-%d")
+        string = string.strftime("%b %d %Y").replace("SEP","SEPT") #(datetime.now() - timedelta(3)).strftime("%b %d %Y")
         open_string = "Open: " 
         open_string += str(f_data["open"])
         close_string = "Close: " 

@@ -40,10 +40,15 @@ def Tweets(ticker):
         }
         
         db = db_client.twitter_data[company_db_name[ticker]]
+        dates = db.distinct("date")
+        dates.sort()
 
         tweets = []
         tweets_polarity = []
-        for record in db.find():
+        for record in db.aggregate([
+            { "$match" : {"date" : dates[-1] }},
+            { "$sample" : { "size":10 } }
+            ]):
             tweets.append(record["original_text"])
             tweets_polarity.append(record["polarity"])
 
@@ -85,7 +90,7 @@ def Tweets(ticker):
                             ],
                             style=tweetstyle(tweets_polarity,i)
                         )
-                        for i in range(100)
+                        for i in range(10)
                     ],
                     style={
                         'margin-left' :'1%',
