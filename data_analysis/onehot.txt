@@ -1,0 +1,5 @@
+apple 1 0 0 0 0 0 0 0
+amazon 0 1 0 0 0 0 0 0
+facebook 0 0 1 0 0 0 0 0
+...
+uber 0 0 0 0 0 0 0 1

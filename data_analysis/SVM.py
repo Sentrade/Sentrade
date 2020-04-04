@@ -9,7 +9,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import  train_test_split
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score
 
 __author__ = "Fengming Liu"
 __status__ = "Development"
@@ -18,7 +18,7 @@ __status__ = "Development"
 def classifier_run(clf, name, x_train, x_test, y_train, y_test):
     clf.fit(x_train,y_train)
     y_pred = clf.predict(x_test)
-    return [accuracy_score(y_test, y_pred), confusion_matrix(y_test, y_pred)]
+    return accuracy_score(y_test, y_pred)
 
 
 company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla"]
@@ -32,11 +32,7 @@ features_list = [["relative_day"],
                  ["relative_day", "past_7_days_senti_avg"]
                 ]
 response_list = ["up_cat"]
-result = open("./clf_results.csv", "a")
-alg_dict = {"KNN": KNeighborsClassifier(),
-            "DecisionTree": DecisionTreeClassifier(criterion='entropy'),
-            "SVM": SVC(gamma='auto'),
-            }
+result = open("./SVM_results.csv", "w")
 
 for response in response_list:
     for features in features_list:
@@ -46,24 +42,24 @@ for response in response_list:
             result.write(feat + ',')
         result.write('\n')
         result.write("response:," + response + '\n')
-        result.write(" ,")
-        for alg_name, clf in alg_dict.items():
-            result.write(alg_name + ',')
+        result.write('C,')
+        for company in company_list:
+            result.write(company + ',')
         result.write('\n')
         
         # do ML
-        for company in company_list:
-            total_df = pd.read_csv("./processed_data/{0}_clf.csv".format(company))
-            x_train, x_test, y_train, y_test = train_test_split(total_df[features].to_numpy(),
-                                                                total_df[response],
-                                                                test_size=0.3,
-                                                                shuffle=True,
-                                                                random_state=500)
-            result.write(company + ',')
-            for alg_name, clf in alg_dict.items():
-                print(features, response, alg_name)
-                [accuracy, cm] = classifier_run(clf, alg_name, x_train, x_test, y_train, y_test)
-                print(cm)
+        for C in [0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5]:
+            clf = SVC(C=C, gamma='auto')
+            result.write(str(C) + ',')
+    
+            for company in company_list:
+                total_df = pd.read_csv("./processed_data/{0}_clf.csv".format(company))
+                x_train, x_test, y_train, y_test = train_test_split(total_df[features].to_numpy(),
+                                                                    total_df[response],
+                                                                    test_size=0.3,
+                                                                    shuffle=True,
+                                                                    random_state=500)
+                accuracy = classifier_run(clf, "SVM", x_train, x_test, y_train, y_test)
                 result.write(str(accuracy) + ',')
             result.write('\n')
         result.write('\n')

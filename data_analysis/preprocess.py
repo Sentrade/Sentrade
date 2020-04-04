@@ -102,19 +102,15 @@ for company in company_list:
         
         up_rate = total_df.loc[index, "up_rate"]
         if up_rate >= 0.05:
-            total_df.loc[index, "up_cat"] = 3
-        elif up_rate < 0.05 and up_rate >=0.01:
             total_df.loc[index, "up_cat"] = 2
-        elif up_rate < 0.01 and up_rate >= 0.005:
+        elif up_rate < 0.05 and up_rate >= 0.01:
             total_df.loc[index, "up_cat"] = 1
-        elif up_rate < 0.005 and up_rate > -0.005:
+        elif up_rate < 0.01 and up_rate > -0.01:
             total_df.loc[index, "up_cat"] = 0
-        elif up_rate <= -0.005 and up_rate > -0.01:
-            total_df.loc[index, "up_cat"] = -1
         elif up_rate <= -0.01 and up_rate > -0.05:
-            total_df.loc[index, "up_cat"] = -2
+            total_df.loc[index, "up_cat"] = -1
         else:
-            total_df.loc[index, "up_cat"] = -3
+            total_df.loc[index, "up_cat"] = -2
         
     total_df.to_csv("./processed_data/{0}_clf.csv".format(company))
     
