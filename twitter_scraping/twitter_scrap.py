@@ -102,15 +102,10 @@ def scrap_tweets_today(company_name):
 
         results.append(single_tweet)
     
-    with open("temp.json", "a") as output_file:
+    with open(Path("results/{}-{}.json".format(company_name, date_since)), "w") as output_file:
         json.dump(results, output_file)
 
 if __name__ == "__main__":
-    # companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    companies = ["apple"]
+    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     for company in companies:
         scrap_tweets_today(company)
-
-    
-
-    
