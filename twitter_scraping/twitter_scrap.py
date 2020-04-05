@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import string
 import tweepy as tw
 import pandas as pd
 import json
@@ -90,7 +91,7 @@ def scrap_tweets_today(company_name):
         original_text = tweet.text
         processed_text = process_original_tweet(original_text)
         single_tweet["original_text"] = original_text
-        single_tweet["processed_text"] = nlp_process(processed_text)
+        single_tweet["processed_text"] = process_original_tweet(processed_text)
         
         blob = TextBlob(processed_text)
         single_tweet["polarity"] = blob.sentiment.polarity
