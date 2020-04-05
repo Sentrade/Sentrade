@@ -5,6 +5,7 @@ import tweepy as tw
 import pandas as pd
 import json
 import re
+import emoji
 from datetime import datetime
 from textblob import TextBlob
 
