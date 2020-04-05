@@ -9,6 +9,7 @@ import re
 import emoji
 from datetime import datetime
 from textblob import TextBlob
+from pathlib import Path
 
 __author__ = "Ziyou Zhang, Fenming Liu"
 __status__ = "Development"
