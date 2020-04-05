@@ -23,6 +23,7 @@ def history_stock_price(stock_name):
     
     stock = yf.Ticker(stock_name)  
     hist = stock.history(start="2018-11-01")  
+    print(stock.info)
     
     # create the temp list dictionary
     temp = {}
