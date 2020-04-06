@@ -21,15 +21,21 @@ def classifier_run(clf, name, x_train, x_test, y_train, y_test):
     return [accuracy_score(y_test, y_pred), confusion_matrix(y_test, y_pred)]
 
 
-company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla"]
-features_list = [["relative_day"],
+#company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla"]
+features_list = [["relative_day", "past_3_days_senti_avg"],
+                 ["relative_day", "past_7_days_senti_avg"],
+                 ["relative_day", "1_day_sentiment_score"],
+                 ["1_day_sentiment_score"],
                  ["past_3_days_senti_avg"],
                  ["past_7_days_senti_avg"],
-                 ["1_day_sentiment_score"],
                  ["1_day_news_count"],
                  ["1_day_overall_sentiment_score"],
-                 ["relative_day", "past_3_days_senti_avg"],
-                 ["relative_day", "past_7_days_senti_avg"]
+                 ["1_day_sentiment_score","1_day_news_count"],
+                 ["1_day_sentiment_score","1_day_news_count","past_3_days_senti_avg"],
+                 ["1_day_sentiment_score","1_day_news_count","past_3_days_senti_avg","past_7_days_senti_avg"],
+                 ["1_day_sentiment_score","company_apple","company_amazon", "company_facebook", "company_google", "company_microsoft", "company_netflix", "company_tesla"],
+                 ["1_day_sentiment_score","1_day_news_count","company_apple","company_amazon", "company_facebook", "company_google", "company_microsoft", "company_netflix", "company_tesla"],
+                 ["1_day_sentiment_score","1_day_news_count","past_3_days_senti_avg","past_7_days_senti_avg","company_apple","company_amazon", "company_facebook", "company_google", "company_microsoft", "company_netflix", "company_tesla"],
                 ]
 response_list = ["up_cat"]
 result = open("./clf_results.csv", "a")
@@ -52,20 +58,19 @@ for response in response_list:
         result.write('\n')
         
         # do ML
-        for company in company_list:
-            total_df = pd.read_csv("./processed_data/{0}_clf.csv".format(company))
-            x_train, x_test, y_train, y_test = train_test_split(total_df[features].to_numpy(),
-                                                                total_df[response],
-                                                                test_size=0.3,
-                                                                shuffle=True,
-                                                                random_state=500)
-            result.write(company + ',')
-            for alg_name, clf in alg_dict.items():
-                print(features, response, alg_name)
-                [accuracy, cm] = classifier_run(clf, alg_name, x_train, x_test, y_train, y_test)
-                print(cm)
-                result.write(str(accuracy) + ',')
-            result.write('\n')
+        ###############################
+        total_df = pd.read_csv("./processed_data/aggregated_clf.csv")
+        x_train, x_test, y_train, y_test = train_test_split(total_df[features].to_numpy(),
+                                                            total_df[response],
+                                                            test_size=0.3,
+                                                            shuffle=True,
+                                                            random_state=500)
+        #result.write(company + ',')
+        for alg_name, clf in alg_dict.items():
+            print(features, response, alg_name)
+            [accuracy, cm] = classifier_run(clf, alg_name, x_train, x_test, y_train, y_test)
+            print(cm)
+            result.write(str(accuracy) + ',')
         result.write('\n')
     result.write('\n')
 result.write('\n')

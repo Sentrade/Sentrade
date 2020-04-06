@@ -113,7 +113,7 @@ for company in company_list:
             total_df.loc[index, "up_cat"] = -2
         
     total_df.to_csv("./processed_data/{0}_clf.csv".format(company))
-    
+    print (total_df)
 
 
 
