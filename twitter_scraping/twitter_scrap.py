@@ -102,11 +102,12 @@ def scrap_tweets_today(company_name):
             single_tweet["subjectivity"] = blob.sentiment.subjectivity
 
             count += 1
-            print("current progress for {}: {}".format(company_name, count))
+            # print("current progress for {}: {}".format(company_name, count))
 
             results.append(single_tweet)
         
         except tw.error.TweepError:
+            print("reached twitter api limit, automatically waiting for 15 minutes...")
             # wait for 15 min for twitter api rate limit rest
             time.sleep(15 * 60)
             continue
