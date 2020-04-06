@@ -11,7 +11,7 @@ from sklearn.svm import SVC
 from sklearn.model_selection import  train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix
 
-__author__ = "Fengming Liu"
+__author__ = "Fengming Liu, Longzhen Li, Shaomiao Yin"
 __status__ = "Development"
 
     
@@ -38,7 +38,7 @@ features_list = [["relative_day", "past_3_days_senti_avg"],
                  ["1_day_sentiment_score","1_day_news_count","past_3_days_senti_avg","past_7_days_senti_avg","company_apple","company_amazon", "company_facebook", "company_google", "company_microsoft", "company_netflix", "company_tesla"],
                 ]
 response_list = ["up_cat"]
-result = open("./clf_results.csv", "a")
+result = open("./results/clf_results.csv", "w")
 alg_dict = {"KNN": KNeighborsClassifier(),
             "DecisionTree": DecisionTreeClassifier(criterion='entropy'),
             "SVM": SVC(gamma='auto'),
@@ -59,7 +59,7 @@ for response in response_list:
         
         # do ML
         ###############################
-        total_df = pd.read_csv("./processed_data/aggregated_clf.csv")
+        total_df = pd.read_csv("./processed_data/total_clf.csv")
         x_train, x_test, y_train, y_test = train_test_split(total_df[features].to_numpy(),
                                                             total_df[response],
                                                             test_size=0.3,
