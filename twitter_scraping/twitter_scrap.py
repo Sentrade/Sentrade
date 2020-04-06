@@ -7,9 +7,11 @@ import pandas as pd
 import json
 import re
 import emoji
+import time
 from datetime import datetime
 from textblob import TextBlob
 from pathlib import Path
+
 
 __author__ = "Ziyou Zhang, Fenming Liu"
 __status__ = "Development"
@@ -86,22 +88,28 @@ def scrap_tweets_today(company_name):
     count = 0
 
     for tweet in tweets:
-        single_tweet = {}
-        single_tweet["date"] = str(tweet.created_at)[:10]
+        try:
+            single_tweet = {}
+            single_tweet["date"] = str(tweet.created_at)[:10]
 
-        original_text = tweet.text
-        processed_text = process_original_tweet(original_text)
-        single_tweet["original_text"] = original_text
-        single_tweet["processed_text"] = process_original_tweet(processed_text)
+            original_text = tweet.text
+            processed_text = process_original_tweet(original_text)
+            single_tweet["original_text"] = original_text
+            single_tweet["processed_text"] = process_original_tweet(processed_text)
+            
+            blob = TextBlob(processed_text)
+            single_tweet["polarity"] = blob.sentiment.polarity
+            single_tweet["subjectivity"] = blob.sentiment.subjectivity
+
+            count += 1
+            print("current progress:", count)
+
+            results.append(single_tweet)
         
-        blob = TextBlob(processed_text)
-        single_tweet["polarity"] = blob.sentiment.polarity
-        single_tweet["subjectivity"] = blob.sentiment.subjectivity
-
-        count += 1
-        print(count, single_tweet)
-
-        results.append(single_tweet)
+        except tw.error.TweepError:
+            # wait for 15 min for twitter api rate limit rest
+            time.sleep(15 * 60)
+            continue
     
     with open(Path("results/{}-{}.json".format(company_name, date_since)), "w") as output_file:
         json.dump(results, output_file)
