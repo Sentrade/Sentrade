@@ -102,7 +102,7 @@ def scrap_tweets_today(company_name):
             single_tweet["subjectivity"] = blob.sentiment.subjectivity
 
             count += 1
-            print("current progress:", count)
+            print("current progress for {}: {}".format(company_name, count)
 
             results.append(single_tweet)
         
