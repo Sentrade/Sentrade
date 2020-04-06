@@ -73,7 +73,7 @@ def scrap_tweets_today(company_name):
     auth = tw.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
 
-    api = tw.API(auth)
+    api = tw.API(auth, wait_on_rate_limit_notify=True)
 
     search = company_name + " -filter:retweets"
     date_since = datetime.today().strftime('%Y-%m-%d')
@@ -88,29 +88,22 @@ def scrap_tweets_today(company_name):
     count = 0
 
     for tweet in tweets:
-        try:
-            single_tweet = {}
-            single_tweet["date"] = str(tweet.created_at)[:10]
+        single_tweet = {}
+        single_tweet["date"] = str(tweet.created_at)[:10]
 
-            original_text = tweet.text
-            processed_text = process_original_tweet(original_text)
-            single_tweet["original_text"] = original_text
-            single_tweet["processed_text"] = process_original_tweet(processed_text)
-            
-            blob = TextBlob(processed_text)
-            single_tweet["polarity"] = blob.sentiment.polarity
-            single_tweet["subjectivity"] = blob.sentiment.subjectivity
-
-            count += 1
-            # print("current progress for {}: {}".format(company_name, count))
-
-            results.append(single_tweet)
+        original_text = tweet.text
+        processed_text = process_original_tweet(original_text)
+        single_tweet["original_text"] = original_text
+        single_tweet["processed_text"] = process_original_tweet(processed_text)
         
-        except tw.error.TweepError:
-            print("reached twitter api limit, automatically waiting for 15 minutes...")
-            # wait for 15 min for twitter api rate limit rest
-            time.sleep(15 * 60)
-            continue
+        blob = TextBlob(processed_text)
+        single_tweet["polarity"] = blob.sentiment.polarity
+        single_tweet["subjectivity"] = blob.sentiment.subjectivity
+
+        count += 1
+        # print("current progress for {}: {}".format(company_name, count))
+
+        results.append(single_tweet)
     
     with open(Path("results/{}-{}.json".format(company_name, date_since)), "w") as output_file:
         json.dump(results, output_file)
