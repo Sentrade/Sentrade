@@ -514,3 +514,119 @@ response:,up_cat
 0.5228426395939086,0.4847715736040609,0.5862944162436549,
 
 
+features:,relative_day,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.7030456852791879,0.5329949238578681,0.7055837563451777,
+features:,relative_day,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.700507614213198,0.5279187817258884,0.7055837563451777,
+features:,relative_day,1_day_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.7081218274111675,0.5761421319796954,0.7055837563451777,
+features:,1_day_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5786802030456852,0.4416243654822335,0.6370558375634517,
+features:,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5406091370558376,0.47715736040609136,0.6370558375634517,
+features:,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5,0.41116751269035534,0.6370558375634517,
+features:,1_day_news_count,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5228426395939086,0.4289340101522843,0.5634517766497462,
+features:,1_day_overall_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5634517766497462,0.46954314720812185,0.6065989847715736,
+features:,1_day_sentiment_score,1_day_news_count,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5253807106598984,0.4467005076142132,0.565989847715736,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5177664974619289,0.4746192893401015,0.5685279187817259,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5228426395939086,0.49238578680203043,0.565989847715736,
+features:,1_day_sentiment_score,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.565989847715736,0.48984771573604063,0.6370558375634517,
+features:,1_day_sentiment_score,1_day_news_count,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5279187817258884,0.467005076142132,0.5812182741116751,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,past_7_days_senti_avg,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+,0.5228426395939086,0.4847715736040609,0.5862944162436549,
+
+
+features:,relative_day,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.7030456852791879,0.5228426395939086,0.7055837563451777,
+features:,relative_day,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.700507614213198,0.5152284263959391,0.7055837563451777,
+features:,relative_day,1_day_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.7081218274111675,0.5888324873096447,0.7055837563451777,
+features:,1_day_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5786802030456852,0.4416243654822335,0.6370558375634517,
+features:,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5406091370558376,0.47715736040609136,0.6370558375634517,
+features:,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5,0.41116751269035534,0.6370558375634517,
+features:,1_day_news_count,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5228426395939086,0.4289340101522843,0.5634517766497462,
+features:,1_day_overall_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5634517766497462,0.46954314720812185,0.6065989847715736,
+features:,1_day_sentiment_score,1_day_news_count,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5253807106598984,0.4720812182741117,0.565989847715736,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5177664974619289,0.46954314720812185,0.5685279187817259,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5228426395939086,0.4746192893401015,0.565989847715736,
+features:,1_day_sentiment_score,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.565989847715736,0.48984771573604063,0.6370558375634517,
+features:,1_day_sentiment_score,1_day_news_count,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5279187817258884,0.46954314720812185,0.5812182741116751,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,past_7_days_senti_avg,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5228426395939086,0.48223350253807107,0.5862944162436549,
+
+

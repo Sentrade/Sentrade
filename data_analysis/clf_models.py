@@ -65,7 +65,7 @@ for response in response_list:
                                                             test_size=0.3,
                                                             shuffle=True,
                                                             random_state=500)
-        #result.write(company + ',')
+        result.write(' ,')
         for alg_name, clf in alg_dict.items():
             print(features, response, alg_name)
             [accuracy, cm] = classifier_run(clf, alg_name, x_train, x_test, y_train, y_test)
