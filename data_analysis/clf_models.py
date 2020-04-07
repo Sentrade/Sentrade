@@ -4,6 +4,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import joblib
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -18,7 +19,7 @@ __status__ = "Development"
 def classifier_run(clf, name, x_train, x_test, y_train, y_test):
     clf.fit(x_train,y_train)
     y_pred = clf.predict(x_test)
-    return [accuracy_score(y_test, y_pred), confusion_matrix(y_test, y_pred)]
+    return [accuracy_score(y_test, y_pred), confusion_matrix(y_test, y_pred), clf]
 
 
 #company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla"]
@@ -68,7 +69,8 @@ for response in response_list:
         result.write(' ,')
         for alg_name, clf in alg_dict.items():
             print(features, response, alg_name)
-            [accuracy, cm] = classifier_run(clf, alg_name, x_train, x_test, y_train, y_test)
+            [accuracy, cm, clf] = classifier_run(clf, alg_name, x_train, x_test, y_train, y_test)
+            joblib.dump(clf, "./models/" + alg_name + "_model.joblib")
             print(cm)
             result.write(str(accuracy) + ',')
         result.write('\n')

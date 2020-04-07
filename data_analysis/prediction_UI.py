@@ -2,55 +2,104 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import joblib
 import datetime
 import pymongo
-
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import SVC
-from sklearn.model_selection import  train_test_split
-from sklearn.metrics import accuracy_score, confusion_matrix
+import time
 
 
 __author__ = "Fengming Liu"
 __status__ = "Development"
 
 def get_relativeday(date):
-    rel_days = (date - datetime.date(2019, 1, 1)).days
+    [year, month, day] = date.split('-')
+    rel_days = (datetime.date(int(year), int(month), int(day)) - datetime.date(2019, 1, 1)).days
     return rel_days
 
-def get_senti_data(db_client, company):
-    db_collection = db_client["current_sentiment_data"][company]
-    record = db_collection.find_one()
-    feature_values = []
-    feature_values.append(get_relativeday(record["date"]))
-    feature_values.append(get_company_code(company))
-    feature_values.append(float(record["1_day_sentiment_score"]["$numberDouble"]))
-    feature_values.append(int(record["1_day_news_count"]["$numberInt"]))
-    feature_values.append(float(record["1_day_overall_sentiment_score"]["$numberDouble"]))
-    feature_values.append(float(record["past_3_days_senti_avg"]["$numberDouble"]))
-    feature_values.append(float(record["past_7_days_senti_avg"]["$numberDouble"]))
-    return feature_values
+def get_company_code(record, company):
+    for name in ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla"]:
+        record["company_"+name] = 0
+    record["company_" + company] = 1
+    return record
+    
+def get_senti_data(db, company, date):
+    # fetch the data
+    db_collection = db[company]
+    record = db_collection.find_one({"date": date})
+    if record == None:
+        return {}
+    
+    # calculate the features
+    record["relative_day"] = get_relativeday(record["date"])
+    record = get_company_code(record, company)
+    record["1_day_sentiment_score"] = float(record["1_day_sentiment_score"])
+    record["1_day_news_count"] = int(record["1_day_news_count"])
+    record["1_day_overall_sentiment_score"] = float(record["1_day_overall_sentiment_score"])
+    keys = record.keys()
+    if "past_3_days_senti_avg" in keys:
+        record["past_3_days_senti_avg"] = float(record["past_3_days_senti_avg"])
+    else:
+        record["past_3_days_senti_avg"] = float(0)
+    if "past_7_days_senti_avg" in keys:
+        record["past_7_days_senti_avg"] = float(record["past_7_days_senti_avg"])
+    else:
+        record["past_7_days_senti_avg"] = float(0)
+
+    # return the necessary features
+    result = []
+    for key, value in record.items():
+        if key in [
+#                   "relative_day", 
+                   "1_day_sentiment_score", 
+                   "1_day_news_count",
+#                   "1_day_overall_sentiment_score", 
+                   "past_3_days_senti_avg",
+                   "past_7_days_senti_avg", 
+                   "company_amazon", 
+                   "company_apple",
+                   "company_facebook", 
+                   "company_google", 
+                   "company_microsoft",
+                   "company_netflix", 
+                   "company_tesla"
+                   ]:
+            result.append(value)
+    
+    return np.array(result).reshape(1, -1)
             
 
 def on_click(clf, x_test):
     y_pred = clf.predict(x_test) # a np.array
-    return y_pred[0]
+    return y_pred
 
 if __name__ == "__main__":
+    time_log = open("./UI_time.log", 'a')
+    
     # load the pretrained model
-    clf = joblib.load("./model.joblib")
+    clf = joblib.load("./models/SVM_model.joblib")
     
     # connect to the database
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@127.0.0.1", 27017)
+    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     
     # get the sentiment data for the company
-    company = get_company()
-    x_test = get_senti_data(db_client["sentiment_data"], company)
+#    company = get_company() # get the comapny name from the UI
+#    date = get_date() # get the date from the UI
+#                      # date must be of the format yyyy-mm-dd
+    
+    company = "amazon"
+    date = "2020-04-06"
+    
+    start_tick = time.time()
+    x_test = get_senti_data(db_client["sentiment_current"], company, date) 
+    end_tick = time.time()
+    time_log.write("{0:15s}	{1:15s} {2:.3f}\n".format(date, "Data fetching", end_tick - start_tick))
     
     # do the prediction
+    start_tick = time.time()
     result = on_click(clf, x_test)
-    print(result)
+    end_tick = time.time()
+    time_log.write("{0:15s}	{1:15s} {2:.3f}\n".format(date, "Prediction", end_tick - start_tick))
+    
+    print(result[0])
+    time_log.close()
