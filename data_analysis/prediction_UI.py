@@ -23,13 +23,7 @@ def get_company_code(record, company):
     record["company_" + company] = 1
     return record
     
-def get_senti_data(db, company, date):
-    # fetch the data
-    db_collection = db[company]
-    record = db_collection.find_one({"date": date})
-    if record == None:
-        return {}
-    
+def preprocess_data(record, company, date):
     # calculate the features
     record["relative_day"] = get_relativeday(record["date"])
     record = get_company_code(record, company)
@@ -68,7 +62,6 @@ def get_senti_data(db, company, date):
     
     return np.array(result).reshape(1, -1)
             
-
 def on_click(clf, x_test):
     y_pred = clf.predict(x_test) # a np.array
     return y_pred
@@ -81,25 +74,33 @@ if __name__ == "__main__":
     
     # connect to the database
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db = db_client["sentiment_current"]
     
     # get the sentiment data for the company
 #    company = get_company() # get the comapny name from the UI
 #    date = get_date() # get the date from the UI
 #                      # date must be of the format yyyy-mm-dd
-    
     company = "amazon"
     date = "2020-04-06"
     
+    # fetch the data from the database
     start_tick = time.time()
-    x_test = get_senti_data(db_client["sentiment_current"], company, date) 
+    db_collection = db[company]
+    record = db_collection.find_one({"date": date})
     end_tick = time.time()
-    time_log.write("{0:15s}	{1:15s} {2:.3f}\n".format(date, "Data fetching", end_tick - start_tick))
+    time_log.write("{0:15s}	{1:20s} {2:.3f}\n".format(date, "Data fetching", end_tick - start_tick))
+    
+    # preprocess the data
+    start_tick = time.time()
+    x_test = preprocess_data(record, company, date) 
+    end_tick = time.time()
+    time_log.write("{0:15s}	{1:20s} {2:.3f}\n".format(date, "Data preprocessing", end_tick - start_tick))
     
     # do the prediction
     start_tick = time.time()
     result = on_click(clf, x_test)
     end_tick = time.time()
-    time_log.write("{0:15s}	{1:15s} {2:.3f}\n".format(date, "Prediction", end_tick - start_tick))
+    time_log.write("{0:15s}	{1:20s} {2:.3f}\n".format(date, "Prediction", end_tick - start_tick))
     
     print(result[0])
     time_log.close()
