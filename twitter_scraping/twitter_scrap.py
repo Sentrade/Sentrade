@@ -39,6 +39,7 @@ def parse_twitter_date(date):
     
     :return: reformated string. e.g. 2020-01-03
     """
+
     new_date = ""
     
     year = date[-4:]
@@ -51,7 +52,7 @@ def parse_twitter_date(date):
 
 def process_original_tweet(text):
     """
-    Process the original text.
+    Pre-process the original text.
 
     :param text: original tweet text.
     :return: the processed tweet text.
@@ -66,6 +67,13 @@ def process_original_tweet(text):
     return text
 
 def scrap_tweets_today(company_name):
+    """
+    Get the tweets from current day about the company.
+
+    :param company_name: the name of the company.
+    :return: a json object.
+    """
+    
     consumer_key = "o62Qbz4RQcWoSlZwYAf8rk6Br"
     consumer_secret = "rIA9adduzHxl6lude0lCNYoyNy00trNTsGmrlHNR1M5anasaeB"
     access_token = "1079882101191778305-UxW9ONHBCHTsHYlfBcWBqsNVmJ7a70"
@@ -112,6 +120,13 @@ def scrap_tweets_today(company_name):
     return results
 
 def add_current_twitter(company_name, client_address):
+    """
+    Add the tweets of the company on current date.
+
+    :param company_name: the name of the company. Used as the entry in the database.
+    :param client_address: the address of the database.
+    """
+
     client = MongoClient(client_address)
     db = client.twitter_current
     tweets = scrap_tweets_today(company_name)
@@ -124,6 +139,7 @@ def generate_blob_sentiment_database(company_name, client_address):
 
     :param company_name: the name of the company. Used as the entry in the database.
     """
+
     client = MongoClient(client_address)
     db = client.sentrade_db
     twitter_db = client.twitter_current

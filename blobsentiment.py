@@ -19,6 +19,7 @@ def is_org(news, company_name):
     :param company_name: the name of the company (lowercase)
     :returns: true if the company is named, false otherwise
     """
+
     nlp = spacy.load("en_core_web_sm") #create a spaCy Language object
     doc = nlp(news["text"]) #select text of the news
     for t in doc.ents:
@@ -34,7 +35,8 @@ def blob_analyse(inputfile, outputfile):
 
     :param inputfile: JSON file containing the news to be analyzed
     :param outputfile: JSON file where polarity and subjectivity is outputted
-    """    
+    """
+
     with open(inputfile) as news_file:
         input_data= json.load(news_file)
 
@@ -54,6 +56,7 @@ def raw_blob_analysis(inputfile, outputfile):
     :param inputfile: JSON file containing the news to be analyzed
     :param outputfile: JSON file where polarity and subjectivity is outputted
     """
+
     with open(inputfile) as news_file:
         input_data= json.load(news_file)
 
@@ -71,6 +74,7 @@ def blob_sentiment_database(company_name, client_address):
 
     :param company_name: the name of the company. Used as the entry in the database.
     """
+
     client = MongoClient(client_address)
     twitter_db = client.twitter_data
 
@@ -97,6 +101,7 @@ def generate_blob_sentiment_database(company_name, client_address):
 
     :param company_name: the name of the company. Used as the entry in the database.
     """
+    
     client = MongoClient(client_address)
     db = client.sentrade_db
     twitter_db = client.twitter_data

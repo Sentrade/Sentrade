@@ -123,19 +123,3 @@ for index, row in total_df.iterrows():
         total_df.loc[index, "up_cat"] = -2
     
 total_df.to_csv("./processed_data/total_clf.csv", index=False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
