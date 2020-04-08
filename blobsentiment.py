@@ -7,17 +7,32 @@ __status__ = "Production"
 import json
 import sys
 import spacy
+from datetime import datetime, timedelta
+from dateutil.parser import parse
 from textblob import TextBlob
 from pymongo import MongoClient
 from pymongo import errors
 
+def get_date_offset(date, offset):
+    """
+    Get the string representing the date with certain offset.
+
+    :param date: the date string, with the format of YYYY-MM-DD.
+    :param offset: date difference.
+    :return: the string representing the date with the offset difference.
+    """
+
+    date_object = datetime.strptime(date, "%Y-%m-%d")
+    date_offset = (date_object - timedelta(offset)).strftime("%Y-%m-%d")
+    return date_offset
+    
 def is_org(news, company_name):
     """
     Function to check if a company is named in a piece of news
 
     :param news: the news being checked (in JSON format)
     :param company_name: the name of the company (lowercase)
-    :returns: true if the company is named, false otherwise
+    :return: true if the company is named, false otherwise.
     """
 
     nlp = spacy.load("en_core_web_sm") #create a spaCy Language object
@@ -100,8 +115,9 @@ def generate_blob_sentiment_database(company_name, client_address):
     Calculate the textblob sentiment scores and put them into the database.
 
     :param company_name: the name of the company. Used as the entry in the database.
+    :param client_address: the address of the database.
     """
-    
+
     client = MongoClient(client_address)
     db = client.sentrade_db
     twitter_db = client.twitter_data
@@ -143,9 +159,57 @@ def generate_blob_sentiment_database(company_name, client_address):
         
     client.close()
 
+def extend_blob_sentiment_database(company_name, client_address):
+    """
+    Calculate the 3 days and 7 days textblob sentiment scores based on 1 day sentiment average.
+
+    :param company_name: the name of the company. Used as the entry in the database.
+    :param client_address: the address of the database.
+    """
+
+    client = MongoClient(client_address)
+    sentiment_db = client.sentiment_data
+
+    news_dates = []
+    news_scores = []
+    today_news_count = 0
+
+    all_date = sentiment_db[company_name].distinct("date")
+
+    progress_full = len(all_date)
+    progress_count = 0
+    for date in all_date:
+        news_score = 0  
+        news_count = sys.float_info.epsilon
+        # sum all scores
+        for company_tweet in twitter_db[company_name].find({"date": date}):
+            if "polarity" in company_tweet:
+                # get rid of the neutral results
+                # if company_tweet["polarity"] < -0.3 or company_tweet["polarity"] > 0.3:
+                news_score += company_tweet["polarity"]
+                news_count += 1
+        # check if the date is not yet in the database
+        if (sentiment_db[company_name].count_documents({"date": date}) == 0):
+            sentiment = {"company": company_name,
+                         "date": date,
+                         "1_day_sentiment_score": news_score / news_count,
+                         "1_day_overall_sentiment_score": news_score,
+                         "1_day_news_count": news_count}
+            sentiment_db[company_name].insert_one(sentiment)
+        else:
+            updated_sentiment_score = {"$set": {"1_day_sentiment_score": news_score / news_count,
+                                                "1_day_overall_sentiment_score": news_score,
+                                                "1_day_news_count": news_count}}
+            sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
+        progress_count += 1
+        print("summarise", company_name, "progress:", progress_count, "/", progress_full)
+        
+    client.close()
+
 if __name__ == "__main__":
-    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
-    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    for company in companies:
-        # blob_sentiment_database(company, client_address)
-        generate_blob_sentiment_database(company, client_address)
+    # client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+    # companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    # for company in companies:
+    #     # blob_sentiment_database(company, client_address)
+    #     generate_blob_sentiment_database(company, client_address)
+    print(get_date_offset("2019-10-11", 2))
