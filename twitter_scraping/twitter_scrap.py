@@ -74,7 +74,7 @@ def scrap_tweets_today(company_name):
     auth = tw.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
 
-    api = tw.API(auth, wait_on_rate_limit_notify=True)
+    api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
     search = company_name + " -filter:retweets"
     date_since = datetime.today().strftime('%Y-%m-%d')
@@ -102,14 +102,14 @@ def scrap_tweets_today(company_name):
         single_tweet["subjectivity"] = blob.sentiment.subjectivity
 
         count += 1
-        # print("current progress for {}: {}".format(company_name, count))
+        print("current progress for {}: {}".format(company_name, count))
 
         results.append(single_tweet)
 
-    # return results
-    
     with open(Path("results/{}-{}.json".format(company_name, date_since)), "w") as output_file:
         json.dump(results, output_file)
+    
+    return results
 
 def add_current_twitter(company_name, client_address):
     client = MongoClient(client_address)
@@ -171,5 +171,5 @@ if __name__ == "__main__":
 
     for company in companies:
         # scrap_tweets_today(company)
-        # add_current_twitter(company, client_address)
+        add_current_twitter(company, client_address)
         generate_blob_sentiment_database(company, client_address)
