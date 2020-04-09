@@ -61,6 +61,7 @@ def get_date_offset(date, offset):
 
     date_object = datetime.strptime(date, "%Y-%m-%d")
     date_offset = (date_object - timedelta(offset)).strftime("%Y-%m-%d")
+    
     return date_offset
 
 def process_original_tweet(text):
@@ -151,6 +152,7 @@ def generate_blob_sentiment_database(company_name, client_address):
     Calculate the textblob sentiment scores and put them into the database.
 
     :param company_name: the name of the company. Used as the entry in the database.
+    :param client_address: the address of the database.
     """
 
     client = MongoClient(client_address)
@@ -214,6 +216,8 @@ def extend_blob_sentiment_database(company_name, client_address):
     progress_full = len(all_date)
     progress_count = 0
     for date in all_date:
+
+        # calculate 3 day sentiment scores
         three_day_news_score = 0  
         three_day_news_count = sys.float_info.epsilon
 
@@ -228,6 +232,7 @@ def extend_blob_sentiment_database(company_name, client_address):
                                             "3_day_news_count": three_day_news_count}}
         sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
 
+        # calculate 7 day sentiment scores
         seven_day_news_score = 0  
         seven_day_news_count = sys.float_info.epsilon
 
@@ -236,7 +241,7 @@ def extend_blob_sentiment_database(company_name, client_address):
             if current_day:
                 seven_day_news_score += current_day["1_day_overall_sentiment_score"]
                 seven_day_news_count += current_day["1_day_news_count"]
-
+        
         updated_sentiment_score = {"$set": {"7_day_sentiment_score": seven_day_news_score / seven_day_news_count,
                                             "7_day_overall_sentiment_score": seven_day_news_score,
                                             "7_day_news_count": seven_day_news_count}}

@@ -179,6 +179,8 @@ def extend_blob_sentiment_database(company_name, client_address):
     progress_full = len(all_date)
     progress_count = 0
     for date in all_date:
+        
+        # calculate 3 day sentiment scores
         three_day_news_score = 0  
         three_day_news_count = sys.float_info.epsilon
 
@@ -193,6 +195,7 @@ def extend_blob_sentiment_database(company_name, client_address):
                                             "3_day_news_count": three_day_news_count}}
         sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
 
+        # calculate 7 day sentiment scores
         seven_day_news_score = 0  
         seven_day_news_count = sys.float_info.epsilon
 
@@ -215,8 +218,9 @@ def extend_blob_sentiment_database(company_name, client_address):
 if __name__ == "__main__":
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    
     for company in companies:
-        # blob_sentiment_database(company, client_address)
-        # generate_blob_sentiment_database(company, client_address)
+        blob_sentiment_database(company, client_address)
+        generate_blob_sentiment_database(company, client_address)
         extend_blob_sentiment_database(company, client_address)
 
