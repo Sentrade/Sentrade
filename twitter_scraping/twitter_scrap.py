@@ -9,7 +9,7 @@ import re
 import emoji
 import time
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from textblob import TextBlob
 from pathlib import Path
 from pymongo import MongoClient
@@ -49,6 +49,19 @@ def parse_twitter_date(date):
 
     new_date = year + "-" + month + "-" + day
     return new_date
+
+def get_date_offset(date, offset):
+    """
+    Get the string representing the date with certain offset.
+
+    :param date: the date string, with the format of YYYY-MM-DD.
+    :param offset: date difference.
+    :return: the string representing the date with the offset difference.
+    """
+
+    date_object = datetime.strptime(date, "%Y-%m-%d")
+    date_offset = (date_object - timedelta(offset)).strftime("%Y-%m-%d")
+    return date_offset
 
 def process_original_tweet(text):
     """
@@ -181,11 +194,64 @@ def generate_blob_sentiment_database(company_name, client_address):
         
     client.close()
 
+def extend_blob_sentiment_database(company_name, client_address):
+    """
+    Calculate the 3 days and 7 days textblob sentiment scores based on 1 day sentiment average.
+    Perform this operation only after 1 day sentiment score is obtained.
+
+    :param company_name: the name of the company. Used as the entry in the database.
+    :param client_address: the address of the database.
+    """
+
+    client = MongoClient(client_address)
+    sentiment_db = client.sentiment_current
+
+    news_dates = []
+    news_scores = []
+
+    all_date = sentiment_db[company_name].distinct("date")
+
+    progress_full = len(all_date)
+    progress_count = 0
+    for date in all_date:
+        three_day_news_score = 0  
+        three_day_news_count = sys.float_info.epsilon
+
+        for i in range(3):
+            current_day = sentiment_db[company_name].find_one({"date": get_date_offset(date, i)})
+            if current_day:
+                three_day_news_score += current_day["1_day_overall_sentiment_score"]
+                three_day_news_count += current_day["1_day_news_count"]
+
+        updated_sentiment_score = {"$set": {"3_day_sentiment_score": three_day_news_score / three_day_news_count,
+                                            "3_day_overall_sentiment_score": three_day_news_score,
+                                            "3_day_news_count": three_day_news_count}}
+        sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
+
+        seven_day_news_score = 0  
+        seven_day_news_count = sys.float_info.epsilon
+
+        for i in range(7):
+            current_day = sentiment_db[company_name].find_one({"date": get_date_offset(date, i)})
+            if current_day:
+                seven_day_news_score += current_day["1_day_overall_sentiment_score"]
+                seven_day_news_count += current_day["1_day_news_count"]
+
+        updated_sentiment_score = {"$set": {"7_day_sentiment_score": seven_day_news_score / seven_day_news_count,
+                                            "7_day_overall_sentiment_score": seven_day_news_score,
+                                            "7_day_news_count": seven_day_news_count}}
+        sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
+
+        progress_count += 1
+        print("extend", company_name, "progress:", progress_count, "/", progress_full)
+        
+    client.close()
+
 if __name__ == "__main__":
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
 
     for company in companies:
-        # scrap_tweets_today(company)
         add_current_twitter(company, client_address)
         generate_blob_sentiment_database(company, client_address)
+        extend_blob_sentiment_database(company, client_address)
