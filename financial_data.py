@@ -96,8 +96,8 @@ def F_data(ticker):
                 style={
                     'border-radius' : '5px',
                     'background-color': 'rgba(120,120,120,0.15)',
-                    'width':'92.7%',
-                    'margin-top':'5%',
+                    'width':'91.3%',
+                    'margin-top':'5.5%',
                     'margin-left':'3.7%'
                 }),
                 

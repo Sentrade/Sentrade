@@ -9,6 +9,7 @@ import pymongo
 from sshtunnel import SSHTunnelForwarder
 from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
+from prediction import Prediction
 
 __author__ = "Davide Locatelli"
 __status__ = "Prototype"
@@ -74,12 +75,14 @@ def Graph(ticker):
                                 'font-size':'0.75rem',
                                 'textAlign':'left',
                                 'margin-top':'0.8%',
-                                'margin-left': '16.4%',
+                                'margin-left': '106%',
                                 'color':'grey',
                                 'white-space':'nowrap',
                                 'font-weight': '600'
-                            }
-                        )),
+                            }),width=2),
+                        dbc.Col(Prediction(ticker), style={
+                                'margin-left':'52%'
+                        })
                     ]
                 ),
             ]
@@ -148,7 +151,7 @@ def Graph(ticker):
                 rangeslider=dict(
                     visible=False
                 ),
-                range= [three_months_ago,yesterday],
+                range= ["2018-11-01","2019-09-30"],
                 rangeselector=dict(
                     buttons=list([
                         dict(count=1,
@@ -191,5 +194,5 @@ def Graph(ticker):
                 type="date"
             )
         )
-        graph.append(dcc.Graph(figure=fig,style={'margin-top':'0.6%','height':'400'}))
+        graph.append(dcc.Graph(id='click-graph',figure=fig,style={'margin-top':'0.6%'}))
     return graph
