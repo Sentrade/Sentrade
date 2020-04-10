@@ -30,16 +30,9 @@ def preprocess_data(record, company, date):
     record["1_day_sentiment_score"] = float(record["1_day_sentiment_score"])
     record["1_day_news_count"] = int(record["1_day_news_count"])
     record["1_day_overall_sentiment_score"] = float(record["1_day_overall_sentiment_score"])
-    keys = record.keys()
-    if "past_3_days_senti_avg" in keys:
-        record["past_3_days_senti_avg"] = float(record["past_3_days_senti_avg"])
-    else:
-        record["past_3_days_senti_avg"] = float(0)
-    if "past_7_days_senti_avg" in keys:
-        record["past_7_days_senti_avg"] = float(record["past_7_days_senti_avg"])
-    else:
-        record["past_7_days_senti_avg"] = float(0)
-
+    record["past_3_days_senti_avg"] = float(record["3_day_sentiment_score"])
+    record["past_7_days_senti_avg"] = float(record["7_day_sentiment_score"])
+   	
     # return the necessary features
     result = []
     for key, value in record.items():

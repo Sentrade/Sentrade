@@ -30,35 +30,25 @@ def get_num(num_dict):
 		return 0
 
 ##### main #####
-company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-ticker_to_company = {
-    "AMZN"		: "amazon",
-    "AAPL"		: "apple",
-    "FB"		: "facebook",
-    "GOOG"		: "google",
-    "MSFT"		: "microsoft",
-    "NFLX"		: "netflix",
-    "TSLA"		: "tesla",
-    "UBER"		: "uber"
-}
-
-# preprocess stock data
-stock_df = pd.read_json("./stock_price.json", lines=True)
-stock_df.insert(loc=0, column="relative_day", value=None)
-stock_df.rename(columns={"company_name": "company"}, inplace=True)
-for index, row in stock_df.iterrows():
-    stock_df.loc[index, "relative_day"] = get_relativeday(row["date"].date())
-    stock_df.loc[index, "company"] = ticker_to_company[row["company"]]
-    stock_df.loc[index, "open"] = get_num(row["open"])
-    stock_df.loc[index, "high"] = get_num(row["high"])
-    stock_df.loc[index, "low"] = get_num(row["low"])
-    stock_df.loc[index, "close"] = get_num(row["close"])
-    stock_df.loc[index, "volume"] = get_num(row["volume"])    
-stock_df.drop(["_id", "date"], axis=1, inplace=True)
-
-# preprocess sentiment data
 total_df = pd.DataFrame()
+company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+
 for company in company_list:
+    # preprocess stock data
+    stock_df = pd.read_json("./stock_price/{0}.json".format(company), lines=True)
+    stock_df.insert(loc=0, column="relative_day", value=None)
+    stock_df.rename(columns={"company_name": "company"}, inplace=True)
+    for index, row in stock_df.iterrows():
+        stock_df.loc[index, "company"] = company
+        stock_df.loc[index, "relative_day"] = get_relativeday(row["date"].date())
+        stock_df.loc[index, "open"] = get_num(row["open"])
+        stock_df.loc[index, "high"] = get_num(row["high"])
+        stock_df.loc[index, "low"] = get_num(row["low"])
+        stock_df.loc[index, "close"] = get_num(row["close"])
+        stock_df.loc[index, "volume"] = get_num(row["volume"])    
+    stock_df.drop(["_id", "date"], axis=1, inplace=True)
+    
+    
     # preprocess sentiment data
     senti_df = pd.read_json("./sentiment_score/{0}.json".format(company), lines=True)
     senti_df.drop(columns=['Unnamed: 0', '1_day_bert_sentiment_score', '1_day_overall_bert_sentiment_score'], inplace=True, errors='ignore')
@@ -90,16 +80,6 @@ for index, row in total_df.iterrows():
     # calculate average sentimen scores
     current_day = row["relative_day"]
     past_days_scores = []
-    for i in range(1, 8):
-        past_record = total_df[total_df["relative_day"]==current_day - i]
-        if past_record.empty:
-            # if no value, then sentiment scores is 0 (neutral sentiment) by default
-            past_days_scores.append(float(0))
-        else:
-            past_days_scores.append(past_record["1_day_sentiment_score"].iloc[0])
-
-    total_df.loc[index, "past_3_days_senti_avg"] = (past_days_scores[0] + past_days_scores[1] + past_days_scores[2])/3
-    total_df.loc[index, "past_7_days_senti_avg"] = np.mean(past_days_scores)
     
     # calculate percentage chanes of stock price
     current_stock = row["close"]
@@ -123,3 +103,19 @@ for index, row in total_df.iterrows():
         total_df.loc[index, "up_cat"] = -2
     
 total_df.to_csv("./processed_data/total_clf.csv", index=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
