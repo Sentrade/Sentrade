@@ -88,7 +88,7 @@ def stock_price_database(company_name, client_address):
     stock_count = len(list(hist_value))
     results = [{'date': "", 'company_name':"", 'open': 0, 'high':0, 'low': 0, 'close':0, 'volume':0, 'change': 0, 'rise': 0} for x in range(stock_count)]
     for i in range(stock_count):
-        results[i]['company'] = company_name
+        results[i]['company_name'] = company_name
         results[i]['open'] = temp['Open'][i]
         results[i]['date'] = temp['Date'][i]
         results[i]['high'] = temp['High'][i]
@@ -96,8 +96,8 @@ def stock_price_database(company_name, client_address):
         results[i]['close'] = temp['Close'][i]
         results[i]['volume'] = temp['Volume'][i]
     
-    for i in range(1, stock_count):
-        results[i]['change'] = results[i]['close'] - results[i-1]['close']
+    for i in range(stock_count-1):
+        results[i]['change'] = results[i+1]['close'] - results[i]['close']
         results[i]['rise'] = 1 if results[i]['change'] > 0 else 0
 
     client = MongoClient(client_address)
