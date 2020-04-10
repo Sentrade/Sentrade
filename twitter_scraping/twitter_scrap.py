@@ -128,8 +128,8 @@ def scrap_tweets_today(company_name):
 
         results.append(single_tweet)
 
-    with open(Path("results/{}-{}.json".format(company_name, date_since)), "w") as output_file:
-        json.dump(results, output_file)
+    # with open(Path("results/{}-{}.json".format(company_name, date_since)), "w") as output_file:
+    #     json.dump(results, output_file)
     
     return results
 
