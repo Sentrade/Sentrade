@@ -29,12 +29,7 @@ def get_num(num_dict):
 	else:
 		return 0
 
-##### main #####
-total_df = pd.DataFrame()
-company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-
-for company in company_list:
-    # preprocess stock data
+def get_stock_df(company):
     stock_df = pd.read_json("./stock_price/{0}.json".format(company), lines=True)
     stock_df.insert(loc=0, column="relative_day", value=None)
     stock_df.rename(columns={"company_name": "company"}, inplace=True)
@@ -45,43 +40,54 @@ for company in company_list:
         stock_df.loc[index, "high"] = get_num(row["high"])
         stock_df.loc[index, "low"] = get_num(row["low"])
         stock_df.loc[index, "close"] = get_num(row["close"])
-        stock_df.loc[index, "volume"] = get_num(row["volume"])    
+        stock_df.loc[index, "volume"] = get_num(row["volume"])
+        stock_df.loc[index, "change"] = get_num(row["change"])
+        stock_df.loc[index, "rise"] = get_num(row["rise"])
     stock_df.drop(["_id", "date"], axis=1, inplace=True)
-    
-    
-    # preprocess sentiment data
+    return stock_df
+
+def get_senti_df(company):
     senti_df = pd.read_json("./sentiment_score/{0}.json".format(company), lines=True)
     senti_df.drop(columns=['Unnamed: 0', '1_day_bert_sentiment_score', '1_day_overall_bert_sentiment_score'], inplace=True, errors='ignore')
     senti_df.dropna(inplace=True)
     senti_df.insert(loc=1, column="relative_day", value=None)
     for index, row in senti_df.iterrows():
         senti_df.loc[index, "relative_day"] = get_relativeday(row["date"].date()) 
-        senti_df.loc[index, "1_day_sentiment_score"] = float(row["1_day_sentiment_score"]["$numberDouble"])
-        senti_df.loc[index, "1_day_news_count"] = int(row["1_day_news_count"]["$numberInt"])
-        senti_df.loc[index, "1_day_overall_sentiment_score"] = float(row["1_day_overall_sentiment_score"]["$numberDouble"])
+        senti_df.loc[index, "1_day_sentiment_score"] = get_num(row["1_day_sentiment_score"])
+        senti_df.loc[index, "3_day_sentiment_score"] = get_num(row["3_day_sentiment_score"])
+        senti_df.loc[index, "7_day_sentiment_score"] = get_num(row["7_day_sentiment_score"])
+        senti_df.loc[index, "1_day_news_count"] = get_num(row["1_day_news_count"])
+        senti_df.loc[index, "3_day_news_count"] = get_num(row["3_day_news_count"])
+        senti_df.loc[index, "7_day_news_count"] = get_num(row["7_day_news_count"])
+        senti_df.loc[index, "1_day_overall_sentiment_score"] = get_num(row["1_day_overall_sentiment_score"])
+        senti_df.loc[index, "3_day_overall_sentiment_score"] = get_num(row["3_day_overall_sentiment_score"])
+        senti_df.loc[index, "7_day_overall_sentiment_score"] = get_num(row["7_day_overall_sentiment_score"])
     senti_df.drop(["_id", "date"], axis=1, inplace=True)
-    total_df = total_df.append(senti_df, ignore_index=True)
+    return senti_df
 
+##### main #####
+total_df = pd.DataFrame()
+company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
 
-# merge data
-total_df = pd.merge(total_df, stock_df, on=["company", "relative_day"])
+for company in company_list:
+    # preprocess stock data
+    stock_df = get_stock_df(company)
+    
+    # preprocess sentiment data
+    senti_df = get_senti_df(company)
+    senti_df.drop(["company"], axis=1, inplace=True)
+    
+    # merge data
+    total_df = total_df.append(pd.merge(stock_df, senti_df, on=["relative_day"]), ignore_index=True)
+
 # One hot encoding
 total_df = pd.concat([total_df, pd.get_dummies(total_df['company'], prefix='company')], axis=1)
 # Remove existing 'company' column
 total_df.drop(columns=['company'], inplace=True)
 
-# calculate more sentiment-related features
-total_df.insert(loc=3, column="past_3_days_senti_avg", value=None)
-total_df.insert(loc=3, column="past_7_days_senti_avg", value=None)
-total_df.insert(loc=1, column="up_rate", value=None)
-total_df.insert(loc=2, column="up_cat", value=None)
-
-for index, row in total_df.iterrows():
-    # calculate average sentimen scores
-    current_day = row["relative_day"]
-    past_days_scores = []
-    
+for index, row in total_df.iterrows():    
     # calculate percentage chanes of stock price
+    current_day = row["relative_day"]
     current_stock = row["close"]
     last_stock = total_df[total_df["relative_day"] == current_day - 1]
     if last_stock.empty:
