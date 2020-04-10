@@ -6,7 +6,7 @@ from pymongo import MongoClient
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-__author__ = "Yiwen Sun, Ziyou Zhang ;)"
+__author__ = "Yiwen Sun, Ziyou Zhang"
 __status__ = "Development"
 
 def data_study(company_name, client_address):
