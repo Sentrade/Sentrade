@@ -1,0 +1,58 @@
+features:,relative_day,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5216400911161732,0.5489749430523918,0.6560364464692483,
+features:,relative_day,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5216400911161732,0.5489749430523918,0.6560364464692483,
+features:,relative_day,1_day_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5375854214123007,0.33940774487471526,0.6560364464692483,
+features:,1_day_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.32574031890660593,0.2984054669703872,0.39863325740318906,
+features:,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5466970387243736,0.5489749430523918,0.39863325740318906,
+features:,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.5580865603644647,0.5489749430523918,0.39863325740318906,
+features:,1_day_news_count,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.4145785876993166,0.3917995444191344,0.38496583143507973,
+features:,1_day_overall_sentiment_score,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.35079726651480636,0.36674259681093396,0.39635535307517084,
+features:,1_day_sentiment_score,1_day_news_count,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.4214123006833713,0.3712984054669704,0.4009111617312073,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.4168564920273349,0.4601366742596811,0.4031890660592255,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,past_7_days_senti_avg,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.42369020501138954,0.4533029612756264,0.39863325740318906,
+features:,1_day_sentiment_score,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.6378132118451025,0.5489749430523918,0.6810933940774487,
+features:,1_day_sentiment_score,1_day_news_count,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.44419134396355353,0.6036446469248291,0.4510250569476082,
+features:,1_day_sentiment_score,1_day_news_count,past_3_days_senti_avg,past_7_days_senti_avg,company_apple,company_amazon,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,KNN,DecisionTree,SVM,
+ ,0.44419134396355353,0.7699316628701595,0.44646924829157175,
+
+

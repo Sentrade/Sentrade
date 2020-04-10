@@ -1,17 +1,54 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-__author__ = "Davide Locatelli, Ziyou Zhang"
-__status__ = "Production"
-
+import string
+import tweepy as tw
+import pandas as pd
 import json
+import re
+import emoji
+import time
 import sys
-import spacy
 from datetime import datetime, timedelta
-from dateutil.parser import parse
 from textblob import TextBlob
+from pathlib import Path
 from pymongo import MongoClient
-from pymongo import errors
+
+__author__ = "Ziyou Zhang, Fenming Liu"
+__status__ = "Development"
+
+month_map = {"Jan": "01", 
+             "Feb": "02",
+             "Mar": "03",
+             "Apr": "04",
+             "May": "05",
+             "Jun": "06",
+             "Jul": "07",
+             "Aug": "08",
+             "Sep": "09",
+             "Oct": "10",
+             "Nov": "11",
+             "Dec": "12"
+            }
+
+def parse_twitter_date(date):
+    """
+    Change the format of the twitter date string.
+
+    :param date: the original date string. e.g. "Fri Jan 03 16:34:09 +0000 2020"
+    
+    :return: reformated string. e.g. 2020-01-03
+    """
+
+    new_date = ""
+    
+    year = date[-4:]
+    month = date[4:7]
+    day = date[8:10]
+    month = month_map[month]
+
+    new_date = year + "-" + month + "-" + day
+    return new_date
 
 def get_date_offset(date, offset):
     """
@@ -24,90 +61,90 @@ def get_date_offset(date, offset):
 
     date_object = datetime.strptime(date, "%Y-%m-%d")
     date_offset = (date_object - timedelta(offset)).strftime("%Y-%m-%d")
-    return date_offset
     
-def is_org(news, company_name):
+    return date_offset
+
+def process_original_tweet(text):
     """
-    Function to check if a company is named in a piece of news
+    Pre-process the original text.
 
-    :param news: the news being checked (in JSON format)
-    :param company_name: the name of the company (lowercase)
-    :return: true if the company is named, false otherwise.
-    """
-
-    nlp = spacy.load("en_core_web_sm") #create a spaCy Language object
-    doc = nlp(news["text"]) #select text of the news
-    for t in doc.ents:
-        if t.lower_ == company_name: #if company name is called
-            if t.label_ == "ORG": #check they actually mean the company
-                return True
-    return False
-
-def blob_analyse(inputfile, outputfile):
-    """
-    Function to analyze the sentiment of news about a company using TextBlob
-    For each news about the company, a polarity and subjectivity score is added
-
-    :param inputfile: JSON file containing the news to be analyzed
-    :param outputfile: JSON file where polarity and subjectivity is outputted
+    :param text: original tweet text.
+    :return: the processed tweet text.
     """
 
-    with open(inputfile) as news_file:
-        input_data= json.load(news_file)
+    text = re.sub(pattern=re.compile(r'RT @(.*?):(\s)'), repl='', string=text)
+    text = re.sub(pattern=re.compile(r'http\S+'), repl='', string=text)
+    text = re.sub(pattern=emoji.get_emoji_regexp(), repl='', string=text)
+    text = "".join([i if i.isalnum() or i in string.whitespace else '' for i in text])
+    text = text.lower()
 
-    for news in input_data:
-        if is_org(news,company): #if news is about company
-            blob = TextBlob(news["text"])
-            news["polarity"] = blob.sentiment.polarity
-            news["subjectivity"] = blob.sentiment.subjectivity
+    return text
 
-    with open(outputfile, "w") as results:
-        json.dump(input_data, results)
-
-def raw_blob_analysis(inputfile, outputfile):
+def scrap_tweets_today(company_name):
     """
-    Function to analyze the sentiment of news about a company using TextBlob without context checking.
+    Get the tweets from current day about the company.
 
-    :param inputfile: JSON file containing the news to be analyzed
-    :param outputfile: JSON file where polarity and subjectivity is outputted
+    :param company_name: the name of the company.
+    :return: a json object.
     """
+    
+    consumer_key = "o62Qbz4RQcWoSlZwYAf8rk6Br"
+    consumer_secret = "rIA9adduzHxl6lude0lCNYoyNy00trNTsGmrlHNR1M5anasaeB"
+    access_token = "1079882101191778305-UxW9ONHBCHTsHYlfBcWBqsNVmJ7a70"
+    access_token_secret = "0TSs4ls9OYedbFBNhGr72vXgWPkWoFJxDd8Fwj8TpT9jD"
 
-    with open(inputfile) as news_file:
-        input_data= json.load(news_file)
+    auth = tw.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
 
-    for news in input_data:
-        blob = TextBlob(news["text"])
-        news["polarity"] = blob.sentiment.polarity
-        news["subjectivity"] = blob.sentiment.subjectivity
+    api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
-    with open(outputfile, "w") as results:
-        json.dump(input_data, results)
+    search = company_name + " -filter:retweets"
+    date_since = datetime.today().strftime('%Y-%m-%d')
 
-def blob_sentiment_database(company_name, client_address):
+    tweets = tw.Cursor(api.search,
+                        q=search,
+                        lang="en",
+                        result_type="mixed",
+                        since=date_since).items()
+    
+    results = []
+    count = 0
+
+    for tweet in tweets:
+        single_tweet = {}
+        single_tweet["date"] = str(tweet.created_at)[:10]
+
+        original_text = tweet.text
+        processed_text = process_original_tweet(original_text)
+        single_tweet["original_text"] = original_text
+        single_tweet["processed_text"] = process_original_tweet(processed_text)
+        
+        blob = TextBlob(processed_text)
+        single_tweet["polarity"] = blob.sentiment.polarity
+        single_tweet["subjectivity"] = blob.sentiment.subjectivity
+
+        count += 1
+        print("current progress for {}: {}".format(company_name, count))
+
+        results.append(single_tweet)
+
+    # with open(Path("results/{}-{}.json".format(company_name, date_since)), "w") as output_file:
+    #     json.dump(results, output_file)
+    
+    return results
+
+def add_current_twitter(company_name, client_address):
     """
-    Ananlyse the textblob sentiment scores and add them in the database.
+    Add the tweets of the company on current date.
 
     :param company_name: the name of the company. Used as the entry in the database.
+    :param client_address: the address of the database.
     """
 
     client = MongoClient(client_address)
-    twitter_db = client.twitter_data
-
-    count = 0
-    total_count = twitter_db[company_name].count_documents({})
-    for news in twitter_db[company_name].find().batch_size(1000):
-        try:
-            blob = TextBlob(news["processed_text"])
-            updated_polarity = {"$set": {"polarity": blob.sentiment.polarity}}
-            updated_subjectivity = {"$set": {"subjectivity": blob.sentiment.subjectivity}}
-            twitter_db[company_name].update_one(news, updated_polarity)
-            twitter_db[company_name].update_one(news, updated_subjectivity)
-            count += 1
-            print("analyse", company_name, "progress:", count, "/", total_count)
-        except errors.CursorNotFound:
-            count += 1
-            print("skip analyse", company_name, "progress:", count, "/", total_count)
-    
+    db = client.twitter_current
+    tweets = scrap_tweets_today(company_name)
+    db[company_name].insert_many(tweets)
     client.close()
 
 def generate_blob_sentiment_database(company_name, client_address):
@@ -120,8 +157,8 @@ def generate_blob_sentiment_database(company_name, client_address):
 
     client = MongoClient(client_address)
     db = client.sentrade_db
-    twitter_db = client.twitter_data
-    sentiment_db = client.sentiment_data
+    twitter_db = client.twitter_current
+    sentiment_db = client.sentiment_current
 
     news_dates = []
     news_scores = []
@@ -169,7 +206,7 @@ def extend_blob_sentiment_database(company_name, client_address):
     """
 
     client = MongoClient(client_address)
-    sentiment_db = client.sentiment_data
+    sentiment_db = client.sentiment_current
 
     news_dates = []
     news_scores = []
@@ -179,7 +216,7 @@ def extend_blob_sentiment_database(company_name, client_address):
     progress_full = len(all_date)
     progress_count = 0
     for date in all_date:
-        
+
         # calculate 3 day sentiment scores
         three_day_news_score = 0  
         three_day_news_count = sys.float_info.epsilon
@@ -204,7 +241,7 @@ def extend_blob_sentiment_database(company_name, client_address):
             if current_day:
                 seven_day_news_score += current_day["1_day_overall_sentiment_score"]
                 seven_day_news_count += current_day["1_day_news_count"]
-
+        
         updated_sentiment_score = {"$set": {"7_day_sentiment_score": seven_day_news_score / seven_day_news_count,
                                             "7_day_overall_sentiment_score": seven_day_news_score,
                                             "7_day_news_count": seven_day_news_count}}
@@ -216,11 +253,10 @@ def extend_blob_sentiment_database(company_name, client_address):
     client.close()
 
 if __name__ == "__main__":
-    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    
+    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+
     for company in companies:
-        blob_sentiment_database(company, client_address)
+        add_current_twitter(company, client_address)
         generate_blob_sentiment_database(company, client_address)
         extend_blob_sentiment_database(company, client_address)
-
