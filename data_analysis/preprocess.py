@@ -8,18 +8,10 @@ import pandas as pd
 __author__ = "Fengming Liu"
 __status__ = "Development"
 
-def format_date(date):
-	result = datetime.datetime.strptime(date, "%Y-%m-%d")
-	return result.date()
-
 def get_relativeday(date):
     rel_days = (date - datetime.date(2019, 1, 1)).days
 #    print(type(rel_days))
     return rel_days
-
-def get_weekday(date):
-	[year, month, day] = date.split('-')
-	return datetime.date(int(year), int(month), int(day)).weekday() + 1
 
 def get_num(num_dict):
 	if "$numberInt" in num_dict:
@@ -53,12 +45,15 @@ def get_senti_df(company):
     senti_df.insert(loc=1, column="relative_day", value=None)
     for index, row in senti_df.iterrows():
         senti_df.loc[index, "relative_day"] = get_relativeday(row["date"].date()) 
+        senti_df.loc[index, "today_sentiment_score"] = get_num(row["today_sentiment_score"])
         senti_df.loc[index, "1_day_sentiment_score"] = get_num(row["1_day_sentiment_score"])
         senti_df.loc[index, "3_day_sentiment_score"] = get_num(row["3_day_sentiment_score"])
         senti_df.loc[index, "7_day_sentiment_score"] = get_num(row["7_day_sentiment_score"])
+        senti_df.loc[index, "today_news_count"] = get_num(row["today_news_count"])
         senti_df.loc[index, "1_day_news_count"] = get_num(row["1_day_news_count"])
         senti_df.loc[index, "3_day_news_count"] = get_num(row["3_day_news_count"])
         senti_df.loc[index, "7_day_news_count"] = get_num(row["7_day_news_count"])
+        senti_df.loc[index, "today_overall_sentiment_score"] = get_num(row["today_overall_sentiment_score"])
         senti_df.loc[index, "1_day_overall_sentiment_score"] = get_num(row["1_day_overall_sentiment_score"])
         senti_df.loc[index, "3_day_overall_sentiment_score"] = get_num(row["3_day_overall_sentiment_score"])
         senti_df.loc[index, "7_day_overall_sentiment_score"] = get_num(row["7_day_overall_sentiment_score"])
@@ -108,7 +103,7 @@ for index, row in total_df.iterrows():
     else:
         total_df.loc[index, "up_cat"] = -2
     
-total_df.to_csv("./processed_data/total_clf.csv", index=False)
+total_df.to_csv("./total_clf.csv", index=False)
 
 
 

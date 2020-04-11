@@ -22,37 +22,32 @@ def get_company_code(record, company):
         record["company_"+name] = 0
     record["company_" + company] = 1
     return record
+
+def get_num(num_dict):
+	if "$numberInt" in num_dict:
+		return float(num_dict["$numberInt"])
+	elif "$numberDouble" in num_dict:
+		return float(num_dict["$numberDouble"])
+	else:
+		return 0
     
 def preprocess_data(record, company, date):
     # calculate the features
-    record["relative_day"] = get_relativeday(record["date"])
-    record = get_company_code(record, company)
-    record["1_day_sentiment_score"] = float(record["1_day_sentiment_score"])
-    record["1_day_news_count"] = int(record["1_day_news_count"])
-    record["1_day_overall_sentiment_score"] = float(record["1_day_overall_sentiment_score"])
-    record["past_3_days_senti_avg"] = float(record["3_day_sentiment_score"])
-    record["past_7_days_senti_avg"] = float(record["7_day_sentiment_score"])
+    record["relative_day"] = get_relativeday(record.pop("date"))
+    record = get_company_code(record, company)      
    	
     # return the necessary features
     result = []
     for key, value in record.items():
-        if key in [
-#                   "relative_day", 
-                   "1_day_sentiment_score", 
-                   "1_day_news_count",
-#                   "1_day_overall_sentiment_score", 
-                   "past_3_days_senti_avg",
-                   "past_7_days_senti_avg", 
-                   "company_amazon", 
-                   "company_apple",
-                   "company_facebook", 
-                   "company_google", 
-                   "company_microsoft",
-                   "company_netflix", 
-                   "company_tesla"
-                   ]:
+        if key in ["relative_day",
+                   "company_amazon", "company_apple", "company_facebook", "company_google", 
+                   "company_microsoft", "company_netflix", "company_tesla"]:
             result.append(value)
-    
+        elif key in ["3_day_sentiment_score"]:
+            result.append(value)
+        else:
+            pass
+    print(result)
     return np.array(result).reshape(1, -1)
             
 def on_click(clf, x_test):
