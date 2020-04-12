@@ -27,13 +27,21 @@ from datetime import datetime, timedelta
 __author__ = "Davide Locatelli"
 __status__ = "Prototype"
 
-aboutus = """This website aims to provide sentiment analysis of eight stocks by applying natural language processing on Twitter posts. 
+aboutus = """
+This website aims to provide sentiment analysis of eight stocks by applying natural language processing on Twitter posts. 
 
 This is a temporary website built by 6 MSc students from Imperial College London and it will be removed in June 2020. 
 
 SenTrade makes no express or implied warranty that the website will be updated timely: please do not use it for trading purposes. 
 
-SenTrade will not be liable for any damages or losses caused by the use of information provided."""
+SenTrade will not be liable for any damages or losses caused by the use of information provided.
+
+‘三’百年前，将军前去战场，战事胶着，将军心急如焚，提脚
+‘踹’向地面，忽见地面裂开一条细缝，金光闪烁，掘地一尺有余
+‘得’宝剑一柄，后将军奋勇杀敌，所向披靡，战事得胜，将军获封为封疆大吏
+
+后世人们为了纪念这个故事，将此事编为歌谣，传颂至今。歌名唤作‘三踹得’
+"""
 
 search_bar = dbc.Row(
     [
