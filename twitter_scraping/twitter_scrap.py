@@ -9,6 +9,7 @@ import re
 import emoji
 import time
 import sys
+import spacy
 from datetime import datetime, timedelta
 from textblob import TextBlob
 from pathlib import Path
@@ -30,6 +31,24 @@ month_map = {"Jan": "01",
              "Nov": "11",
              "Dec": "12"
             }
+
+def check_context(model, sentence, company_name):
+    """
+    Check if the company name in the sentence is actually a company name.
+
+    :param model: the spacy model.
+    :param sentence: the sentence to be analysed.
+    :param company_name: the name of the company.
+    :return: True if the company name means a company/product.
+    """
+
+    doc = model(sentence)
+    for t in doc.ents:
+        if t.lower_ == company_name: #if company name is called
+            if t.label_ == "ORG" or t.label_ == "PRODUCT": #check they actually mean the company
+                return True
+    return False
+
 
 def parse_twitter_date(date):
     """
@@ -109,6 +128,9 @@ def scrap_tweets_today(company_name):
     
     results = []
     count = 0
+    hit_count = 0
+
+    nlp = spacy.load("en_trf_bertbaseuncased_lg")
 
     for tweet in tweets:
         single_tweet = {}
@@ -116,17 +138,24 @@ def scrap_tweets_today(company_name):
 
         original_text = tweet.text
         processed_text = process_original_tweet(original_text)
-        single_tweet["original_text"] = original_text
-        single_tweet["processed_text"] = process_original_tweet(processed_text)
+
+        if check_context(nlp, processed_text, company_name):
+
+            single_tweet["original_text"] = original_text
+            single_tweet["processed_text"] = process_original_tweet(processed_text)
+            
+            blob = TextBlob(processed_text)
+            single_tweet["polarity"] = blob.sentiment.polarity
+            single_tweet["subjectivity"] = blob.sentiment.subjectivity
+
+            results.append(single_tweet)
+
+            print("current progress for {}: {}".format(company_name, count))
         
-        blob = TextBlob(processed_text)
-        single_tweet["polarity"] = blob.sentiment.polarity
-        single_tweet["subjectivity"] = blob.sentiment.subjectivity
-
         count += 1
-        print("current progress for {}: {}".format(company_name, count))
-
-        results.append(single_tweet)
+        
+        if count >= 12000:
+            break
 
     # with open(Path("results/{}-{}.json".format(company_name, date_since)), "w") as output_file:
     #     json.dump(results, output_file)
@@ -182,14 +211,14 @@ def generate_blob_sentiment_database(company_name, client_address):
         if (sentiment_db[company_name].count_documents({"date": date}) == 0):
             sentiment = {"company": company_name,
                          "date": date,
-                         "1_day_sentiment_score": news_score / news_count,
-                         "1_day_overall_sentiment_score": news_score,
-                         "1_day_news_count": news_count}
+                         "today_sentiment_score": news_score / news_count,
+                         "today_overall_sentiment_score": news_score,
+                         "today_news_count": news_count}
             sentiment_db[company_name].insert_one(sentiment)
         else:
-            updated_sentiment_score = {"$set": {"1_day_sentiment_score": news_score / news_count,
-                                                "1_day_overall_sentiment_score": news_score,
-                                                "1_day_news_count": news_count}}
+            updated_sentiment_score = {"$set": {"today_sentiment_score": news_score / news_count,
+                                                "today_overall_sentiment_score": news_score,
+                                                "today_news_count": news_count}}
             sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
         progress_count += 1
         print("summarise", company_name, "progress:", progress_count, "/", progress_full)
@@ -215,33 +244,48 @@ def extend_blob_sentiment_database(company_name, client_address):
 
     progress_full = len(all_date)
     progress_count = 0
-    for date in all_date:
+     for date in all_date:
 
-        # calculate 3 day sentiment scores
+        # calculate past 1 day sentiment scores
+        one_day_news_score = 0  
+        one_day_news_count = sys.float_info.epsilon
+        for i in range(1, 2):
+            current_day = sentiment_db[company_name].find_one({"date": get_date_offset(date, i)})
+            if current_day:
+                one_day_news_score += current_day["today_overall_sentiment_score"]
+                one_day_news_count += current_day["today_news_count"]
+
+        updated_sentiment_score = {"$set": {"1_day_sentiment_score": one_day_news_score / one_day_news_count,
+                                            "1_day_overall_sentiment_score": one_day_news_score,
+                                            "1_day_news_count": one_day_news_count}}
+        sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
+
+        
+        # calculate past 3 day sentiment scores
         three_day_news_score = 0  
         three_day_news_count = sys.float_info.epsilon
 
-        for i in range(3):
+        for i in range(1, 4):
             current_day = sentiment_db[company_name].find_one({"date": get_date_offset(date, i)})
             if current_day:
-                three_day_news_score += current_day["1_day_overall_sentiment_score"]
-                three_day_news_count += current_day["1_day_news_count"]
+                three_day_news_score += current_day["today_overall_sentiment_score"]
+                three_day_news_count += current_day["today_news_count"]
 
         updated_sentiment_score = {"$set": {"3_day_sentiment_score": three_day_news_score / three_day_news_count,
                                             "3_day_overall_sentiment_score": three_day_news_score,
                                             "3_day_news_count": three_day_news_count}}
         sentiment_db[company_name].update_one(sentiment_db[company_name].find_one({"date": date}), updated_sentiment_score)
 
-        # calculate 7 day sentiment scores
+        # calculate past 7 day sentiment scores
         seven_day_news_score = 0  
         seven_day_news_count = sys.float_info.epsilon
 
-        for i in range(7):
+        for i in range(1, 8):
             current_day = sentiment_db[company_name].find_one({"date": get_date_offset(date, i)})
             if current_day:
-                seven_day_news_score += current_day["1_day_overall_sentiment_score"]
-                seven_day_news_count += current_day["1_day_news_count"]
-        
+                seven_day_news_score += current_day["today_overall_sentiment_score"]
+                seven_day_news_count += current_day["today_news_count"]
+
         updated_sentiment_score = {"$set": {"7_day_sentiment_score": seven_day_news_score / seven_day_news_count,
                                             "7_day_overall_sentiment_score": seven_day_news_score,
                                             "7_day_news_count": seven_day_news_count}}

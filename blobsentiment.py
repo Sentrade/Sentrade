@@ -238,4 +238,3 @@ if __name__ == "__main__":
         # blob_sentiment_database(company, client_address)
         generate_blob_sentiment_database(company, client_address)
         extend_blob_sentiment_database(company, client_address)
-
