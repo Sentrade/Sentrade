@@ -244,7 +244,7 @@ def extend_blob_sentiment_database(company_name, client_address):
 
     progress_full = len(all_date)
     progress_count = 0
-     for date in all_date:
+    for date in all_date:
 
         # calculate past 1 day sentiment scores
         one_day_news_score = 0  
