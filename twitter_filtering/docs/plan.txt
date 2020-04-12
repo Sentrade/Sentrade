@@ -5,3 +5,37 @@ Remove special characters (e.g. emoji, punctuation)
 Normalization
 Disambiguation
 Keyword matching
+
+确定要保留的字段
+	id
+	created_at
+	year, month, day, hour, minute (GMT)
+	text
+	source
+确定要做的预处理
+
+数据tar下载链接：
+https://ia803103.us.archive.org/7/items/archiveteam-twitter-stream-2019-01/twitter_stream_2019_01_13.tar
+
+usable machines:
+cloud-vm-41-177
+cloud-vm-42-221
+cloud-vm-42-244
+cloud-vm-43-93
+45.76.133.175
+lab computers
+
+
+twitter archive processing
+time range	machine
+2018-11		finished
+2018-12		finished
+2019-01-13-31	finished
+2019-02		finished
+2019-03		finished
+2019-04		finished
+2019-05		finished
+2019-06		finished
+2019-07		finished
+2019-08		finished
+2019-09		finished
