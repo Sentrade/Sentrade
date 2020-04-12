@@ -5,7 +5,7 @@ import pymongo
 import spacy
 import sys
 
-def is_org(lang_obj, text, company_name):
+def is_org(nlp, text, company_name):
     """
     Function to check if a company is named in a piece of news
 
