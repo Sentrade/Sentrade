@@ -10,7 +10,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import  train_test_split
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, plot_confusion_matrix
 
 __author__ = "Fengming Liu, Longzhen Li, Shaomiao Yin"
 __status__ = "Development"
@@ -62,10 +62,21 @@ for features in features_list:
                                                         random_state=500)    
     # train the model
     for alg_name, clf in alg_dict.items():
-        print(features, response, alg_name)
+        print("features:")
+        print(features)
         [accuracy, cm, clf] = classifier_run(clf, alg_name, x_train, x_test, y_train, y_test)
+#        print("algorithm:", alg_name)
+#        print("accuracy:", accuracy)
+#        print("confusion matrix:")
+#        print(cm)
+        disp = plot_confusion_matrix(clf, x_test, y_test,
+                                     display_labels=[-2, -1, 0, 1, 2],
+                                     cmap=plt.cm.Blues)
+        disp.ax_.set_title(alg_name)
+        print(disp.confusion_matrix)
+        print()
         joblib.dump(clf, "./models/" + alg_name + "_model.joblib")
-        write_result(result, alg_name, accuracy, cm)
+#        write_result(result, alg_name, accuracy, cm)
     result.write('\n')
 result.write('\n\n')
 result.close()
