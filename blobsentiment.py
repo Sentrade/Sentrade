@@ -39,7 +39,7 @@ def is_org(news, company_name):
     doc = nlp(news["text"]) #select text of the news
     for t in doc.ents:
         if t.lower_ == company_name: #if company name is called
-            if t.label_ == "ORG": #check they actually mean the company
+            if t.label_ == "ORG" or t.label_ == "PRODUCT": #check they actually mean the company
                 return True
     return False
 
