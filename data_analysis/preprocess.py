@@ -60,7 +60,7 @@ def get_senti_df(company):
     senti_df.drop(["_id", "date"], axis=1, inplace=True)
     return senti_df
 
-##### main #####
+##### Main #####
 total_df = pd.DataFrame()
 company_list = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
 
@@ -103,7 +103,7 @@ for index, row in total_df.iterrows():
     else:
         total_df.loc[index, "up_cat"] = -2
     
-total_df.to_csv("./total_clf.csv", index=False)
+total_df.to_csv("./total_data.csv", index=False)
 
 
 
