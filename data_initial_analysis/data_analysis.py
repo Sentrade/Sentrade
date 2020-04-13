@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import pprint
 from pymongo import MongoClient
 import matplotlib.pyplot as plt
 from pathlib import Path
@@ -46,8 +45,8 @@ def data_study(company_name, client_address):
         stock_close.append(stock["close"])
     
     # stock price difference between tomorrow's close and today's close
-    for i in range(len(stock_date)-1):
-        stock_change.append((stock_close[i+1] - stock_close[i])/stock_close[i] * 100)
+    for i in range(1, len(stock_date)):
+        stock_change.append((stock_close[i] - stock_close[i-1])/stock_close[i-1] * 100)
 
     for sentiment in all_sentiment:
         sentiment_date.append(sentiment["date"])
@@ -65,24 +64,45 @@ def data_study(company_name, client_address):
                 change_plot.append(stock_change[i])
                 sentiment_plot.append(sentiment_score[j])
                 # sentiment_overall_plot.append(sentiment_overall[j])
-
-    plt.plot(sentiment_plot, change_plot, 'k.')
-    plt.title(company_name)
-    plt.xlabel("1 day average sentiment score")
-    plt.ylabel("stock price change percentage / %")
-    plt.savefig(Path("./scatter/" + company_name + "_average.png"))
-    plt.clf()
+    
+    # plt.plot(sentiment_plot, change_plot, 'k.')
+    # plt.title(company_name)
+    # plt.xlabel("1 day average sentiment score")
+    # plt.ylabel("stock price change percentage / %")
+    # plt.savefig(Path("./scatter/" + company_name + "_average.png"))
+    # plt.clf()
 
     # plt.plot(sentiment_plot, change_plot, 'b.')
     # plt.title(company_name)
     # plt.xlabel("1 day average overall sentiment score")
     # plt.ylabel("stock price change")
     # plt.savefig(Path("/scatter/" + company_name + "_overall.png"))
-
-    print("Plot for", company_name, "finished")
+    
+    return sentiment_plot, change_plot
 
 if __name__ == "__main__":
+    import numpy as np
+
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
-    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    for company in companies:
-        data_study(company, client_address)
+    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla"]
+
+    # for i in range(len(companies)):
+    #     x, y = data_study(companies[i], client_address)
+    #     array = np.asarray([x, y])
+    #     filepath = Path("./data/{}.csv".format(companies[i]))
+    #     np.savetxt(filepath, array, delimiter=",")
+    #     print("saving data for", companies[i], "finished")
+
+    fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[14, 7])
+    for i in range(len(companies)):
+        filepath = Path("./data/{}.csv".format(companies[i]))
+        result = np.loadtxt(filepath, delimiter=",")
+        axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
+        axs[i//4, i%4].set_xlim([-0.1, 0.3])
+        axs[i//4, i%4].set_ylim([-10, 10])
+        axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.31, 0.1))
+        axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
+        axs[i//4, i%4].set_title(companies[i])
+
+    axs[1,3].remove()
+    plt.savefig(Path("scatter_all.png"), dpi=500)
