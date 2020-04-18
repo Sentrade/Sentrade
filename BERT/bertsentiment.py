@@ -10,15 +10,7 @@ from time import ctime
 from BertLibrary import BertFTModel
 from pymongo import MongoClient, errors
 
-def bert_sentiment_database(company_name, client_address):
-    """
-    Ananlyse the BERT sentiment scores and add them in the database.
-
-    :param company_name: the name of the company. Used as the entry in the database.
-    """
-    client = MongoClient(client_address)
-    twitter_db = client.twitter_data
-
+def get_model():
     # The BERT model
     ft_model = BertFTModel( model_dir='model',
                         ckpt_name="model.ckpt-35000",
@@ -34,6 +26,16 @@ def bert_sentiment_database(company_name, client_address):
                         )
 
     predictor =  ft_model.get_predictor()
+    return predictor
+
+def bert_sentiment_database(company_name, client_address, bert):
+    """
+    Ananlyse the BERT sentiment scores and add them in the database.
+
+    :param company_name: the name of the company. Used as the entry in the database.
+    """
+    client = MongoClient(client_address)
+    twitter_db = client.twitter_data
 
     count = 0
 
@@ -44,13 +46,13 @@ def bert_sentiment_database(company_name, client_address):
     for news in twitter_db[company_name].find({ "bert_sentiment" : { "$exists" : False } }).batch_size(1000):
         try:
             text = news["processed_text"]
-            scores = predictor([text])
+            scores = bert([text])
             score = scores[0][1]
             score = float("{:.2f}".format(score))
             bert_sentiment = {"$set": {"bert_sentiment": score}}
             twitter_db[company_name].update_one(news, bert_sentiment)
             count += 1
-            print("analyse ", company, "progress: ", count, "/", total_count)
+            print("analyse ", company_name, "progress: ", count, "/", total_count)
         except errors.CursorNotFound:
             count += 1
             print("skip analyse ", company_name, "progress: ", count, "/", total_count)
@@ -67,10 +69,6 @@ def generate_bert_sentiment_database(company_name, client_address):
     db = client.sentrade_db
     twitter_db = client.twitter_data
     sentiment_db = client.sentiment_data
-
-    news_dates = []
-    news_scores = []
-    today_news_count = 0
 
     all_date = twitter_db[company_name].distinct("date")
 
@@ -104,6 +102,7 @@ def generate_bert_sentiment_database(company_name, client_address):
 if __name__ == "__main__":
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    for company in companies:
-        #bert_sentiment_database(company, client_address)
-        generate_bert_sentiment_database(company, client_address)
+    #bert = get_model()
+    #for company in companies:
+        #bert_sentiment_database(company, client_address, bert)
+        #generate_bert_sentiment_database(company, client_address)

@@ -212,7 +212,7 @@ def Graph(ticker):
         graph.append(row)
 
         stock_price_db = db_client.sentrade_db.stock_price
-        sentiment_db = db_client.sentiment_data[company_db_name[ticker]]
+        sentiment_db = db_client.sentiment_data
 
         close = []
         stock_date = []
@@ -222,7 +222,7 @@ def Graph(ticker):
         
         polarity = []
         sent_date = []
-        for record in sentiment_db.find().sort("date"):
+        for record in sentiment_db[company_db_name[ticker]].find().sort("date"):
             polarity.append(record["1_day_sentiment_score"])
             sent_date.append(record["date"])
         
