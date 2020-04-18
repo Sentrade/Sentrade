@@ -88,6 +88,7 @@ def blob_sentiment_database(company_name, client_address):
     Ananlyse the textblob sentiment scores and add them in the database.
 
     :param company_name: the name of the company. Used as the entry in the database.
+    :param client_address: the address of the database.
     """
 
     client = MongoClient(client_address)
@@ -123,10 +124,6 @@ def generate_blob_sentiment_database(company_name, client_address):
     twitter_db = client.twitter_data
     sentiment_db = client.sentiment_data
 
-    news_dates = []
-    news_scores = []
-    today_news_count = 0
-
     all_date = twitter_db[company_name].distinct("date")
 
     progress_full = len(all_date)
@@ -161,8 +158,8 @@ def generate_blob_sentiment_database(company_name, client_address):
 
 def extend_blob_sentiment_database(company_name, client_address):
     """
-    Calculate the 3 days and 7 days textblob sentiment scores based on 1 day sentiment average.
-    Perform this operation only after 1 day sentiment score is obtained.
+    Calculate the 1 day, 3 days and 7 days textblob sentiment scores based on 1 day sentiment average.
+    Perform this operation only after today sentiment score is obtained.
 
     :param company_name: the name of the company. Used as the entry in the database.
     :param client_address: the address of the database.
