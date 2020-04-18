@@ -8,6 +8,7 @@ import time
 import sys
 from time import ctime
 from BertLibrary import BertFTModel
+from datetime import datetime, timedelta
 from pymongo import MongoClient, errors
 
 def get_date_offset(date, offset):
