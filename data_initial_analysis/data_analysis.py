@@ -50,8 +50,10 @@ def data_study(company_name, client_address):
 
     for sentiment in all_sentiment:
         sentiment_date.append(sentiment["date"])
-        sentiment_score.append(sentiment["1_day_sentiment_score"])
-        # sentiment_overall.append(sentiment["1_day_overall_sentiment_score"])
+        # sentiment_score.append(sentiment["1_day_sentiment_score"])
+        # sentiment_score.append(sentiment["1_day_overall_sentiment_score"])
+        sentiment_score.append(sentiment["1_day_bert_sentiment_score"])
+        # sentiment_score.append(sentiment["1_day_overall_bert_sentiment_score"])
 
     client.close()
 
@@ -98,11 +100,11 @@ if __name__ == "__main__":
         filepath = Path("./data/{}.csv".format(companies[i]))
         result = np.loadtxt(filepath, delimiter=",")
         axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
-        axs[i//4, i%4].set_xlim([-0.1, 0.3])
-        axs[i//4, i%4].set_ylim([-10, 10])
-        axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.31, 0.1))
-        axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
+        # axs[i//4, i%4].set_xlim([-0.1, 0.3])
+        # axs[i//4, i%4].set_ylim([-10, 10])
+        # axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.31, 0.1))
+        # axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
         axs[i//4, i%4].set_title(companies[i])
 
     axs[1,3].remove()
-    plt.savefig(Path("scatter_all.png"), dpi=500)
+    plt.savefig(Path("scatter_bert_all.png"), dpi=500)
