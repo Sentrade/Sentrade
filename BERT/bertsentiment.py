@@ -4,14 +4,11 @@
 __author__ = "Davide Locatelli, Ziyou Zhang"
 __status__ = "Production"
 
-from BertLibrary import BertFTModel
 import time
-from time import ctime
-from pymongo import MongoClient, errors
-
-#
 import sys
-
+from time import ctime
+from BertLibrary import BertFTModel
+from pymongo import MongoClient, errors
 
 def bert_sentiment_database(company_name, client_address):
     """
@@ -82,11 +79,12 @@ def generate_bert_sentiment_database(company_name, client_address):
     for date in all_date:
         news_score = 0
         news_count = sys.float_info.epsilon
+
         # sum all scores
         for company_tweet in twitter_db[company_name].find({"date": date}):
-            if "bert_polarity" in company_tweet:
-                news_score += company_tweet["bert_polarity"]
-                news_count += 1
+            news_score += company_tweet["bert_sentiment"]
+            news_count += 1
+
         # check if the date is not yet in the database
         if (sentiment_db[company_name].count_documents({"date": date}) == 0):
             sentiment = {"company": company_name,
@@ -105,9 +103,7 @@ def generate_bert_sentiment_database(company_name, client_address):
 
 if __name__ == "__main__":
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
-    # companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    unambiguous_companies = ["facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    #unambiguous_companies = ["tesla"]
-    for company in unambiguous_companies:
-        bert_sentiment_database(company, client_address)
+    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    for company in companies:
+        #bert_sentiment_database(company, client_address)
         generate_bert_sentiment_database(company, client_address)
