@@ -4,7 +4,10 @@ An algo-trading product for faciliating investors on stock trading based on sent
 
 ## Getting Started
 
-(place holder)
+To clone it without the lfs, use:
+```
+export GIT_LFS_SKIP_SMUDGE=1
+```
 
 ### Prerequisites
 
@@ -20,7 +23,10 @@ An algo-trading product for faciliating investors on stock trading based on sent
 
 ## Deployment
 
-(place holder)
+To run it on the server and log the output messages, use:
+```
+nohup python sentrade.py > output.txt &
+```
 
 ## Built With
 
