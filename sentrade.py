@@ -46,95 +46,6 @@ easter_egg_message = """
 后世人们为了纪念这个故事，将此事编为歌谣，传颂至今。歌名唤作‘三踹得’
 """
 
-search_bar = dbc.Row(
-    [
-        dbc.Col([dbc.Button(
-            "About", 
-            className="button-about",
-            id="modal-target", 
-            color="secondary", 
-            outline=True, 
-            size="sm",
-            style={
-                "font-size":"0.765625rem",
-                "font-family":"sans-serif",
-                "font-weight":"350",
-                "letter-spacing":"1px",
-                "padding":"inherit",
-                "color":"#aaa"
-            }
-        ),
-        dbc.Modal(
-            [
-                dbc.ModalHeader("About Sentrade"),
-                dbc.ModalBody(aboutus,style={"white-space": "pre-line"}),
-                dbc.ModalFooter(dbc.Button("Close",id="close",color="secondary", 
-                    outline=True, 
-                    size="sm",
-                    style={
-                        "font-size":"0.6rem",
-                        "font-family":"sans-serif",
-                        "font-weight":"350",
-                        "width":'20%',
-                        "letter-spacing":"1px",
-                        "color":"#aaa"
-                    })),
-            ],
-            id='modal-scroll',
-            scrollable=True
-        ),]),
-        dbc.Col(dcc.Dropdown(
-                    id = 'stock-ticker',
-                    options = [
-                        {"label" : "AAPL" , "value" : "AAPL"},
-                        {"label" : "AMZN" , "value" : "AMZN"},
-                        {"label" : "FB"   , "value" : "FB"  },
-                        {"label" : "GOOG" , "value" : "GOOG"},
-                        {"label" : "MSFT" , "value" : "MSFT"},
-                        {"label" : "NFLX" , "value" : "NFLX"},
-                        {"label" : "TSLA" , "value" : "TSLA"},
-                        {"label" : "UBER" , "value" : "UBER"},
-                    ],
-                    placeholder = "Select Ticker",
-                    multi = False,
-                    style = {
-                        "width" : "100%",
-                        'margin-right' : '80px'
-                    }
-                ))
-    ],
-    no_gutters=True,
-    className="ml-auto flex-nowrap mt-3 mt-md-0",
-    align="center",
-)
-
-navbar = dbc.Navbar(
-    [
-        html.A(
-            dbc.Row(
-                [
-                    dbc.Col(dbc.NavbarBrand("Sentrade", className="ml-2")),
-                    dbc.Col(html.H6("Financial Sentiment Analysis",style={"white-space":"nowrap","color":"grey","margin-top":"8px"}))
-                ],
-                align="center",
-                no_gutters=True,
-            ),
-        ),
-        dbc.NavbarToggler(id="navbar-toggler"),
-        dbc.Collapse(search_bar, id="navbar-collapse", navbar=True),
-    ],
-    className = "navbar"
-)
-
-graph = html.Div(
-    className = 'graph',
-    id = 'graph',
-    style={
-        'margin-top':'0.8%',
-    },
-    children= dcc.Graph(id='click-graph')
-)
-
 def Graph(ticker):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
@@ -208,7 +119,6 @@ def Graph(ticker):
                 ),
             ]
         )
-
         graph.append(row)
 
         stock_price_db = db_client.sentrade_db.stock_price
@@ -297,11 +207,6 @@ def Graph(ticker):
         )
         graph.append(dcc.Graph(id='click-graph',figure=fig,style={'margin-top':'0.6%'}))
     return graph
-
-tweets = html.Div(
-    className = 'tweets',
-    id = 'tweets',
-)
 
 def Prediction(ticker):
 
@@ -489,11 +394,6 @@ def tweetstyle(tweets_polarity, i):
             'margin-top' : '1%'
         }
     return style
-
-data = html.Div(
-    className= 'finance',
-    id = 'finance'
-)
 
 def F_data(ticker, graphDate="2019-09-30"):
 
@@ -695,11 +595,132 @@ def score_style(polarity_avg):
         color = 'success'
     return color
 
+search_bar = dbc.Row(
+    [
+        dbc.Col([dbc.Button(
+            "About", 
+            className="button-about",
+            id="modal-target", 
+            color="secondary", 
+            outline=True, 
+            size="sm",
+            style={
+                "font-size":"0.765625rem",
+                "font-family":"sans-serif",
+                "font-weight":"350",
+                "letter-spacing":"1px",
+                "padding":"inherit",
+                "color":"#aaa"
+            }
+        ),
+        dbc.Modal(
+            [
+                dbc.ModalHeader("About Sentrade"),
+                dbc.ModalBody(aboutus,style={"white-space": "pre-line"}),
+                dbc.ModalFooter(dbc.Button("Close",id="close",color="secondary", 
+                    outline=True, 
+                    size="sm",
+                    style={
+                        "font-size":"0.6rem",
+                        "font-family":"sans-serif",
+                        "font-weight":"350",
+                        "width":'20%',
+                        "letter-spacing":"1px",
+                        "color":"#aaa"
+                    })),
+            ],
+            id='modal-scroll',
+            scrollable=True
+        ),]),
+        dbc.Col(dcc.Dropdown(
+                    id = 'stock-ticker',
+                    options = [
+                        {"label" : "AAPL" , "value" : "AAPL"},
+                        {"label" : "AMZN" , "value" : "AMZN"},
+                        {"label" : "FB"   , "value" : "FB"  },
+                        {"label" : "GOOG" , "value" : "GOOG"},
+                        {"label" : "MSFT" , "value" : "MSFT"},
+                        {"label" : "NFLX" , "value" : "NFLX"},
+                        {"label" : "TSLA" , "value" : "TSLA"},
+                        {"label" : "UBER" , "value" : "UBER"},
+                    ],
+                    placeholder = "Select Ticker",
+                    multi = False,
+                    style = {
+                        "width" : "100%",
+                        'margin-right' : '80px'
+                    }
+                ))
+    ],
+    no_gutters=True,
+    className="ml-auto flex-nowrap mt-3 mt-md-0",
+    align="center",
+)
+
+navbar = dbc.Navbar(
+    [
+        html.A(
+            dbc.Row(
+                [
+                    dbc.Col(dbc.NavbarBrand("Sentrade", className="ml-2")),
+                    dbc.Col(html.H6("Financial Sentiment Analysis",style={"white-space":"nowrap","color":"grey","margin-top":"8px"}))
+                ],
+                align="center",
+                no_gutters=True,
+            ),
+        ),
+        dbc.NavbarToggler(id="navbar-toggler"),
+        dbc.Collapse(search_bar, id="navbar-collapse", navbar=True),
+    ],
+    className = "navbar"
+)
+
+graph = html.Div(
+    className = 'graph',
+    id = 'graph',
+    style={
+        'margin-top':'0.8%',
+    },
+    children= dcc.Graph(id='click-graph')
+)
+
+alert = html.Div(
+    [
+        dbc.Alert(
+            "Click on points on the graph",
+            id="alert-auto",
+            is_open=True,
+            dismissable=True,
+            #duration=15000,
+            style= {
+                'width':'50%','margin-left':'auto','margin-right':'auto','border-radius':'5px','margin-top':'2%'
+            }
+        ),
+    ]
+)
+
+data = html.Div(
+    className= 'finance',
+    children = [
+        html.Div(
+            id = 'instruction',
+            children = alert
+        ),
+        html.Div(
+            id = 'finance')
+    ]
+)
+
 leftdiv = html.Div(
     [
         graph,
         data
     ]
+)
+
+tweets = html.Div(
+    className = 'tweets',
+    id = 'tweets',
 )
 
 contents = html.Div(
@@ -745,15 +766,16 @@ def update_graph(ticker):
     return Graph(ticker)
 
 @app.callback(
-    dash.dependencies.Output('finance','children'),
+    [dash.dependencies.Output('finance','children'),
+    dash.dependencies.Output('instruction','style')],
     [dash.dependencies.Input('click-graph', 'clickData')],
     [dash.dependencies.State('stock-ticker', 'value')])
 def update_finance(clickData,ticker):
     if not ticker:
-        return html.Div("")
+        return html.Div(""),{'display':'none'}
     if clickData:
         graphDate = clickData["points"][0]["x"]
-    return F_data(ticker,graphDate)
+    return F_data(ticker,graphDate),{'display':'none'}
 
 @app.callback(
     Output("navbar-collapse", "is_open"),
@@ -788,6 +810,16 @@ def hide_finance(input):
     else:
         return {'display':'none'},{'display':'none'}
 
+@app.callback(
+    Output("alert-auto", "is_open"),
+    [Input("stock-ticker", "value")],
+    [State("alert-auto", "is_open")],
+)
+def toggle_alert(ticker, is_open):
+    if ticker != "None":
+        return not is_open
+    return is_open
+
 # Debugging
 if __name__ == "__main__":
-    app.run_server(debug=False, host='0.0.0.0', port=80)
+    app.run_server(debug=True, host='0.0.0.0', port=80)
