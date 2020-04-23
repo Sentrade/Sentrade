@@ -32,9 +32,15 @@ def write_result(csv_file, alg_name, accuracy, confusion_matrix, n_cat=5):
 ##### Main #####
 total_df = pd.read_csv("./total_data.csv")
 response = "up_cat"
-features_list = [["relative_day", "company_amazon", "company_apple", "company_facebook", "company_google", 
-                   "company_microsoft", "company_netflix", "company_tesla", "7_day_sentiment_score"],
-                ]
+fea_date_company = ["relative_day", "company_amazon", "company_apple", 
+                    "company_facebook", "company_google", "company_microsoft", 
+                    "company_netflix", "company_tesla"]
+features_list = [fea_date_company + ["7_day_sentiment_score"],
+                 fea_date_company + ["7_day_bert_sentiment_score"],
+                 fea_date_company + ["3_day_sentiment_score"],
+                 fea_date_company + ["3_day_bert_sentiment_score"],
+                 ]
+
 
 result = open("./results/clf_results.csv", "w")
 alg_dict = {"KNN": KNeighborsClassifier(),

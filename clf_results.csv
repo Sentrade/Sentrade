@@ -1,9 +1,0 @@
-features:,relative_day,
-response:,up_cat
- ,KNN,DecisionTree,SVM,
-features:,relative_day,
-response:,up_cat
- ,KNN,DecisionTree,SVM,
-features:,1_day_sentiment_score,
-response:,up_cat
- ,KNN,DecisionTree,SVM,
