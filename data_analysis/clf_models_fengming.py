@@ -30,15 +30,16 @@ def write_result(csv_file, alg_name, accuracy, confusion_matrix, n_cat=5):
     result.write('\n')
 
 ##### Main #####
-total_df = pd.read_csv("total_clf.csv")
+total_df = pd.read_csv("./total_data.csv")
 response = "up_cat"
 features_list = [["relative_day", "company_amazon", "company_apple", "company_facebook", "company_google", 
-                   "company_microsoft", "company_netflix", "company_tesla", "3_day_sentiment_score","7_day_sentiment_score"]]
+                   "company_microsoft", "company_netflix", "company_tesla", "7_day_sentiment_score"],
+                ]
 
 result = open("./results/clf_results.csv", "w")
-alg_dict = {"KNN": KNeighborsClassifier(n_neighbors = 3,weights = 'distance',n_jobs = -1),
+alg_dict = {"KNN": KNeighborsClassifier(),
             "DecisionTree": DecisionTreeClassifier(criterion='entropy'),
-            "SVM": SVC(kernel='linear', gamma='auto'),
+            "SVM": SVC(gamma='auto'),
             }
 
 # ML
@@ -62,19 +63,17 @@ for features in features_list:
                                                         random_state=500)    
     # train the model
     for alg_name, clf in alg_dict.items():
-        print(alg_name)
         print("features:")
         print(features)
         [accuracy, cm, clf] = classifier_run(clf, alg_name, x_train, x_test, y_train, y_test)
-#        print("algorithm:", alg_name)
-#        print("accuracy:", accuracy)
+        print("algorithm:", alg_name)
+        print("accuracy:", accuracy)
 #        print("confusion matrix:")
 #        print(cm)
         disp = plot_confusion_matrix(clf, x_test, y_test,
                                      display_labels=[-2, -1, 0, 1, 2],
                                      cmap=plt.cm.Blues)
         disp.ax_.set_title(alg_name)
-        print(accuracy)
         print(disp.confusion_matrix)
         print()
         joblib.dump(clf, "./models/clf_" + alg_name + "_model.joblib")
