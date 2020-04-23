@@ -6,8 +6,6 @@ import pandas as pd
 import joblib
 import datetime
 import pymongo
-import time
-
 
 __author__ = "Fengming Liu"
 __status__ = "Development"

@@ -1,0 +1,10 @@
+features:,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,3_day_sentiment_score,
+response:,close
+ ,KNN,DecisionTree,Linear,Ridge,Lasso,
+ ,0.1155305514185232 ,0.9990892234862099 ,0.9882617092950556 ,0.9883515527513994 ,0.9882161620337631 ,
+features:,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,close
+ ,KNN,DecisionTree,Linear,Ridge,Lasso,
+ ,0.06391434767731208 ,0.999001401185846 ,0.9882118850650327 ,0.9883037285655393 ,0.9882161620337631 ,
+
+
