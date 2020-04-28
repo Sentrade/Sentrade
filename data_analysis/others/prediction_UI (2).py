@@ -6,6 +6,8 @@ import pandas as pd
 import joblib
 import datetime
 import pymongo
+import time
+
 
 __author__ = "Fengming Liu"
 __status__ = "Development"
@@ -41,20 +43,22 @@ def preprocess_data(record, company, date):
                    "company_amazon", "company_apple", "company_facebook", "company_google", 
                    "company_microsoft", "company_netflix", "company_tesla"]:
             result.append(value)
-        elif key in ["3_day_sentiment_score", '7_day_sentiment_score']:
+        elif key in ["3_day_sentiment_score"]:
             result.append(value)
         else:
             pass
-    # print(result)
+    print(result)
     return np.array(result).reshape(1, -1)
             
 def on_click(clf, x_test):
     y_pred = clf.predict(x_test) # a np.array
     return y_pred
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
+    time_log = open("./UI_time.log", 'a')
+    
     # load the pretrained model
-    clf = joblib.load("./models/clf_KNN_model.joblib")
+    clf = joblib.load("./models/SVM_model.joblib")
     
     # connect to the database
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
@@ -68,12 +72,23 @@ if __name__ == "__main__":
     date = "2020-04-06"
     
     # fetch the data from the database
+    start_tick = time.time()
     db_collection = db[company]
     record = db_collection.find_one({"date": date})
+    end_tick = time.time()
+    time_log.write("{0:15s}	{1:20s} {2:.3f}\n".format(date, "Data fetching", end_tick - start_tick))
     
     # preprocess the data
+    start_tick = time.time()
     x_test = preprocess_data(record, company, date) 
+    end_tick = time.time()
+    time_log.write("{0:15s}	{1:20s} {2:.3f}\n".format(date, "Data preprocessing", end_tick - start_tick))
     
     # do the prediction
-    result = on_click(clf, x_test)    
+    start_tick = time.time()
+    result = on_click(clf, x_test)
+    end_tick = time.time()
+    time_log.write("{0:15s}	{1:20s} {2:.3f}\n".format(date, "Prediction", end_tick - start_tick))
+    
     print(result[0])
+    time_log.close()
