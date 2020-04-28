@@ -52,28 +52,40 @@ def on_click(clf, x_test):
     y_pred = clf.predict(x_test) # a np.array
     return y_pred
 
-if __name__ == "__main__":    
-    # load the pretrained model
+def prediction(company, date):
     clf = joblib.load("./models/clf_KNN_model.joblib")
-    
-    # connect to the database
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     db = db_client["sentiment_current"]
+    db_collection = db[company]
+    record = db_collection.find_one({"date": date})
+    x_test = preprocess_data(record, company, date)
+    result = on_click(clf, x_test)    
+
+    return result[0]
+
+if __name__ == "__main__":    
+    # load the pretrained model
+    #clf = joblib.load("./models/clf_KNN_model.joblib")
+    
+    # connect to the database
+    #db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    #db = db_client["sentiment_current"]
     
     # get the sentiment data for the company
 #    company = get_company() # get the comapny name from the UI
 #    date = get_date() # get the date from the UI
 #                      # date must be of the format yyyy-mm-dd
-    company = "amazon"
-    date = "2020-04-06"
+    #company = "amazon"
+    #date = "2020-04-06"
     
     # fetch the data from the database
-    db_collection = db[company]
-    record = db_collection.find_one({"date": date})
+    #db_collection = db[company]
+    #record = db_collection.find_one({"date": date})
     
     # preprocess the data
-    x_test = preprocess_data(record, company, date) 
+    #x_test = preprocess_data(record, company, date) 
     
     # do the prediction
-    result = on_click(clf, x_test)    
-    print(result[0])
+    #result = on_click(clf, x_test)
+    result = prediction("amazon","2020-04-06")
+    print(result)
