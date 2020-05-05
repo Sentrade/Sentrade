@@ -77,22 +77,42 @@ if __name__ == "__main__":
     #     x, y = data_study(companies[i], client_address, "1_day_sentiment_score")
     #     # x, y = data_study(companies[i], client_address, "1_day_overall_sentiment_score")
     #     # x, y = data_study(companies[i], client_address, "1_day_bert_sentiment_score")
-    #     # x, y = data_study(companies[i], client_address, "1_day_sentiment_score")
     #     # x, y = data_study(companies[i], client_address, "1_day_overall_bert_sentiment_score")
     #     array = np.asarray([x, y])
     #     filepath = Path("./data/{}.csv".format(companies[i]))
     #     np.savetxt(filepath, array, delimiter=",")
     #     print("saving data for", companies[i], "finished")
 
-    fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[14, 7])
+    # outlier plot
+    fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[20, 10])
     for i in range(len(companies)):
+        filepath = Path("./data/{}_outlier.csv".format(companies[i]))
+        result = np.loadtxt(filepath, delimiter=",")
+        axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
+        axs[i//4, i%4].set_xlim([-0.1, 0.6])
+        axs[i//4, i%4].set_ylim([-10, 10])
+        axs[i//4, i%4].set_xticks(np.arange(-0.05, 0.26, 0.05))
+        axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.61, 0.1))
+        axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
+        axs[i//4, i%4].set_xlabel("{} past day sentiment (outlier)".format(companies[i]), fontsize=14)
+    axs[0,0].set_ylabel("price change percentage", fontsize=14)
+    axs[1,0].set_ylabel("price change percentage", fontsize=14)
+
+    plt.savefig(Path("scatter_all_outlier.png"), dpi=500)
+
+    # outlier plot
+    fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[20, 10])
+    for i in range(len(companies)):
+        filepath = Path("./data/{}.csv".format(companies[i]))
         filepath = Path("./data/{}.csv".format(companies[i]))
         result = np.loadtxt(filepath, delimiter=",")
         axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
-        axs[i//4, i%4].set_xlim([-0.1, 0.3])
+        axs[i//4, i%4].set_xlim([-0.05, 0.25])
         axs[i//4, i%4].set_ylim([-10, 10])
-        axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.31, 0.1))
+        axs[i//4, i%4].set_xticks(np.arange(-0.05, 0.26, 0.05))
         axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
-        axs[i//4, i%4].set_title(companies[i])
+        axs[i//4, i%4].set_xlabel("{} past day sentiment".format(companies[i]), fontsize=14)
+    axs[0,0].set_ylabel("price change percentage", fontsize=14)
+    axs[1,0].set_ylabel("price change percentage", fontsize=14)
 
     plt.savefig(Path("scatter_all.png"), dpi=500)
