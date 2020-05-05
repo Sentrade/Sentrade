@@ -10,25 +10,14 @@ __status__ = "Development"
 
 def data_study(company_name, client_address, field):
 
-    company_to_ticker = {
-        "amazon"    : "AMZN",
-        "apple"     : "AAPL", 
-        "facebook"  : "FB",
-        "google"    : "GOOG",
-        "microsoft" : "MSFT",
-        "netflix"   : "NFLX",
-        "tesla"     : "TSLA",
-        "uber"      : "UBER"
-    }
-
     # Setup the connection.
     client = MongoClient(client_address)
 
     # Use the database sentrade_db. Select the table to use.
-    stock_db = client.sentrade_db.stock_price
+    stock_db = client.stock_data[company_name]
     sentiment_db = client.sentiment_data[company_name]
     # get all data
-    all_stock = stock_db.find({'company_name': company_to_ticker[company_name]}).sort("date")
+    all_stock = stock_db.find().sort("date")
     all_sentiment = sentiment_db.find().sort("date")
 
     stock_date = []
