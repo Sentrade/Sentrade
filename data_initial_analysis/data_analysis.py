@@ -84,27 +84,26 @@ if __name__ == "__main__":
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
 
-    for i in range(len(companies)):
-        x, y = data_study(companies[i], client_address, "1_day_sentiment_score")
-        # x, y = data_study(companies[i], client_address, "1_day_overall_sentiment_score")
-        # x, y = data_study(companies[i], client_address, "1_day_bert_sentiment_score")
-        # x, y = data_study(companies[i], client_address, "1_day_sentiment_score")
-        # x, y = data_study(companies[i], client_address, "1_day_overall_bert_sentiment_score")
-        array = np.asarray([x, y])
-        filepath = Path("./data/{}.csv".format(companies[i]))
-        np.savetxt(filepath, array, delimiter=",")
-        print("saving data for", companies[i], "finished")
-
-    # fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[14, 7])
     # for i in range(len(companies)):
+    #     x, y = data_study(companies[i], client_address, "1_day_sentiment_score")
+    #     # x, y = data_study(companies[i], client_address, "1_day_overall_sentiment_score")
+    #     # x, y = data_study(companies[i], client_address, "1_day_bert_sentiment_score")
+    #     # x, y = data_study(companies[i], client_address, "1_day_sentiment_score")
+    #     # x, y = data_study(companies[i], client_address, "1_day_overall_bert_sentiment_score")
+    #     array = np.asarray([x, y])
     #     filepath = Path("./data/{}.csv".format(companies[i]))
-    #     result = np.loadtxt(filepath, delimiter=",")
-    #     axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
-    #     axs[i//4, i%4].set_xlim([-0.1, 0.3])
-    #     axs[i//4, i%4].set_ylim([-10, 10])
-    #     axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.31, 0.1))
-    #     axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
-    #     axs[i//4, i%4].set_title(companies[i])
+    #     np.savetxt(filepath, array, delimiter=",")
+    #     print("saving data for", companies[i], "finished")
 
-    # axs[1,3].remove()
-    # plt.savefig(Path("scatter_bert_all.png"), dpi=500)
+    fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[14, 7])
+    for i in range(len(companies)):
+        filepath = Path("./data/{}.csv".format(companies[i]))
+        result = np.loadtxt(filepath, delimiter=",")
+        axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
+        axs[i//4, i%4].set_xlim([-0.1, 0.3])
+        axs[i//4, i%4].set_ylim([-10, 10])
+        axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.31, 0.1))
+        axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
+        axs[i//4, i%4].set_title(companies[i])
+
+    plt.savefig(Path("scatter_all.png"), dpi=500)
