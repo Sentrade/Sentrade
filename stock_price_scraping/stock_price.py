@@ -122,20 +122,20 @@ def stock_price_database(company_name, client_address):
 
 if __name__ == "__main__":
 
-    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
-    stock_list = ['AAPL', 'TSLA', 'AMZN', 'FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
+    # client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    # stock_list = ['AAPL', 'TSLA', 'AMZN', 'FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
 
-    db = client.sentrade_db
-    stock_db = db.stock_price
-    stock_db.drop()
+    # db = client.sentrade_db
+    # stock_db = db.stock_price
+    # stock_db.drop()
 
-    for stocks in stock_list: 
-        stock_output = history_stock_price(stock_name=stocks)
-        stock_db.insert_many(stock_output)    
+    # for stocks in stock_list: 
+    #     stock_output = history_stock_price(stock_name=stocks)
+    #     stock_db.insert_many(stock_output)    
 
-    client.close()
+    # client.close()
 
-    # client_address = 'mongodb://admin:sentrade@45.76.133.175:27017'
-    # companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    # for company in companies:
-    #     stock_price_database(company, client_address)
+    client_address = 'mongodb://admin:sentrade@45.76.133.175:27017'
+    companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    for company in companies:
+        stock_price_database(company, client_address)
