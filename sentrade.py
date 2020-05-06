@@ -62,7 +62,7 @@ def Graph(ticker):
     }
         
     company_db_name = {
-        "AMZN" : "amazon",
+        "AMZN"  : "amazon",
         "AAPL"  : "apple", 
         "FB"    : "facebook",
         "GOOG"  : "google",
@@ -822,4 +822,5 @@ def toggle_alert(ticker, is_open):
 
 # Debugging
 if __name__ == "__main__":
+    app.title = "SenTrade"
     app.run_server(debug=True, host='0.0.0.0', port=80)
