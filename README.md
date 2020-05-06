@@ -28,6 +28,11 @@ To run it on the server and log the output messages, use:
 nohup python sentrade.py > output.txt &
 ```
 
+To get the issue board:
+```
+ curl -u <username>:<token/password> "https://api.github.com/repos/ZiyouZhang/Sentrade/issues?state=closed"
+```
+
 ## Built With
 
 * [Tweepy](https://www.tweepy.org/) - A python library for accessing twitter API.
