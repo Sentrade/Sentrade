@@ -54,7 +54,7 @@ def on_click(clf, x_test):
 
 if __name__ == "__main__":    
     # load the pretrained model
-    clf = joblib.load("./models/clf_KNN_model.joblib")
+    clf = joblib.load("./models/models_official/clf_KNN_model.joblib")
     
     # connect to the database
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
