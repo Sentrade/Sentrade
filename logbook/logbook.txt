@@ -1,0 +1,577 @@
+Task Number: 55\\
+Task ID: 595323332\\
+Title: User feedback questionnaire design\\
+Created at: 2020-04-06 18:14:22\\
+Assignees: Yiwen Sun(katesyt) \\
+Body: \\
+Closed at: 2020-05-06 07:06:24\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 54\\
+Task ID: 594350364\\
+Title: UI: add prediction box\\
+Created at: 2020-04-05 09:23:32\\
+Assignees: Davide Locatelli(dl2198) \\
+Body: \\
+Closed at: 2020-04-10 13:08:02\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 53\\
+Task ID: 593318144\\
+Title: financial data: added labels\\
+Created at: 2020-04-03 11:34:30\\
+Assignees: Yiwen Sun(katesyt) \\
+Body: today close - yesterday close
+change in percentage\\
+Closed at: 2020-04-06 11:06:27\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 52\\
+Task ID: 593314367\\
+Title: data filtration\\
+Created at: 2020-04-03 11:27:42\\
+Assignees: Fengming Liu(wzic) \\
+Body: \\
+Closed at: 2020-04-06 11:02:21\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 51\\
+Task ID: 593308482\\
+Title: Use twitter API to get the last day tweets\\
+Created at: 2020-04-03 11:17:40\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: \\
+Closed at: 2020-04-06 11:06:34\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 50\\
+Task ID: 593293084\\
+Title: fix the plot range for sentiment and stock\\
+Created at: 2020-04-03 10:48:07\\
+Assignees: Davide Locatelli(dl2198) \\
+Body: \\
+Closed at: 2020-04-06 11:06:43\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 49\\
+Task ID: 590219022\\
+Title: start the report\\
+Created at: 2020-03-30 11:36:01\\
+Assignees: Ziyou Zhang(ZiyouZhang) Shaomiao Yin(yinshaomiao) \\
+Body: \\
+Closed at: 2020-04-06 11:07:02\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 48\\
+Task ID: 590218628\\
+Title: final prediction\\
+Created at: 2020-03-30 11:35:22\\
+Assignees: \\
+Body: function get recent twitter
+function predict the result\\
+Closed at: 2020-04-10 13:08:21\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 47\\
+Task ID: 590216105\\
+Title: find the outliers, get rid of neural news for data analysis\\
+Created at: 2020-03-30 11:31:22\\
+Assignees: Yiwen Sun(katesyt) \\
+Body: \\
+Closed at: 2020-04-06 11:07:22\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 46\\
+Task ID: 590215960\\
+Title: use less data for bert and training\\
+Created at: 2020-03-30 11:31:07\\
+Assignees: Davide Locatelli(dl2198) \\
+Body: investigate the difficulty first
+something metioned in the paper\\
+Closed at: 2020-04-10 13:09:06\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 45\\
+Task ID: 590215615\\
+Title: twitter display data database\\
+Created at: 2020-03-30 11:30:36\\
+Assignees: Davide Locatelli(dl2198) \\
+Body: Investigate fetching function first\\
+Closed at: 2020-04-03 11:37:27\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 44\\
+Task ID: 589052970\\
+Title: open port\\
+Created at: 2020-03-27 11:00:56\\
+Assignees: Fengming Liu(wzic) \\
+Body: \\
+Closed at: 2020-04-03 10:39:26\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 43\\
+Task ID: 589049024\\
+Title: check yahoo finance time\\
+Created at: 2020-03-27 10:53:49\\
+Assignees: Davide Locatelli(dl2198) \\
+Body: \\
+Closed at: 2020-03-27 10:54:55\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 42\\
+Task ID: 589034300\\
+Title: clarify the context of tweets\\
+Created at: 2020-03-27 10:28:49\\
+Assignees: Fengming Liu(wzic) \\
+Body: try with simple company first\\
+Closed at: 2020-04-06 11:07:29\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 41\\
+Task ID: 589032795\\
+Title: change stock price data range\\
+Created at: 2020-03-27 10:26:20\\
+Assignees: Yiwen Sun(katesyt) \\
+Body: \\
+Closed at: 2020-03-30 11:27:03\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 40\\
+Task ID: 576433581\\
+Title: Add uber\\
+Created at: 2020-03-05 17:59:15\\
+Assignees: \\
+Body: \\
+Closed at: 2020-03-27 10:52:52\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 39\\
+Task ID: 576430089\\
+Title: Presentataion: Sara\\
+Created at: 2020-03-05 17:53:05\\
+Assignees: Shaomiao Yin(yinshaomiao) Davide Locatelli(dl2198) \\
+Body: \\
+Closed at: 2020-03-30 11:27:12\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 38\\
+Task ID: 576428734\\
+Title: Run Bert in parallel\\
+Created at: 2020-03-05 17:50:41\\
+Assignees: Ziyou Zhang(ZiyouZhang) Davide Locatelli(dl2198) Yiwen Sun(katesyt) \\
+Body: \\
+Closed at: 2020-04-10 13:09:14\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 37\\
+Task ID: 576427130\\
+Title: Upgrade the server\\
+Created at: 2020-03-05 17:47:50\\
+Assignees: Ziyou Zhang(ZiyouZhang) Fengming Liu(wzic) \\
+Body: \\
+Closed at: 2020-03-27 10:58:31\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 36\\
+Task ID: 576391155\\
+Title: Multipaging\\
+Created at: 2020-03-05 16:48:26\\
+Assignees: \\
+Body: \\
+Closed at: 2020-03-05 16:48:45\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 35\\
+Task ID: 576309797\\
+Title: Multipaging\\
+Created at: 2020-03-05 14:52:14\\
+Assignees: \\
+Body: \\
+Closed at: 2020-03-05 14:54:25\\
+Closed by: Davide Locatelli(dl2198)\\
+State: closed\\
+\newline
+Task Number: 34\\
+Task ID: 575355592\\
+Title: Gather user feedback on Website\\
+Created at: 2020-03-04 12:16:52\\
+Assignees: Ziyou Zhang(ZiyouZhang) Davide Locatelli(dl2198) Yiwen Sun(katesyt) \\
+Body: Start after eam\\
+Closed at: 2020-05-07 18:26:18\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 33\\
+Task ID: 575349404\\
+Title: Minor Fix UI\\
+Created at: 2020-03-04 12:05:36\\
+Assignees: Davide Locatelli(dl2198) \\
+Body: Ugly at the moment, gonna be fancier
+2 days\\
+Closed at: 2020-03-27 10:19:29\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 32\\
+Task ID: 575341663\\
+Title: stock price prediction\\
+Created at: 2020-03-04 11:52:51\\
+Assignees: Fengming Liu(wzic) Shaomiao Yin(yinshaomiao) Longzhen Li(norali1993) \\
+Body: Use volume, average sentiment of multiple days, number of tweets as attributes
+Use company name as one-hot attributes: start with 1 company
+Use other information of companies as attributes: current evaluation (stock price / eps), roe, pe multiples
+Fengming: look into 3/7 days average sentiment
+Difference: 
+today close - today open
+tmr open - today close
+tmr close - today close
+final prediction: today close
+best: multiple model combination
+best: single model - decision tree (stock volume, twitter volume, sentiment scores)\\
+Closed at: 2020-04-10 13:08:09\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 31\\
+Task ID: 575340979\\
+Title: split sentiment by half day\\
+Created at: 2020-03-04 11:51:41\\
+Assignees: \\
+Body: split as open/close to match stock price
+\\
+Closed at: 2020-03-30 11:27:51\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 30\\
+Task ID: 572199071\\
+Title: Compare NLP packages\\
+Created at: 2020-02-27 16:28:59\\
+Assignees: Fengming Liu(wzic) Shaomiao Yin(yinshaomiao) Davide Locatelli(dl2198) Yiwen Sun(katesyt) \\
+Body: Switch to BERT\\
+Closed at: 2020-03-05 17:50:21\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 29\\
+Task ID: 568463714\\
+Title: Present next meeting\\
+Created at: 2020-02-20 17:38:55\\
+Assignees: Ziyou Zhang(ZiyouZhang) Fengming Liu(wzic) Shaomiao Yin(yinshaomiao) Longzhen Li(norali1993) Yiwen Sun(katesyt) \\
+Body: Yiwen: Database, normailisation
+Nora: sentiment metrics, neural net plan
+Sara: neural net plan
+Fengming: data collections
+Ziyou: Chatbot\\
+Closed at: 2020-03-05 17:51:55\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 28\\
+Task ID: 567859369\\
+Title: Chatbot on user feedback\\
+Created at: 2020-02-19 21:29:54\\
+Assignees: Ziyou Zhang(ZiyouZhang) Shaomiao Yin(yinshaomiao) Longzhen Li(norali1993) \\
+Body: Add news source
+6h\\
+Closed at: 2020-04-03 10:40:18\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 27\\
+Task ID: 567836189\\
+Title: get the tweeter date based "create at"\\
+Created at: 2020-02-19 20:46:32\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: \\
+Closed at: 2020-02-19 21:29:03\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 26\\
+Task ID: 567031011\\
+Title: one day sentiment score into database\\
+Created at: 2020-02-18 17:00:44\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: \\
+Closed at: 2020-02-19 20:12:22\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 25\\
+Task ID: 567027505\\
+Title: Add tweets from all companies in the database\\
+Created at: 2020-02-18 16:55:15\\
+Assignees: Fengming Liu(wzic) \\
+Body: Time: inf\\
+Closed at: 2020-03-27 10:21:10\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 24\\
+Task ID: 567006158\\
+Title: Sentiment analysis on Tweets\\
+Created at: 2020-02-18 16:22:02\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: \\
+Closed at: 2020-03-05 17:54:17\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 23\\
+Task ID: 567002872\\
+Title: Update stock price code\\
+Created at: 2020-02-18 16:16:58\\
+Assignees: Yiwen Sun(katesyt) \\
+Body: Limit the time range
+split the database\\
+Closed at: 2020-03-27 10:24:24\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 22\\
+Task ID: 564832205\\
+Title: Write Tests\\
+Created at: 2020-02-13 17:15:33\\
+Assignees: Ziyou Zhang(ZiyouZhang) Fengming Liu(wzic) Shaomiao Yin(yinshaomiao) Davide Locatelli(dl2198) Longzhen Li(norali1993) Yiwen Sun(katesyt) \\
+Body: UI Test: Davide & Nora
+Database test: Ziyou & Yiwen
+Stock_data test: matching latest day: Yiwen
+Sentiment analysis test: check the score, manual, get random tweets and check the score, check the consistency of the results
+Check twitter sentiment: Fengming1, Davide2, Davide3, Yiwen4, Nora5, Sara6
+Chatbot for user feedback: words, positive/neutrual/negative with correct or incorrect: Ziyou
+\\
+Closed at: 2020-02-27 16:23:31\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 21\\
+Task ID: 564830880\\
+Title: Normalise the plot\\
+Created at: 2020-02-13 17:13:09\\
+Assignees: Shaomiao Yin(yinshaomiao) Davide Locatelli(dl2198) Yiwen Sun(katesyt) \\
+Body: Make the stock price and sentiment score in similar ranges.
+Handle in UI layer first. Might add more entries in the database.\\
+Closed at: 2020-03-04 11:31:18\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 20\\
+Task ID: 564829981\\
+Title: "About this website" on UI\\
+Created at: 2020-02-13 17:11:33\\
+Assignees: Davide Locatelli(dl2198) Longzhen Li(norali1993) \\
+Body: To expose the website to the outside world.
+make sure: legal/useful/temporary
+who we are
+what it does
+2h + 1h\\
+Closed at: 2020-03-27 10:21:18\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 19\\
+Task ID: 564396593\\
+Title: switch to GitHub\\
+Created at: 2020-02-13 02:20:07\\
+Assignees: Yiwen Sun(katesyt) \\
+Body: \\
+Closed at: 2020-02-13 02:20:25\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 18\\
+Task ID: 562228326\\
+Title: Stock price database\\
+Created at: 2020-02-09 19:45:40\\
+Assignees: Shaomiao Yin(yinshaomiao) Longzhen Li(norali1993) Yiwen Sun(katesyt) \\
+Body: Currently dropping the whole table first and then insert all the new data.
+Next:
+Find last updated date, and add new days from the day.\\
+Closed at: 2020-02-18 16:16:39\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 17\\
+Task ID: 562228283\\
+Title: Report 2\\
+Created at: 2020-02-09 19:45:19\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: Test
+Progress\\
+Closed at: 2020-02-25 17:08:46\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 16\\
+Task ID: 562228275\\
+Title: UI-DB communication\\
+Created at: 2020-02-09 19:45:15\\
+Assignees: Ziyou Zhang(ZiyouZhang) Davide Locatelli(dl2198) \\
+Body: \\
+Closed at: 2020-02-18 11:09:32\\
+Closed by: Davide Locatelli(dl2198)\\
+State: closed\\
+\newline
+Task Number: 15\\
+Task ID: 562228270\\
+Title: Twitter Filtration\\
+Created at: 2020-02-09 19:45:11\\
+Assignees: Ziyou Zhang(ZiyouZhang) Fengming Liu(wzic) \\
+Body: ddl: 19 Feb
+On a single day first\\
+Closed at: 2020-02-18 17:05:22\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 14\\
+Task ID: 562228051\\
+Title: chatbot\\
+Created at: 2020-02-09 19:43:35\\
+Assignees: Shaomiao Yin(yinshaomiao) \\
+Body: \\
+Closed at: 2020-02-09 19:43:39\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 13\\
+Task ID: 562228033\\
+Title: finalise report 1\\
+Created at: 2020-02-09 19:43:25\\
+Assignees: Ziyou Zhang(ZiyouZhang) Fengming Liu(wzic) Shaomiao Yin(yinshaomiao) Davide Locatelli(dl2198) Longzhen Li(norali1993) Yiwen Sun(katesyt) \\
+Body: \\
+Closed at: 2020-02-09 19:43:28\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 12\\
+Task ID: 562228001\\
+Title: venv\\
+Created at: 2020-02-09 19:43:13\\
+Assignees: Ziyou Zhang(ZiyouZhang) Fengming Liu(wzic) \\
+Body: \\
+Closed at: 2020-02-09 19:43:17\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 11\\
+Task ID: 562227972\\
+Title: report\\
+Created at: 2020-02-09 19:43:02\\
+Assignees: Ziyou Zhang(ZiyouZhang) Fengming Liu(wzic) Shaomiao Yin(yinshaomiao) Davide Locatelli(dl2198) Longzhen Li(norali1993) Yiwen Sun(katesyt) \\
+Body: overleaf
+Introduction(background objectives) (0.75 page, 3-4 para): Nora Sara
+Minimal (0.5 page): Davide, Fengming
+Extension (0.5 page): Davide, Femging
+System boundaries (0.25 page): Yiwen
+Tools (0.25 page): Yiwen
+Timeline (0.5 page): Ziyou
+include evaluation for specs (level, risk, functional, essential)
+High-level / low-level "Allow online booking of cinema tickets" "Save current file under new name if not in read-only mode"
+High-risk / low-risk "Provide animation of multi-agent system in 3D with navigation and zoom" "Provide command-line interface"
+Functional / non-functional "Allow users to save their session" "Allow at most 10 % degradation of service under failure of one server"
+Essential / non-essential "Allow online booking of plane tickets" "Allow seat selection for booked tickets"\\
+Closed at: 2020-02-09 19:43:07\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 10\\
+Task ID: 562227943\\
+Title: gather user feedback\\
+Created at: 2020-02-09 19:42:47\\
+Assignees: Shaomiao Yin(yinshaomiao) Longzhen Li(norali1993) \\
+Body: \\
+Closed at: 2020-02-09 19:42:56\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 9\\
+Task ID: 562227914\\
+Title: finalise front end\\
+Created at: 2020-02-09 19:42:33\\
+Assignees: Davide Locatelli(dl2198) \\
+Body: \\
+Closed at: 2020-02-09 19:42:39\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 8\\
+Task ID: 562227885\\
+Title: communication channel\\
+Created at: 2020-02-09 19:42:21\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: \\
+Closed at: 2020-02-09 19:42:26\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 7\\
+Task ID: 562227864\\
+Title: hosting the service\\
+Created at: 2020-02-09 19:42:10\\
+Assignees: Fengming Liu(wzic) \\
+Body: \\
+Closed at: 2020-02-09 19:42:13\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 6\\
+Task ID: 562227746\\
+Title: finding correlation between tweets and sentiment\\
+Created at: 2020-02-09 19:41:14\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: \\
+Closed at: 2020-02-09 19:41:24\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 5\\
+Task ID: 561960880\\
+Title: Tweets to json\\
+Created at: 2020-02-08 03:06:32\\
+Assignees: Shaomiao Yin(yinshaomiao) \\
+Body: \\
+Closed at: 2020-02-08 03:07:04\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 4\\
+Task ID: 561960842\\
+Title: Database\\
+Created at: 2020-02-08 03:06:06\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: \\
+Closed at: 2020-02-13 17:10:02\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
+Task Number: 3\\
+Task ID: 561960739\\
+Title: Simple front end for initial prototype\\
+Created at: 2020-02-08 03:05:00\\
+Assignees: Ziyou Zhang(ZiyouZhang) \\
+Body: \\
+Closed at: 2020-02-08 03:05:29\\
+Closed by: Ziyou Zhang(ZiyouZhang)\\
+State: closed\\
+\newline
