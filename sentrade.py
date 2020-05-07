@@ -990,7 +990,7 @@ navbar = dbc.Navbar(
         html.A(
             dbc.Row(
                 [
-                    dbc.Col(dbc.NavbarBrand("Sentrade", className="ml-2", href='http://sentrade1.doc.ic.ac.uk/')),
+                    dbc.Col(dbc.NavbarBrand("Sentrade", className="ml-2", href='http://sentrade.doc.ic.ac.uk/')),
                     dbc.Col(html.H6("Financial Sentiment Analysis",style={"white-space":"nowrap","color":"grey","margin-top":"8px"}))
                 ],
                 align="center",
