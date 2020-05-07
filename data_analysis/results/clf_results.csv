@@ -1,4 +1,4 @@
-features:,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,7_day_sentiment_score,
+features:,7_day_sentiment_score,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
 response:,up_cat
  ,
 KNN,0.6127562642369021,
@@ -8,11 +8,11 @@ KNN,0.6127562642369021,
 0,10,44,61,0,
 0,0,5,3,0,
 
-DecisionTree,0.47380410022779046,
+DecisionTree,0.48291571753986334,
 0,2,1,4,0,
-4,35,37,21,2,
-1,29,125,53,2,
-3,23,43,43,3,
+3,36,35,23,2,
+0,28,130,50,2,
+3,19,48,41,4,
 0,2,0,1,5,
 
 SVM,0.5148063781321185,
@@ -23,7 +23,7 @@ SVM,0.5148063781321185,
 0,2,5,1,0,
 
 
-features:,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,7_day_bert_sentiment_score,
+features:,7_day_bert_sentiment_score,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
 response:,up_cat
  ,
 KNN,0.6013667425968109,
@@ -33,11 +33,11 @@ KNN,0.6013667425968109,
 0,11,43,61,0,
 0,0,5,3,0,
 
-DecisionTree,0.45785876993166286,
-0,3,1,3,0,
-3,32,42,20,2,
-1,36,118,50,5,
-3,11,55,46,0,
+DecisionTree,0.4806378132118451,
+1,2,1,3,0,
+4,32,40,21,2,
+2,39,120,47,2,
+4,10,48,53,0,
 0,0,0,3,5,
 
 SVM,0.5148063781321185,
@@ -48,7 +48,7 @@ SVM,0.5148063781321185,
 0,2,5,1,0,
 
 
-features:,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,3_day_sentiment_score,
+features:,3_day_sentiment_score,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
 response:,up_cat
  ,
 KNN,0.5854214123006833,
@@ -58,11 +58,11 @@ KNN,0.5854214123006833,
 0,9,47,59,0,
 0,1,5,2,0,
 
-DecisionTree,0.39863325740318906,
-0,2,1,4,0,
-2,31,40,23,3,
-1,37,107,61,4,
-1,20,62,30,2,
+DecisionTree,0.38724373576309795,
+0,2,3,2,0,
+3,29,36,29,2,
+1,37,109,60,3,
+2,22,66,25,0,
 0,1,0,0,7,
 
 SVM,0.5148063781321185,
@@ -73,7 +73,7 @@ SVM,0.5148063781321185,
 0,2,5,1,0,
 
 
-features:,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,3_day_bert_sentiment_score,
+features:,3_day_bert_sentiment_score,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
 response:,up_cat
  ,
 KNN,0.6127562642369021,
@@ -85,10 +85,60 @@ KNN,0.6127562642369021,
 
 DecisionTree,0.4328018223234624,
 0,3,1,3,0,
-5,38,37,17,2,
-1,37,116,53,3,
-3,21,53,34,4,
+5,38,35,19,2,
+1,38,115,53,3,
+3,23,51,35,3,
 1,3,0,2,2,
+
+SVM,0.5148063781321185,
+0,2,3,2,0,
+0,29,58,12,0,
+0,15,161,34,0,
+0,11,68,36,0,
+0,2,5,1,0,
+
+
+features:,1_day_sentiment_score,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,
+KNN,0.5968109339407744,
+1,3,3,0,0,
+2,53,38,6,0,
+0,35,148,27,0,
+0,12,43,60,0,
+0,0,5,3,0,
+
+DecisionTree,0.4760820045558087,
+1,2,3,1,0,
+4,39,40,15,1,
+2,27,116,63,2,
+1,13,50,48,3,
+0,1,0,2,5,
+
+SVM,0.5148063781321185,
+0,2,3,2,0,
+0,29,58,12,0,
+0,15,161,34,0,
+0,11,68,36,0,
+0,2,5,1,0,
+
+
+features:,1_day_bert_sentiment_score,relative_day,company_amazon,company_apple,company_facebook,company_google,company_microsoft,company_netflix,company_tesla,
+response:,up_cat
+ ,
+KNN,0.6082004555808656,
+0,4,3,0,0,
+2,52,37,8,0,
+0,29,155,26,0,
+0,9,45,60,1,
+0,1,5,2,0,
+
+DecisionTree,0.4783599088838269,
+0,2,2,3,0,
+2,37,46,12,2,
+0,38,130,41,1,
+0,22,53,38,2,
+0,2,1,0,5,
 
 SVM,0.5148063781321185,
 0,2,3,2,0,

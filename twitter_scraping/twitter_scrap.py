@@ -130,7 +130,7 @@ def scrap_tweets_today(company_name):
     count = 0
     hit_count = 0
 
-    nlp = spacy.load("en_trf_bertbaseuncased_lg")
+    # nlp = spacy.load("en_trf_bertbaseuncased_lg")
 
     for tweet in tweets:
         single_tweet = {}
@@ -139,18 +139,18 @@ def scrap_tweets_today(company_name):
         original_text = tweet.text
         processed_text = process_original_tweet(original_text)
 
-        if check_context(nlp, processed_text, company_name):
+        # if check_context(nlp, processed_text, company_name):
 
-            single_tweet["original_text"] = original_text
-            single_tweet["processed_text"] = process_original_tweet(processed_text)
-            
-            blob = TextBlob(processed_text)
-            single_tweet["polarity"] = blob.sentiment.polarity
-            single_tweet["subjectivity"] = blob.sentiment.subjectivity
+        single_tweet["original_text"] = original_text
+        single_tweet["processed_text"] = process_original_tweet(processed_text)
+        
+        blob = TextBlob(processed_text)
+        single_tweet["polarity"] = blob.sentiment.polarity
+        single_tweet["subjectivity"] = blob.sentiment.subjectivity
 
-            results.append(single_tweet)
+        results.append(single_tweet)
 
-            print("current progress for {}: {}".format(company_name, count))
+        print("current progress for {}: {}".format(company_name, count))
         
         count += 1
         

@@ -212,7 +212,7 @@ def Graph(ticker):
         ticker = "AAPL"
 
     company_db_name = {
-        "AMZN" : "amazon",
+        "AMZN"  : "amazon",
         "AAPL"  : "apple", 
         "FB"    : "facebook",
         "GOOG"  : "google",
@@ -1187,4 +1187,5 @@ def on_button_click(n):
 
 # Debugging
 if __name__ == "__main__":
+    app.title = "SenTrade"
     app.run_server(debug=True, host='0.0.0.0', port=80)
