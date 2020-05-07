@@ -16,6 +16,8 @@ import os
 import pymongo 
 from sshtunnel import SSHTunnelForwarder
 from plotly.subplots import make_subplots
+from newsapi import NewsApiClient
+from currentsentiment import get_score
 
 from textwrap import dedent as d
 from dash.dependencies import Input, Output, State
@@ -46,21 +48,169 @@ easter_egg_message = """
 后世人们为了纪念这个故事，将此事编为歌谣，传颂至今。歌名唤作‘三踹得’
 """
 
+def Topbar(ticker):
+
+    if not ticker:
+        return
+
+    companies = {
+        "AMZN" : "Amazon.com Inc.",
+        "AAPL"  : "Apple Inc.", 
+        "FB"    : "Facebook Inc.",
+        "GOOG"  : "Alphabet Inc.",
+        "MSFT"  : "Microsoft Corporation",
+        "NFLX"  : "Netflix Inc.",
+        "TSLA"  : "Tesla Inc.",
+        "UBER"  : "Uber Technologies Inc."
+    }
+
+    company_db_name = {
+    "AMZN" : "amazon",
+    "AAPL"  : "apple", 
+    "FB"    : "facebook",
+    "GOOG"  : "google",
+    "MSFT"  : "microsoft",
+    "NFLX"  : "netflix",
+    "TSLA"  : "tesla",
+    "UBER"  : "uber"
+    }
+
+    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    stock_price_db = db_client.stock_data
+    records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(2)
+    prices = []
+    for record in records:
+        prices.append(record['close'])
+    price = prices[0]
+    gain = price - prices[1]
+    gain_style = {
+        'margin-left':'7px',
+        'margin-top':'5px',
+        'margin-right':'14px',
+        'width':'auto'}
+    if gain <= 0:
+        gain = "{:.2f}".format(gain)
+        gain_style['color'] = 'red'
+    else:
+        gain = "{:.2f}".format(gain)
+        gain = "+" + gain
+        gain_style['color'] = 'green'
+
+    topbar = html.Div([
+        html.H3(ticker,
+        style={
+            'font-family':'sans-serif',
+            'font-weight':'700',
+            'font-size':'2.3rem',
+            'margin-top':'10px',
+            'margin-left': '24.5px',
+            'letter-spacing':'0.5px',
+            'width':'auto'
+        }),
+        html.H6(companies[ticker],
+        style={
+            'margin-top':'33px',
+            'margin-left':'10px',
+            'color':'grey',
+            'font-weight': '600',
+            'width':'auto'
+        }),
+        html.Div([
+            html.Div([
+                html.P(price,
+                style={
+                    'font-family':'sans-serif',
+                    'margin-top':'2px',
+                    'font-size':'1.2em',
+                    'font-weight': '900',
+                    'width':'auto',
+                    'color':'black',
+                    'margin-bottom':'0'
+                    }),
+                html.P("At Close",
+                style={
+                    'font-family':'sans-serif',
+                    'color':'#737373',
+                    'font-size':'8pt',
+                    'font-weight':'500',
+                    'margin-top':'0',
+                })
+            ]),
+            html.Div([
+            html.P(gain,
+                style=gain_style),
+                ])],
+            style={
+                'display':'flex',
+                'margin-top':'6px',
+                'right':'460px',
+                'position':'absolute',
+                'border-right':'1px solid #e5e5e5',
+                'height':'45px'
+        }),
+        html.Div([
+            html.P('Expected 5% Rise',
+            style={
+                'font-family':'sans-serif',
+                'font-weight':'500',
+                'color':'#4F594F'
+            }
+            )],
+        style={
+            'height':'40px',
+            'line-height':'40px',
+            'margin-top':'9px',
+            'right':'130px',
+            'position':'absolute',
+            'width':'200px',
+            'text-align':'center',
+            'border-radius':'5px',
+            'background':'rgba(3, 164, 3, 0.5)'
+        })
+    ],
+    style={
+        'height': '60px',
+        'border-bottom':'1px solid #e5e5e5',    
+        'display':'flex'    
+    })
+    return topbar
+
+instruction = html.H6(
+    "Select a ticker",
+    id= 'instruction'
+)
+
+def collect_stock_data(db,company,close,date):
+
+    for record in db[company].find().sort("date"):
+        close.append(record["close"])
+        date.append(record["date"])
+
+def collect_sentiment_data(db,company,bert,blob,date):
+
+    for record in db[company].find({"3_day_sentiment_score":{"$exists":True}}).sort("date"):
+        if record["3_day_sentiment_score"] != 0:
+            blob.append(record["3_day_sentiment_score"])
+            date.append(record["date"])
+
+    for record in db[company].find({"3_day_bert_sentiment_score":{"$exists":True}}).sort("date"):
+        if record["3_day_bert_sentiment_score"] != 0:
+            bert.append(record["3_day_bert_sentiment_score"])
+
+    for record in db[company].find({"sentiment_current":{"$exists":True}}).sort("date"):
+        if record["sentiment_current"]:
+            blob.append(record["sentiment_current"])
+            date.append(record["date"])
+
+
 def Graph(ticker):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
 
-    companies = {
-            "AMZN" : "Amazon.com Inc.",
-            "AAPL"  : "Apple Inc.", 
-            "FB"    : "Facebook Inc.",
-            "GOOG"  : "Alphabet Inc.",
-            "MSFT"  : "Microsoft Corporation",
-            "NFLX"  : "Netflix Inc.",
-            "TSLA"  : "Tesla Inc.",
-            "UBER"  : "Uber Technologies Inc."
-    }
-        
+    if not ticker:
+
+        ticker = "AAPL"
+
     company_db_name = {
         "AMZN" : "amazon",
         "AAPL"  : "apple", 
@@ -71,142 +221,113 @@ def Graph(ticker):
         "TSLA"  : "tesla",
         "UBER"  : "uber"
     }
+
+    stock_price_db = db_client.stock_data
+    sentiment_db = db_client.sentiment_data
+
+    close = []
+    stock_date = []
+    collect_stock_data(stock_price_db,company_db_name[ticker],close,stock_date)
     
-    graph = []
+    bert_polarity = []
+    blob_polarity = []
+    sent_date = []
+    collect_sentiment_data(sentiment_db,company_db_name[ticker],bert_polarity,blob_polarity,sent_date)
 
-    if not ticker:
+    sentiment = []
+    for i in range(len(bert_polarity)):
+        bert = bert_polarity[i]
+        bert *= 100
+        bert_polarity[i] = bert
+        blob = blob_polarity[i] + 1
+        blob /= 2
+        blob *= 100
+        blob_polarity[i] = blob
+        score = bert + blob
+        score /= 2
+        sentiment.append(score)
 
-        graph.append(html.H6(
-            "Select a ticker",
-            style={
-                'margin-top':'35%',
-                'margin-left':'50%',
-                'textAlign':'center',
-                'color':'#9C9C9C'
-            }
-        ))
+    records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(2)
+    prices = []
+    for record in records:
+        prices.append(record['close'])
+    price = prices[0]
+    gain = price - prices[1]
+    stock_color = 'rgb(57,126,46)'
+    if gain <= 0:
+        stock_color = 'rgb(204,36,34)'
+ 
+    eth_close = go.Scatter(
+        y = close,
+        x = stock_date,
+        name= "Close",
+        mode = "lines",
+        line=dict(color=stock_color)
+    )
 
-    else:
+    eth_polarity = go.Scatter(
+        y = sentiment,
+        x = sent_date,
+        name = "Sentiment",
+        mode = "lines",
+        line=dict(color="rgba(111,192,245,0.8)")
+    )
 
-        row = html.Div(
-            [
-                dbc.Row(
-                    [
-                        dbc.Col(html.H3(ticker, style={
-                                'font-family':'sans-serif',
-                                'font-weight':'500',
-                                'letter-spacing':'1.5px',
-                                'font-size':'1.1rem',
-                                'textAlign':'center',
-                                'color':'black',
-                                'position':'absolute',
-                                'margin-left': '44.4%',
-                                'margin-top' : '5%'
-                                }),width=1),
-                        dbc.Col(html.H6(companies[ticker], style={
-                                'font-size':'0.75rem',
-                                'textAlign':'left',
-                                'margin-top':'0.8%',
-                                'margin-left': '106%',
-                                'color':'grey',
-                                'white-space':'nowrap',
-                                'font-weight': '600'
-                            }),width=2),
-                        dbc.Col(Prediction(ticker), style={
-                                'margin-left':'52%'
-                        })
-                    ]
-                ),
-            ]
-        )
-        graph.append(row)
-
-        stock_price_db = db_client.sentrade_db.stock_price
-        sentiment_db = db_client.sentiment_data
-
-        close = []
-        stock_date = []
-        for record in stock_price_db.find({"company_name":ticker}):
-            close.append(record["close"])
-            stock_date.append(record["date"])
-        
-        polarity = []
-        sent_date = []
-        for record in sentiment_db[company_db_name[ticker]].find().sort("date"):
-            polarity.append(record["1_day_sentiment_score"])
-            sent_date.append(record["date"])
-        
-        eth_close = go.Scatter(
-            y = close,
-            x = stock_date,
-            name = "Close",
-            mode = "lines",
-            line=dict(color="#7a90e0")
-        )
-
-        eth_polarity = go.Scatter(
-            y = polarity,
-            x = sent_date,
-            name = "Sentiment",
-            mode = "lines",
-            line=dict(color="#FFC300")
-        )
-
-        fig = make_subplots(specs=[[{"secondary_y":True}]])
-        fig.add_trace(eth_close,secondary_y=False)
-        fig.add_trace(eth_polarity,secondary_y=True)
-        fig.update_layout(
-            margin= {'b': 0, 'r': 10, 'l': 60, 't': 0},                   
-            legend= {'x': 0},
-            xaxis=go.layout.XAxis(
-                rangeslider=dict(
-                    visible=False
-                ),
-                range= ["2018-11-01","2019-09-30"],
-                rangeselector=dict(
-                    buttons=list([
-                        dict(count=1,
-                            label="1D",
-                            step="day",
-                            stepmode="backward"),
-                        dict(count=7,
-                            label="1W",
-                            step="day",
-                            stepmode="backward"),
-                        dict(count=1,
-                            label="1M",
-                            step="month",
-                            stepmode="backward"),
-                        dict(count=3,
-                            label="3M",
-                            step="month",
-                            stepmode="backward"),
-                        dict(count=6,
-                            label="6M",
-                            step="month",
-                            stepmode="backward"
-                            ),
-                        dict(count=1,
-                            label="1Y",
-                            step="year",
-                            stepmode="backward"),
-                        dict(label='ALL',
-                        step="all")
-                    ]),
-                    font=dict(
-                        family="Arial",
-                        size=16,
-                        color="white"),
-                    bgcolor="#BABABA",
-                    activecolor='#949494',
-                    x=0.35,
-                    y=-0.13
-                ),
-                type="date"
-            )
-        )
-        graph.append(dcc.Graph(id='click-graph',figure=fig,style={'margin-top':'0.6%'}))
-    return graph
+    fig = make_subplots(specs=[[{"secondary_y":True}]])
+    fig.add_trace(eth_close,secondary_y=False)
+    fig.add_trace(eth_polarity,secondary_y=True)
+    fig.update_layout(
+        margin= {'b': 0, 'r': 10, 'l': 60, 't': 0},                   
+        legend= {'x': 0.35,'y':-0.1},
+        xaxis=go.layout.XAxis(
+            rangeslider=dict(
+                visible=False
+            ),
+            range= ["2018-11-01","2019-09-30"],
+            rangeselector=dict(
+                buttons=list([
+                    dict(count=1,
+                        label="      1D      ",
+                        step="day",
+                        stepmode="backward"),
+                    dict(count=7,
+                        label="      1W      ",
+                        step="day",
+                        stepmode="backward"),
+                    dict(count=1,
+                        label="     1M      ",
+                        step="month",
+                        stepmode="backward"),
+                    dict(count=3,
+                        label="      3M      ",
+                        step="month",
+                        stepmode="backward"),
+                    dict(count=6,
+                        label="      6M      ",
+                        step="month",
+                        stepmode="backward"
+                        ),
+                    dict(count=1,
+                        label="      1Y      ",
+                        step="year",
+                        stepmode="backward"),
+                    dict(label='      ALL      ',
+                    step="all")
+                ]),
+                x=0.05,
+                y=1.01,
+                font=dict(
+                    family="sans-serif",
+                    size=15,
+                    color="#828282"),
+                bgcolor='white',
+                activecolor='#f2f2f2'
+            ),
+            type="date"
+        ),
+        legend_orientation="h"
+    )
+    return fig
 
 def Prediction(ticker):
 
@@ -234,7 +355,7 @@ def Prediction(ticker):
 
     return pred
 
-def Tweets(ticker, graphDate):
+def Tweets(ticker, graphDate,default=False):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     
@@ -260,6 +381,81 @@ def Tweets(ticker, graphDate):
             "TSLA"  : "tesla",
             "UBER"  : "uber"
         }
+
+        if default:
+            api = NewsApiClient(api_key='954c05db19404ee99531875f66d9d138')
+            three_days_ago = datetime.strptime(graphDate,'%Y-%m-%d') - timedelta(days=3)
+            all_articles = api.get_everything(q=company_db_name[ticker],
+                                    sources='bloomberg,business-insider,financial-post,fortune,recode,reuters,techcrunch,techradar,the-verge',
+                                    from_param=three_days_ago,
+                                    to=graphDate,
+                                    language='en',
+                                    sort_by='relevancy',
+                                    page=2)
+            articles = []
+            links = []
+            for article in all_articles["articles"]:
+                articles.append(article["title"])
+                links.append(article["url"])
+
+            scores = []
+            for title in articles:
+                scores.append(get_score(title))
+
+            news = html.Div(
+                children = [
+                    html.Div(
+                        html.Img(src='./assets/news-logo.png',
+                            style={'height':'50px',
+                                'margin-left':'43%'})),
+                    html.Div(
+                        className = "table-news",
+                        children = [
+                            html.Div(
+                                children = [
+                                    html.Div(
+                                        children = [
+                                            html.A(
+                                                className = "td-link",
+                                                children = articles[i],
+                                                href = links[i],
+                                                target = "_blank",
+                                            )
+                                        ],
+                                        style={
+                                            'height':'auto',
+                                            'width':'auto',
+                                            'font-size' : '0.8rem',
+                                            'font-family' : 'sans-serif',
+                                            'margin-left':'10px',
+                                            'margin-right':'10px',
+                                            'line-height':'20px'
+                                        }
+                                    )
+                                ],
+                                style=tweetstyle(scores,i,True)
+                            )
+                            for i in range(len(articles))
+                        ],
+                        style={
+                            'margin-left' :'3%',
+                            'margin-right': '3%',
+                            'margin-bottom': '3%'
+                        }
+                    )
+                ],
+                style={
+                    'background-color':'#f2f2f2',
+                    'border-radius':'5px',
+                    'margin-right' : '5.5%',
+                    'overflow':'scroll',
+                    'display':'block',
+                    'margin-top' : '2%',
+                    'height':'570px'
+                }
+            )
+            return news
+            
         
         db = db_client.twitter_data[company_db_name[ticker]]
         dates = db.distinct("date")
@@ -270,328 +466,436 @@ def Tweets(ticker, graphDate):
             tweets_polarity = []
             for record in db.aggregate([
                 { "$match" : {"date" : graphDate}},
-                { "$sample" : {"size" : 10 } }
+                { "$sample" : {"size" : 100 } }
                 ]):
-                tweets.append(record["original_text"])
-                tweets_polarity.append(record["polarity"])
-
-            news = html.Div(
-                children = [
-                    html.H3(
-                        className = "p-news",
-                        children = "Tweets",
-                        style={
-                            'font-family':'sans-serif',
-                            'font-weight':'500',
-                            'letter-spacing':'1.5px',
-                            'font-size':'1.1rem',
-                            'textAlign':'left',
-                            'color':'black',
-                            'position':'relative',
-                            'margin-top':'1.2%',
-                            'margin-left' : '1%'
-                        }
-                    ),
-                    html.Div(
-                        className = "table-news",
-                        children = [
-                            html.Div(
-                                children = [
-                                    html.Div(
-                                        children = [
-                                            html.A(
-                                                className = "td-link",
-                                                children = tweets[i],
-                                                target = "_blank",
-                                            )
-                                        ],
-                                        style={
-                                            'font-size' : '0.8rem',
-                                            'font-family' : 'sans-serif'
-                                        }
-                                    )
-                                ],
-                                style=tweetstyle(tweets_polarity,i)
-                            )
-                            for i in range(len(tweets))
-                        ],
-                        style={
-                            'margin-left' :'1%',
-                            'margin-right': '1%',
-                            'margin-bottom': '1%'
-                        }
-                    )
-                ],
-                style={
-                    'background-color': 'rgba(120,120,120,0.15)',
-                    'border-radius':'5px',
-                    'margin-right' : '5.5%',
-                    'overflow':'scroll',
-                    'display':'block',
-                    'margin-top' : '1.3%',
-                    'height':'597px'
-                }
-            )
+                if record["original_text"] not in tweets:
+                    tweets.append(record["original_text"])
+                    tweets_polarity.append(record["polarity"])
 
         else:
-
-            news = html.Div(
-                children = [
-                    html.H3(
-                        className = "p-news",
-                        children = "Tweets",
-                        style={
-                            'font-family':'sans-serif',
-                            'font-weight':'500',
-                            'letter-spacing':'1.5px',
-                            'font-size':'1.1rem',
-                            'textAlign':'left',
-                            'color':'black',
-                            'position':'relative',
-                            'margin-top':'1.2%',
-                            'margin-left' : '1%'
-                        }
-                    ),
-                    html.Div(
-                        className = "table-news",
-                        children = ["No twitter data for this day"],
-                        style={
-                            'margin-left' :'1%',
-                            'margin-right': '1%',
-                            'margin-bottom': '1%'
-                        }
-                    )
-                ],
-                style={
-                    'background-color': 'rgba(120,120,120,0.15)',
-                    'border-radius':'5px',
-                    'margin-right' : '5.5%',
-                    'overflow':'scroll',
-                    'display':'block',
-                    'margin-top' : '1.3%',
-                    'height':'597px'
-                }
-            )
+            tweets = ["No Tweets."]
+            tweets_polarity = ["None"] 
+            
+        news = html.Div(
+            children = [
+                html.Div(
+                    html.Img(src='./assets/Twitter_Logo_Blue.png',
+                        style={'height':'50px',
+                            'margin-left':'43%'})),
+                html.Div(
+                    className = "table-news",
+                    children = [
+                        html.Div(
+                            children = [
+                                html.Div(
+                                    children = [
+                                        html.A(
+                                            className = "td-link",
+                                            children = tweets[i],
+                                            target = "_blank",
+                                        )
+                                    ],
+                                    style={
+                                        'height':'auto',
+                                        'width':'auto',
+                                        'font-size' : '0.8rem',
+                                        'font-family' : 'sans-serif',
+                                        'margin-left':'10px',
+                                        'margin-right':'10px',
+                                        'line-height':'20px'
+                                    }
+                                )
+                            ],
+                            style=tweetstyle(tweets_polarity,i)
+                        )
+                        for i in range(len(tweets))
+                    ],
+                    style={
+                        'margin-left' :'3%',
+                        'margin-right': '3%',
+                        'margin-bottom': '3%'
+                    }
+                )
+            ],
+            style={
+                'background-color':'#f2f2f2',
+                'border-radius':'5px',
+                'margin-right' : '5.5%',
+                'overflow':'scroll',
+                'display':'block',
+                'margin-top' : '2%',
+                'height':'570px'
+            }
+        )
 
         return news
 
-def tweetstyle(tweets_polarity, i):
-    style = {
-        'background-color' : 'rgba(235,158,62,0.5)',
-        'border-radius' : '5px',
-        'margin-top':'1%'
-        }
-    if tweets_polarity[i] < -0.3:
+def tweetstyle(tweets_polarity, i,default=False):
+    
+    if default:
         style = {
-            'background-color' : 'rgba(233,82,82,0.5)',
+            'background-color' : 'rgba(250, 192, 0,0.5)',
+            'border-radius' : '5px',
+            'margin-top':'1%'
+        }
+        if tweets_polarity[i] < 33:
+            style = {
+                'background-color' : 'rgba(164, 19, 3,0.5)',
+                'border-radius' : '5px',
+                'margin-top' : '1%'
+            }
+        if tweets_polarity[i] > 66:
+            style = {
+                'background-color' : 'rgba(3, 164, 3, 0.5)',
+                'border-radius' : '5px',
+                'margin-top' : '1%'
+            }
+        return style
+
+    if tweets_polarity[i] == "None":
+        style = {
+            'background-color' : 'white',
             'border-radius' : '5px',
             'margin-top' : '1%'
         }
+        return style
+
+    style = {
+        'background-color' : 'rgba(250, 192, 0,0.5)',
+        'border-radius' : '5px',
+        'margin-top':'1%'
+    }
+
+    if tweets_polarity[i] < -0.3:
+        style = {
+            'background-color' : 'rgba(164, 19, 3,0.5)',
+            'border-radius' : '5px',
+            'margin-top' : '1%'
+        }
+        
     if tweets_polarity[i] > 0.3:
         style = {
-            'background-color' : 'rgba(9,168,17,0.5)',
+            'background-color' : 'rgba(3, 164, 3, 0.5)',
             'border-radius' : '5px',
             'margin-top' : '1%'
         }
     return style
 
-def F_data(ticker, graphDate="2019-09-30"):
+def F_data(ticker, graphDate, default=False):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     db = db_client["sentrade_db"]
 
     if not ticker:
 
-        data = html.H3(
-            "",
-            style={
-                'margin-top':'0px',
-                'textAlign':'center',
-                'color':'#9C9C9C'
-            }
-        )
-    else:
+        ticker = "AAPL"
 
-        stock_price_collection = db["stock_price"]
-        dates = stock_price_collection.distinct("date")
+    stock_price_collection = db["stock_price"]
+    dates = stock_price_collection.distinct("date")
 
-        dateString = datetime.strptime(graphDate, "%Y-%m-%d")
-        dateString = dateString.strftime("%b %d %Y")
+    dateString = datetime.strptime(graphDate, "%Y-%m-%d")
+    dateString = dateString.strftime("%b %d %Y")
 
-        if graphDate in dates:
+    dateString = html.P(dateString, style={
+                    'font-family':'sans-serif',
+                    'font-weight':'500',
+                    'letter-spacing':'1px',
+                    'font-size':'10pt',
+                    'textAlign':'center',
+                    'color':'#737373',
+                    'left':'40px',
+                    'position':'absolute',
+                    'margin-top': '2%'
+                })
 
-            f_data = {}
+    if graphDate in dates:
 
-            for record in stock_price_collection.find({"company_name":ticker, "date": graphDate}):
-                f_data["open"] = record["open"]
-                f_data["close"] = record["close"]
-                f_data["high"] = record["high"]
-                f_data["low"] = record["low"]
-                f_data["volume"] = record["volume"]
-            
+        f_data = {}
+
+        for record in stock_price_collection.find({"company_name":ticker, "date": graphDate}):
+            f_data["open"] = record["open"]
+            f_data["close"] = record["close"]
+            f_data["high"] = record["high"]
+            f_data["low"] = record["low"]
+            f_data["volume"] = record["volume"]
+            f_data["change"] = record["change"]
         
-            open_string = "Open: " 
-            open_string += str(f_data["open"])
-            close_string = "Close: " 
-            close_string += str(f_data["close"])
-            high_string = "High: " 
-            high_string += str(f_data["high"])
-            low_string = "Low: " 
-            low_string += str(f_data["low"])
-            volume_string = "Volume: " 
-            volume_string += str(f_data["volume"])
-            row = html.Div(
-                [
-                    dbc.Row(html.H3(dateString, style={
+        magnitude = 0
+        vol = f_data["volume"]
+        while abs(vol) >= 1000:
+            magnitude += 1
+            vol /= 1000.0
+        volume_string = '%.2f%s' %(vol, ['', 'K', 'M', 'B', 'T', 'P'][magnitude])
+        change_string = '%.2f'%(f_data["change"])
+        open_string = str(f_data["open"])
+        close_string = str(f_data["close"])
+        high_string = str(f_data["high"]) 
+        low_string = str(f_data["low"])
+    else:
+        volume_string = "--"
+        change_string = "--"
+        open_string = "--"
+        close_string = "--"
+        high_string = "--"
+        low_string = "--"
+
+    row = html.Div([
+        dateString,
+        html.Div([
+            html.Div([
+                html.Div([
+                    html.P("Open",
+                    style={
                         'font-family':'sans-serif',
+                        'color':'#737373',
+                        'font-size':'8pt',
                         'font-weight':'500',
-                        'letter-spacing':'1.5px',
-                        'font-size':'1.1rem',
-                        'textAlign':'center',
-                        'color':'black',
-                        'position':'absolute',
-                        'margin-left': '5.2%',
-                        'margin-top': '2%'
-                    })),
-                    html.Div([
-                    dbc.Row(
-                    [
-                        dbc.Col(html.Div(open_string,style={'font-family':'sans-serif'}), width=3),
-                        dbc.Col(html.Div(high_string,style={'font-family':'sans-serif'}), width=3),
-                        dbc.Col(html.Div("Sentiment:",style={'font-family':'sans-serif'}), width=4)
-                    ],
+                        'margin-top':'0',
+                        }),
+                    html.P("Close",
                     style={
-                        'margin-top': '2%',
-                    }
-                    ),
-                    dbc.Row(
-                    [
-                        dbc.Col(html.Div(close_string,style={'font-family':'sans-serif'}), width=3),
-                        dbc.Col(html.Div(low_string,style={'font-family':'sans-serif'}), width=3),
-                        dbc.Col(html.Div(Score(ticker, graphDate)), width=5)
-                    ],
-                    )
-                    ],
-                    style={
-                        'border-radius' : '5px',
-                        'background-color': 'rgba(120,120,120,0.15)',
-                        'width':'91.3%',
-                        'margin-top':'5.5%',
-                        'margin-left':'3.7%'
-                    }),
-                    
-                ]
-            )
-
-            finance = html.Div(row)
-
-            data = html.Div(finance)
-
-        else:
-            row = html.Div(
-                [
-                    dbc.Row(html.H3(dateString, style={
                         'font-family':'sans-serif',
+                        'color':'#737373',
+                        'font-size':'8pt',
                         'font-weight':'500',
-                        'letter-spacing':'1.5px',
-                        'font-size':'1.1rem',
-                        'textAlign':'center',
-                        'color':'black',
-                        'position':'absolute',
-                        'margin-left': '5.2%',
-                        'margin-top': '2%'
-                    })),
-                    html.Div([
-                    dbc.Row(
-                    [
-                        dbc.Col(html.Div("No financial data for this day.",style={'font-family':'sans-serif'}), width=5),
-                        dbc.Col(html.Div("Sentiment:",style={'font-family':'sans-serif'}), width=4)
-                    ],
-                    style={
-                        'margin-top': '2%',
-                    }
-                    ),
-                    dbc.Row(
-                    [
-                        dbc.Col(html.Div("",style={'font-family':'sans-serif'}), width=5),
-                        dbc.Col(html.Div(Score(ticker, graphDate)), width=5)
-                    ],
-                    )
-                    ],
-                    style={
-                        'border-radius' : '5px',
-                        'background-color': 'rgba(120,120,120,0.15)',
-                        'width':'91.3%',
-                        'margin-top':'5.5%',
-                        'margin-left':'3.7%'
+                        'margin-top':'0',
+                    })
+                ]),
+                html.Div([
+                html.P(open_string,
+                    style={'font-family':'sans-serif',
+                        'color':'#383838',
+                        'font-size':'8pt',
+                        'font-weight':'700',
+                        'margin-left':'40px',
+                        'margin-top':'0',}),
+                html.P(close_string,
+                    style={'font-family':'sans-serif',
+                        'color':'#383838',
+                        'font-size':'8pt',
+                        'font-weight':'700',
+                        'margin-left':'40px',
+                        'margin-top':'0',})
+                    ])],
+                style={
+                    'display':'flex',
+                    'margin-top':'2px',
+                    'left':'40px',
+                    'top':'500px',
+                    'position':'absolute',
+                    'border-right':'1px solid #e5e5e5',
+                    'height':'45px',
+                    'width' : '130px'
+            }),
+            html.Div([
+            html.Div([
+                html.P("High",
+                style={
+                    'font-family':'sans-serif',
+                    'color':'#737373',
+                    'font-size':'8pt',
+                    'font-weight':'500',
+                    'margin-top':'0',
                     }),
-                    
-                ]
-            )
+                html.P("Low",
+                style={
+                    'font-family':'sans-serif',
+                    'color':'#737373',
+                    'font-size':'8pt',
+                    'font-weight':'500',
+                    'margin-top':'0',
+                })
+            ]),
+            html.Div([
+            html.P(high_string,
+                style={'font-family':'sans-serif',
+                    'color':'#383838',
+                    'font-size':'8pt',
+                    'font-weight':'700',
+                    'margin-left':'40px',
+                    'margin-top':'0',}),
+            html.P(low_string,
+                style={'font-family':'sans-serif',
+                    'color':'#383838',
+                    'font-size':'8pt',
+                    'font-weight':'700',
+                    'margin-left':'40px',
+                    'margin-top':'0',})
+                ])
+                ],
+            style={
+                'display':'flex',
+                'margin-top':'2px',
+                'left':'190px',
+                'top':'500px',
+                'position':'absolute',
+                'border-right':'1px solid #e5e5e5',
+                'height':'45px',
+                'width' : '124px'
+        }),
+        html.Div([
+            html.Div([
+                html.P("Vol",
+                style={
+                    'font-family':'sans-serif',
+                    'color':'#737373',
+                    'font-size':'8pt',
+                    'font-weight':'500',
+                    'margin-top':'0',
+                    }),
+                html.P("Change",
+                style={
+                    'font-family':'sans-serif',
+                    'color':'#737373',
+                    'font-size':'8pt',
+                    'font-weight':'500',
+                    'margin-top':'0',
+                })
+            ]),
+            html.Div([
+            html.P(volume_string,
+                style={'font-family':'sans-serif',
+                    'color':'#383838',
+                    'font-size':'8pt',
+                    'font-weight':'700',
+                    'margin-left':'40px',
+                    'margin-top':'0',}),
+            html.P(change_string,
+                style={'font-family':'sans-serif',
+                    'color':'#383838',
+                    'font-size':'8pt',
+                    'font-weight':'700',
+                    'margin-left':'40px',
+                    'margin-top':'0',})
+                ])
+                ],
+            style={
+                'display':'flex',
+                'margin-top':'2px',
+                'left':'334px',
+                'top':'500px',
+                'position':'absolute',
+                'border-right':'1px solid #e5e5e5',
+                'height':'45px',
+                'width' : '145px'
+        }),
+        html.Div([
+            html.P("Sentiment",
+                style={
+                    'font-family':'sans-serif',
+                    'color':'#737373',
+                    'font-size':'8pt',
+                    'font-weight':'500',
+                    'margin-top':'15px'
+                    }),
+            html.Div(Score(ticker,graphDate,default),
+            style={
+                'margin-top':'15px',
+                'margin-left':'40px'
+            })],
+        style={
+            'margin-top':'2px',
+            'left':'499px',
+            'top':'500px',
+            'position':'absolute',
+            'border-right':'1px solid #e5e5e5',
+            'height':'45px',
+            'width' : '336px',
+            'display':'flex'
+        })
+        ],style={'display':'flex'})
+    ])
 
-            finance = html.Div(row)
+    finance = html.Div(row)
 
-            data = html.Div(finance)
-
+    data = html.Div(finance)
 
     return data
 
-def Score(ticker, graphDate):
+def Score(ticker, graphDate, default=False):
+    
+    company_db_name = {
+        "AMZN" : "amazon",
+        "AAPL"  : "apple", 
+        "FB"    : "facebook",
+        "GOOG"  : "google",
+        "MSFT"  : "microsoft",
+        "NFLX"  : "netflix",
+        "TSLA"  : "tesla",
+        "UBER"  : "uber"
+    }
+    if default:
+        api = NewsApiClient(api_key='954c05db19404ee99531875f66d9d138')
+        three_days_ago = datetime.strptime(graphDate,'%Y-%m-%d') - timedelta(days=3)
+        all_articles = api.get_everything(q=company_db_name[ticker],
+                                sources='bloomberg,business-insider,financial-post,fortune,recode,reuters,techcrunch,techradar,the-verge',
+                                from_param=three_days_ago,
+                                to=graphDate,
+                                language='en',
+                                sort_by='relevancy',
+                                page=2)
+        articles = []
+        for article in all_articles["articles"]:
+            articles.append(article["title"])
+
+        scores = []
+        for title in articles:
+            scores.append(get_score(title))
+            
+        score = sum(scores)/len(scores)
+        polarity_value_string = "{:.0f}%".format(score)
+        polarity = html.Div([
+                html.Div(dbc.Progress(polarity_value_string, value=score, color=score_style(score),className="mb-3")),
+                ],
+                style={'width':'200px',
+                'border-radius':'5px'}
+            )
+        return polarity
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
 
     if not ticker:
 
-        polarity = html.H3(
-            "",
-            style={
-                'margin-top':'0px',
-                'textAlign':'center',
-                'color':'#9C9C9C'
-            }
-        )
+        ticker = "AAPL"
 
     else:
-        company_db_name = {
-            "AMZN" : "amazon",
-            "AAPL"  : "apple", 
-            "FB"    : "facebook",
-            "GOOG"  : "google",
-            "MSFT"  : "microsoft",
-            "NFLX"  : "netflix",
-            "TSLA"  : "tesla",
-            "UBER"  : "uber"
-        }
         
         db = db_client.sentiment_data[company_db_name[ticker]]
         dates = db.distinct("date")
         if graphDate in dates:
             scores = {}
             for record in db.find({"date": graphDate}):
-                scores[graphDate] = record["1_day_sentiment_score"]
+                bert = record["3_day_bert_sentiment_score"]
+                blob = record["3_day_sentiment_score"] + 1
+                bert *= 100
+                blob /= 2
+                blob *= 100
+                score = bert + blob
+                score /= 2
+                scores[graphDate] = score
 
-            polarity_value = scores[graphDate] + 1
-            polarity_value /= 2
-            polarity_value *= 100
+            polarity_value = scores[graphDate]
 
             polarity_value_string = "{:.0f}%".format(polarity_value) 
             polarity = html.Div([
-                html.Div(dbc.Progress(polarity_value_string, value=polarity_value, color=score_style(scores[graphDate]),className="mb-3")),
-                ]
+                html.Div(dbc.Progress(polarity_value_string, value=polarity_value, color=score_style(polarity_value),className="mb-3")),
+                ],
+                style={'width':'200px',
+                'border-radius':'5px'}
             )
         else:
             polarity = html.Div([
-                html.Div("No sentiment data for this day"),
+                html.Div("--"),
                 ]
             )
 
     return polarity
 
-def score_style(polarity_avg):
+def score_style(polarity_value):
     color = 'warning'
-    if polarity_avg < -0.3:
+    if polarity_value < 33:
         color = 'danger'
-    if polarity_avg > 0.3:
+    if polarity_value > 66:
         color = 'success'
     return color
 
@@ -662,7 +966,7 @@ navbar = dbc.Navbar(
         html.A(
             dbc.Row(
                 [
-                    dbc.Col(dbc.NavbarBrand("Sentrade", className="ml-2")),
+                    dbc.Col(dbc.NavbarBrand("Sentrade", className="ml-2", href='http://sentrade1.doc.ic.ac.uk/')),
                     dbc.Col(html.H6("Financial Sentiment Analysis",style={"white-space":"nowrap","color":"grey","margin-top":"8px"}))
                 ],
                 align="center",
@@ -681,39 +985,55 @@ graph = html.Div(
     style={
         'margin-top':'0.8%',
     },
-    children= dcc.Graph(id='click-graph')
+    children= dcc.Graph(id='click-graph', config={'displayModeBar':False})
 )
 
-alert = html.Div(
-    [
-        dbc.Alert(
-            "Click on points on the graph",
-            id="alert-auto",
-            is_open=True,
-            dismissable=True,
-            #duration=15000,
-            style= {
-                'width':'50%','margin-left':'auto','margin-right':'auto','border-radius':'5px','margin-top':'2%'
-            }
-        ),
-    ]
-)
+
 
 data = html.Div(
     className= 'finance',
-    children = [
-        html.Div(
-            id = 'instruction',
-            children = alert
-        ),
-        html.Div(
-            id = 'finance')
-    ]
+    id = 'finance'
 )
+
+topbar = html.Div(
+    className= 'topbar',
+    id = 'topbar'
+)
+
+question = html.Div([
+
+         html.P(
+              "?",
+              id="tooltip-target",
+              style={
+                     "textAlign": "center", 
+                     "color": "white",
+                     "position":"absolute",
+                     "left":'540px',
+                     "font-size":"8pt",
+                     "top":'425px',
+                     "background-color":"#cfcfcf",
+                     "border-radius":"50%",
+                     "width":"15px",
+                     "height":"15px",
+                     "line-height":"15px",
+                     "cursor":"pointer",
+                     "margin-left":"1px",
+                     "margin-right":"1px"
+              },
+              className="dot"),
+
+         dbc.Tooltip(
+              "The sentiment score is the average of the Google BERT and TextBlob scores of the tweets about the selected ticker over a time period of three days.",
+               target="tooltip-target",
+         )
+    ],
+    id = 'question')
 
 leftdiv = html.Div(
     [
         graph,
+        question,
         data
     ]
 )
@@ -725,9 +1045,13 @@ tweets = html.Div(
 
 contents = html.Div(
     className= 'contents',
-    children= dbc.Row([
-        dbc.Col(leftdiv,width=8),
-        dbc.Col(tweets)
+    children= html.Div([
+        topbar,
+        instruction,
+        dbc.Row([
+            dbc.Col(leftdiv,width=8),
+            dbc.Col(tweets)
+        ])
     ])
 )
 
@@ -749,33 +1073,74 @@ app.scripts.config.serve_locally = True
 
 # App callbacks
 @app.callback(
-    dash.dependencies.Output('tweets','children'),
-    [dash.dependencies.Input('click-graph', 'clickData')],
-    [dash.dependencies.State('stock-ticker', 'value')])
-def update_tweets(clickData,ticker):
-    graphDate = "2019-09-30"
-    if clickData:
-        graphDate = clickData["points"][0]["x"]
-    return Tweets(ticker,graphDate)
-
-@app.callback(
-    dash.dependencies.Output('graph','children'),
+    dash.dependencies.Output('click-graph','figure'),
     [dash.dependencies.Input('stock-ticker', 'value')])
 def update_graph(ticker):
-    #print("im trying to display a graph")
     return Graph(ticker)
 
 @app.callback(
+    [dash.dependencies.Output('click-graph','style'),
+    dash.dependencies.Output('question','style')],
+    [dash.dependencies.Input('stock-ticker', 'value')])
+def show_graph(ticker):
+    if not ticker:
+        return {
+            'display':'none'
+        },{'display':'none'}
+    else:
+        return {
+            'display':'block',
+            'height':'450px'
+        },{'display':'block'}
+
+@app.callback(
+    dash.dependencies.Output('instruction','style'),
+    [dash.dependencies.Input('stock-ticker', 'value')])
+def show_instruction(ticker):
+    if not ticker:
+        return {
+            'margin-top':'25%',
+            'textAlign':'center',
+            'color':'#9C9C9C',
+            'display':'block'
+        }
+    return {
+        'display':'none'
+    }
+
+@app.callback(
+    dash.dependencies.Output('topbar','children'),
+    [dash.dependencies.Input('stock-ticker', 'value')])
+def update_topbar(ticker):
+    #print("im trying to display a graph")
+    return Topbar(ticker)
+
+@app.callback(
     [dash.dependencies.Output('finance','children'),
-    dash.dependencies.Output('instruction','style')],
+    dash.dependencies.Output('tweets','children')],
     [dash.dependencies.Input('click-graph', 'clickData')],
     [dash.dependencies.State('stock-ticker', 'value')])
 def update_finance(clickData,ticker):
     if not ticker:
-        return html.Div(""),{'display':'none'}
+        return html.Div(""),html.Div("")
     if clickData:
         graphDate = clickData["points"][0]["x"]
-    return F_data(ticker,graphDate),{'display':'none'}
+        return F_data(ticker,graphDate),Tweets(ticker,graphDate)
+    company_db_name = {
+        "AMZN" : "amazon",
+        "AAPL"  : "apple", 
+        "FB"    : "facebook",
+        "GOOG"  : "google",
+        "MSFT"  : "microsoft",
+        "NFLX"  : "netflix",
+        "TSLA"  : "tesla",
+        "UBER"  : "uber"
+        }
+    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    stock_price_db = db_client.stock_data
+    for record in stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(2):
+        graphDate = record["date"]
+    return F_data(ticker,graphDate,True),Tweets(ticker,graphDate,True)
 
 @app.callback(
     Output("navbar-collapse", "is_open"),
@@ -811,14 +1176,14 @@ def hide_finance(input):
         return {'display':'none'},{'display':'none'}
 
 @app.callback(
-    Output("alert-auto", "is_open"),
-    [Input("stock-ticker", "value")],
-    [State("alert-auto", "is_open")],
+    Output("click-graph", "clickData"), 
+    [Input("stock-ticker", "value")]
 )
-def toggle_alert(ticker, is_open):
-    if ticker != "None":
-        return not is_open
-    return is_open
+def on_button_click(n):
+    if n is None:
+        pass
+    else:
+        return None
 
 # Debugging
 if __name__ == "__main__":
