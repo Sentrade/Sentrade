@@ -18,6 +18,7 @@ from sshtunnel import SSHTunnelForwarder
 from plotly.subplots import make_subplots
 from newsapi import NewsApiClient
 from currentsentiment import get_score
+from data_analysis.prediction_UI import get_prediction
 
 from textwrap import dedent as d
 from dash.dependencies import Input, Output, State
@@ -30,12 +31,14 @@ __author__ = "Davide Locatelli"
 __status__ = "Prototype"
 
 aboutus = """
-This website aims to provide sentiment analysis of eight stocks by applying natural language processing on Twitter posts. 
+With Sentrade you can explore the correlation between financial data and sentiment analysis.
+
+Once a ticker is selected, you will see its recent financial data as well as a sentiment analysis score based on the latest news.
+We use this sentiment score to predict the stock movement for the current day. To do this, we trained a machine learning model on historical Tweets.
+You can explore our historical data by clicking on the graph. You will be able to see the financial data, sentiment score and relevant tweets from the selected day.
 
 This is a temporary website built by 6 MSc students from Imperial College London and it will be removed in June 2020. 
-
 SenTrade makes no express or implied warranty that the website will be updated timely: please do not use it for trading purposes. 
-
 SenTrade will not be liable for any damages or losses caused by the use of information provided.
 
 """
@@ -96,6 +99,8 @@ def Topbar(ticker):
         gain = "+" + gain
         gain_style['color'] = 'green'
 
+    prediction_string, prediction_colour = Prediction(ticker)
+
     topbar = html.Div([
         html.H3(ticker,
         style={
@@ -149,7 +154,7 @@ def Topbar(ticker):
                 'height':'45px'
         }),
         html.Div([
-            html.P('Expected 5% Rise',
+            html.P(prediction_string,
             style={
                 'font-family':'sans-serif',
                 'font-weight':'500',
@@ -160,12 +165,12 @@ def Topbar(ticker):
             'height':'40px',
             'line-height':'40px',
             'margin-top':'9px',
-            'right':'130px',
+            'right':'115px',
             'position':'absolute',
             'width':'200px',
             'text-align':'center',
             'border-radius':'5px',
-            'background':'rgba(3, 164, 3, 0.5)'
+            'background' : prediction_colour
         })
     ],
     style={
@@ -331,29 +336,50 @@ def Graph(ticker):
 
 def Prediction(ticker):
 
+    company_db_name = {
+        "AMZN"  : "amazon",
+        "AAPL"  : "apple", 
+        "FB"    : "facebook",
+        "GOOG"  : "google",
+        "MSFT"  : "microsoft",
+        "NFLX"  : "netflix",
+        "TSLA"  : "tesla",
+        "UBER"  : "uber"
+    }
+
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-    db = db_client["sentrade_db"]
+    stock_price_db = db_client.stock_data
+    records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1)
+    for record in records:
+        date = record["date"]
 
-    if not ticker:
-        pred = html.H3(
-            "",
-            style={
-                'margin-top':'0px',
-                'textAlign':'center',
-                'color':'#9C9C9C'
-            }
-        )
-    else:
-        string = "expected "
-        if ticker == "AAPL":
-            string += "growth"
-            color = "success"
-        else:
-            string += "drop"
-            color = "danger"
-        pred = dbc.Badge(string, color=color, style = {'width':'75%','height':'70%', 'border-radius':'5px'})
+    prediction = get_prediction(company_db_name[ticker],date)
 
-    return pred
+    if (prediction == -5):
+        colour = "#f2f2f2"
+        string = "Prediction not available"
+
+    if (prediction == 0):
+        colour = "#f2f2f2"
+        string = "Stable"
+
+    if (prediction == 1):
+        colour = "rgba(3, 164, 3, 0.5)"
+        string = "Rise up to 5%"
+
+    if (prediction == 2):
+        colour = "rgba(3, 164, 3, 0.5)"
+        string = "Rise over 5%"
+
+    if (prediction == -1):
+        colour = "rgba(164, 19, 3,0.5)"
+        string = "Fall up to 5%"
+
+    if (prediction == -2):
+        colour = "rgba(164, 19, 3,0.5)"
+        string = "Fall over 5%"
+
+    return string, colour
 
 def Tweets(ticker, graphDate,default=False):
 
