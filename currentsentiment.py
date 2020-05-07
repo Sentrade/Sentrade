@@ -1,5 +1,7 @@
 from textblob import TextBlob
 
+__author__ = "Davide Locatelli"
+
 def get_blob(text):
 
     blob = TextBlob(text)
