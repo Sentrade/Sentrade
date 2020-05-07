@@ -34,12 +34,10 @@ aboutus = """
 With Sentrade you can explore the correlation between financial data and sentiment analysis.
 
 Once a ticker is selected, you will see its recent financial data as well as a sentiment analysis score based on the latest news.
-We use this sentiment score to predict the stock movement for the current day. To do this, we trained a machine learning model on historical Tweets.
-You can explore our historical data by clicking on the graph. You will be able to see the financial data, sentiment score and relevant tweets from the selected day.
+We use this sentiment score to predict the stock movement for the current day. To do this, we trained a machine learning model on historical Tweets. You can explore our historical data by clicking on the graph. You will be able to see the financial data, sentiment score and relevant tweets from the selected day.
 
 This is a temporary website built by 6 MSc students from Imperial College London and it will be removed in June 2020. 
-SenTrade makes no express or implied warranty that the website will be updated timely: please do not use it for trading purposes. 
-SenTrade will not be liable for any damages or losses caused by the use of information provided.
+SenTrade makes no express or implied warranty that the website will be updated timely: please do not use it for trading purposes. SenTrade will not be liable for any damages or losses caused by the use of information provided.
 
 """
 
