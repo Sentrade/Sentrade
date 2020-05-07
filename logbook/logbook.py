@@ -1,5 +1,11 @@
 from github import Github
 
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+__author__ = "Ziyou Zhang"
+__status__ = "Production"
+
 g = Github("23696ebca5388d6fe9ced9690919e5ed51be90b5")
 
 repo = g.get_repo("ZiyouZhang/Sentrade")
