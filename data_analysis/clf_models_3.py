@@ -29,7 +29,6 @@ def write_result_csv(csv_file, alg_name, accuracy, cm, n_cat=5):
         result_csv.write('\n')
     result_csv.write('\n')
 
-
 ##### Main #####
 total_df = pd.read_csv("./total_data.csv")
 total_df.dropna(inplace=True)
