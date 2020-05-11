@@ -13,7 +13,7 @@ app.config["DEBUG"] = False
 
 client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
 
-@app.route('/api/data/apple', methods=['GET'])
+@app.route('/data/apple', methods=['GET'])
 def apple_data():
     client = MongoClient(client_address)
     db = client.sentiment_data["apple"]
@@ -24,7 +24,7 @@ def apple_data():
     client.close()
     return dumps(data)
 
-@app.route('/api/data/amazon', methods=['GET'])
+@app.route('/data/amazon', methods=['GET'])
 def amazon_data():
     client = MongoClient(client_address)
     db = client.sentiment_data["amazon"]
@@ -35,7 +35,7 @@ def amazon_data():
     client.close()
     return dumps(data)
 
-@app.route('/api/data/facebook', methods=['GET'])
+@app.route('/data/facebook', methods=['GET'])
 def facebook_data():
     client = MongoClient(client_address)
     db = client.sentiment_data["facebook"]
@@ -46,7 +46,7 @@ def facebook_data():
     client.close()
     return dumps(data)
 
-@app.route('/api/data/google', methods=['GET'])
+@app.route('/data/google', methods=['GET'])
 def google_data():
     client = MongoClient(client_address)
     db = client.sentiment_data["google"]
@@ -57,7 +57,7 @@ def google_data():
     client.close()
     return dumps(data)
 
-@app.route('/api/data/microsoft', methods=['GET'])
+@app.route('/data/microsoft', methods=['GET'])
 def microsoft_data():
     client = MongoClient(client_address)
     db = client.sentiment_data["microsoft"]
@@ -68,7 +68,7 @@ def microsoft_data():
     client.close()
     return dumps(data)
 
-@app.route('/api/data/netflix', methods=['GET'])
+@app.route('/data/netflix', methods=['GET'])
 def netflix_data():
     client = MongoClient(client_address)
     db = client.sentiment_data["netflix"]
@@ -79,7 +79,7 @@ def netflix_data():
     client.close()
     return dumps(data)
 
-@app.route('/api/data/tesla', methods=['GET'])
+@app.route('/data/tesla', methods=['GET'])
 def tesla_data():
     client = MongoClient(client_address)
     db = client.sentiment_data["tesla"]
@@ -90,7 +90,7 @@ def tesla_data():
     client.close()
     return dumps(data)
 
-@app.route('/api/data/uber', methods=['GET'])
+@app.route('/data/uber', methods=['GET'])
 def uber_data():
     client = MongoClient(client_address)
     db = client.sentiment_data["uber"]
@@ -101,4 +101,4 @@ def uber_data():
     client.close()
     return dumps(data)
 
-app.run(host='0.0.0.0', port=8080)
+app.run(host='0.0.0.0', port=80)
