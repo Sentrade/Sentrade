@@ -38,6 +38,10 @@ We use this sentiment score to predict the stock movement for the current day. T
 This is a temporary website built by 6 MSc students from Imperial College London and it will be removed in June 2020. 
 SenTrade makes no express or implied warranty that the website will be updated timely: please do not use it for trading purposes. SenTrade will not be liable for any damages or losses caused by the use of information provided.
 
+If you are interested in the raw sentiment data to do your own analysis, call REST API via
+www.api-sentrade.doc.ic.ac.uk/data/<company_name>
+where company name can be chosen from:
+apple, amazon, facebook, google, microsoft, netflix, tesla, uber.
 """
 
 easter_egg_message = """
