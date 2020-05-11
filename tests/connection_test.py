@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+__author__ = "Yiwen Sun and Ziyou Zhang"
+__status__ = "Production"
+
 import pytest
 from pprint import pprint
 from pymongo import MongoClient
 from multiprocessing import Process
 
-__author__ = "Yiwen Sun and Ziyou Zhang"
-__status__ = "Production"
       
 def test_connection():
     with MongoClient('mongodb://admin:sentrade@45.76.133.175:27017') as client:

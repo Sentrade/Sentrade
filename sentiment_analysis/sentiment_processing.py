@@ -5,11 +5,12 @@
 Process the data in the news and put in the sentiment database.
 """
 
+__author__ = "Ziyou Zhang"
+__status__ = "Development"
+
 from pymongo import MongoClient
 import json
 
-__author__ = "Ziyou Zhang"
-__status__ = "Development"
 
 def process_sentiment():
 

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+__author__ = "Yiwen Sun"
+__status__ = "Production"
+
 import pytest
 import datetime
 from pymongo import MongoClient
-__author__ = "Yiwen Sun"
-__status__ = "Production"
 
 def most_recent_business_day():
     """

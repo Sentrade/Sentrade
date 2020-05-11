@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+__author__ = "Davide Locatelli"
+__status__ = "Production"
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import dash
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc

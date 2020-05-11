@@ -24,11 +24,10 @@ from textwrap import dedent as d
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from plotly import tools
-from data import correlation_analysis
 from datetime import datetime, timedelta
 
 __author__ = "Davide Locatelli"
-__status__ = "Prototype"
+__status__ = "Production"
 
 aboutus = """
 With Sentrade you can explore the correlation between financial data and sentiment analysis.

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import json
 
 __author__ = "Ziyou Zhang"
-__status__ = "Prototype"
+__status__ = "Production"
 
 def correlation_analysis(news_file, sentiment_file, stock_file):
     """

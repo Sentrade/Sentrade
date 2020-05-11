@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+__author__ = "Davide Locatelli"
+__status__ = "Production"
+
 """
 This module contains DuckDuckGoSearchPage,
 the page object for the DuckDuckGo search page.

@@ -5,11 +5,12 @@
 Twitter scrapying code.
 """
 
+__author__ = "Ziyou Zhang"
+__status__ = "Production"
+
 from pymongo import MongoClient
 import json
 
-__author__ = "Ziyou Zhang"
-__status__ = "Prototype"
 
 client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
 

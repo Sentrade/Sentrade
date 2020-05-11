@@ -16,7 +16,7 @@ from pathlib import Path
 from pymongo import MongoClient
 
 __author__ = "Ziyou Zhang, Fenming Liu"
-__status__ = "Development"
+__status__ = "Production"
 
 month_map = {"Jan": "01", 
              "Feb": "02",

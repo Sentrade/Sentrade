@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+__author__ = "Davide Locatelli"
+__status__ = "Production"
+
 """
 These tests cover Sentrade usage.
 """

@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from textblob import TextBlob
 
 __author__ = "Davide Locatelli"
+__status__ = "Production"
 
 def get_blob(text):
 
