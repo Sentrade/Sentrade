@@ -1082,7 +1082,7 @@ question = html.Div([
               className="dot"),
 
          dbc.Tooltip(
-              "The sentiment score is the average of the Google BERT and TextBlob scores of the tweets about the selected ticker over a time period of three days.",
+              "The sentiment score is the average of the Google BERT and TextBlob scores of the tweets about the selected ticker over a time period of seven days.",
                target="tooltip-target",
          )
     ],
