@@ -72,6 +72,7 @@ if __name__ == "__main__":
 
     client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
+    companies = ["microsoft"]
 
     # for i in range(len(companies)):
     #     x, y = data_study(companies[i], client_address, "1_day_sentiment_score")
@@ -83,36 +84,43 @@ if __name__ == "__main__":
     #     np.savetxt(filepath, array, delimiter=",")
     #     print("saving data for", companies[i], "finished")
 
-    # outlier plot
-    fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[20, 10])
-    for i in range(len(companies)):
-        filepath = Path("./data/{}_outlier.csv".format(companies[i]))
-        result = np.loadtxt(filepath, delimiter=",")
-        axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
-        axs[i//4, i%4].set_xlim([-0.1, 0.6])
-        axs[i//4, i%4].set_ylim([-10, 10])
-        axs[i//4, i%4].set_xticks(np.arange(-0.05, 0.26, 0.05))
-        axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.61, 0.1))
-        axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
-        axs[i//4, i%4].set_xlabel("{} past day sentiment (outlier)".format(companies[i]), fontsize=14)
-    axs[0,0].set_ylabel("price change percentage", fontsize=14)
-    axs[1,0].set_ylabel("price change percentage", fontsize=14)
+    # # outlier plot
+    # fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[20, 10])
+    # for i in range(len(companies)):
+    #     filepath = Path("./data/{}_outlier.csv".format(companies[i]))
+    #     result = np.loadtxt(filepath, delimiter=",")
+    #     axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
+    #     axs[i//4, i%4].set_xlim([-0.1, 0.6])
+    #     axs[i//4, i%4].set_ylim([-10, 10])
+    #     axs[i//4, i%4].set_xticks(np.arange(-0.05, 0.26, 0.05))
+    #     axs[i//4, i%4].set_xticks(np.arange(-0.1, 0.61, 0.1))
+    #     axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
+    #     axs[i//4, i%4].set_xlabel("{} past day sentiment (outlier)".format(companies[i]), fontsize=14)
+    # axs[0,0].set_ylabel("price change percentage", fontsize=14)
+    # axs[1,0].set_ylabel("price change percentage", fontsize=14)
 
-    plt.savefig(Path("scatter_all_outlier.png"), dpi=500)
+    # plt.savefig(Path("scatter_all_outlier.png"), dpi=500)
 
-    # outlier plot
-    fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[20, 10])
-    for i in range(len(companies)):
-        filepath = Path("./data/{}.csv".format(companies[i]))
-        filepath = Path("./data/{}.csv".format(companies[i]))
-        result = np.loadtxt(filepath, delimiter=",")
-        axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
-        axs[i//4, i%4].set_xlim([-0.05, 0.25])
-        axs[i//4, i%4].set_ylim([-10, 10])
-        axs[i//4, i%4].set_xticks(np.arange(-0.05, 0.26, 0.05))
-        axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
-        axs[i//4, i%4].set_xlabel("{} past day sentiment".format(companies[i]), fontsize=14)
-    axs[0,0].set_ylabel("price change percentage", fontsize=14)
-    axs[1,0].set_ylabel("price change percentage", fontsize=14)
+    # # normal plot
+    # fig, axs = plt.subplots(nrows=2, ncols=4, figsize=[20, 10])
+    # for i in range(len(companies)):
+    #     filepath = Path("./data/{}.csv".format(companies[i]))
+    #     filepath = Path("./data/{}.csv".format(companies[i]))
+    #     result = np.loadtxt(filepath, delimiter=",")
+    #     axs[i//4, i%4].plot(result[0], result[1], '.', markersize=4)
+    #     axs[i//4, i%4].set_xlim([-0.05, 0.25])
+    #     axs[i//4, i%4].set_ylim([-10, 10])
+    #     axs[i//4, i%4].set_xticks(np.arange(-0.05, 0.26, 0.05))
+    #     axs[i//4, i%4].set_yticks(np.arange(-10, 11, 5))
+    #     axs[i//4, i%4].set_xlabel("{} past day sentiment".format(companies[i]), fontsize=14)
+    # axs[0,0].set_ylabel("price change percentage", fontsize=14)
+    # axs[1,0].set_ylabel("price change percentage", fontsize=14)
 
-    plt.savefig(Path("scatter_all.png"), dpi=500)
+    # plt.savefig(Path("scatter_all.png"), dpi=500)
+
+    result = np.loadtxt("./data/microsoft_outlier.csv", delimiter=",")
+    plt.plot(result[0], result[1], '.', markersize=4)
+    plt.rcParams["figure.figsize"]= (3,2)
+    plt.xlabel("sentiment score (outlier only)",  fontsize=14)
+    plt.ylabel("price change percentage",  fontsize=14)
+    plt.savefig(Path("microsoft_init_outlier.png"), dpi=500)
