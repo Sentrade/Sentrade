@@ -193,14 +193,14 @@ def collect_stock_data(db,company,close,date):
 
 def collect_sentiment_data(db,company,bert,blob,date):
 
-    for record in db[company].find({"3_day_sentiment_score":{"$exists":True}}).sort("date"):
-        if record["3_day_sentiment_score"] != 0:
-            blob.append(record["3_day_sentiment_score"])
+    for record in db[company].find({"7_day_sentiment_score":{"$exists":True}}).sort("date"):
+        if record["7_day_sentiment_score"] != 0:
+            blob.append(record["7_day_sentiment_score"])
             date.append(record["date"])
 
-    for record in db[company].find({"3_day_bert_sentiment_score":{"$exists":True}}).sort("date"):
-        if record["3_day_bert_sentiment_score"] != 0:
-            bert.append(record["3_day_bert_sentiment_score"])
+    for record in db[company].find({"7_day_bert_sentiment_score":{"$exists":True}}).sort("date"):
+        if record["7_day_bert_sentiment_score"] != 0:
+            bert.append(record["7_day_bert_sentiment_score"])
 
     for record in db[company].find({"sentiment_current":{"$exists":True}}).sort("date"):
         if record["sentiment_current"]:
@@ -292,31 +292,31 @@ def Graph(ticker):
             rangeselector=dict(
                 buttons=list([
                     dict(count=1,
-                        label="      1D      ",
+                        label="     1D     ",
                         step="day",
                         stepmode="backward"),
                     dict(count=7,
-                        label="      1W      ",
+                        label="     1W     ",
                         step="day",
                         stepmode="backward"),
                     dict(count=1,
-                        label="     1M      ",
+                        label="    1M     ",
                         step="month",
                         stepmode="backward"),
                     dict(count=3,
-                        label="      3M      ",
+                        label="     3M     ",
                         step="month",
                         stepmode="backward"),
                     dict(count=6,
-                        label="      6M      ",
+                        label="     6M     ",
                         step="month",
                         stepmode="backward"
                         ),
                     dict(count=1,
-                        label="      1Y      ",
+                        label="     1Y     ",
                         step="year",
                         stepmode="backward"),
-                    dict(label='      ALL      ',
+                    dict(label='     ALL     ',
                     step="all")
                 ]),
                 x=0.05,
@@ -325,8 +325,8 @@ def Graph(ticker):
                     family="sans-serif",
                     size=15,
                     color="#828282"),
-                bgcolor='white',
-                activecolor='#f2f2f2'
+                bgcolor='#f5f5f5',
+                activecolor='#dbdbdb'
             ),
             type="date"
         ),
@@ -431,9 +431,9 @@ def Tweets(ticker, graphDate,default=False):
             news = html.Div(
                 children = [
                     html.Div(
-                        html.Img(src='./assets/news-logo.png',
+                        html.Img(src='assets/news-logo.png',
                             style={'height':'50px',
-                                'margin-left':'43%'})),
+                                'margin-left':'30%'})),
                     html.Div(
                         className = "table-news",
                         children = [
@@ -610,14 +610,24 @@ def tweetstyle(tweets_polarity, i,default=False):
 def F_data(ticker, graphDate, default=False):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-    db = db_client["sentrade_db"]
+    db = db_client.stock_data
 
     if not ticker:
 
         ticker = "AAPL"
 
-    stock_price_collection = db["stock_price"]
-    dates = stock_price_collection.distinct("date")
+    company_db_name = {
+            "AMZN" : "amazon",
+            "AAPL"  : "apple", 
+            "FB"    : "facebook",
+            "GOOG"  : "google",
+            "MSFT"  : "microsoft",
+            "NFLX"  : "netflix",
+            "TSLA"  : "tesla",
+            "UBER"  : "uber"
+        }
+
+    stock_price_collection = db[company_db_name[ticker]]
 
     dateString = datetime.strptime(graphDate, "%Y-%m-%d")
     dateString = dateString.strftime("%b %d %Y")
@@ -634,18 +644,18 @@ def F_data(ticker, graphDate, default=False):
                     'margin-top': '2%'
                 })
 
-    if graphDate in dates:
 
-        f_data = {}
+    f_data = {}
 
-        for record in stock_price_collection.find({"company_name":ticker, "date": graphDate}):
-            f_data["open"] = record["open"]
-            f_data["close"] = record["close"]
-            f_data["high"] = record["high"]
-            f_data["low"] = record["low"]
-            f_data["volume"] = record["volume"]
-            f_data["change"] = record["change"]
-        
+    for record in stock_price_collection.find({"date": graphDate}):
+        f_data["open"] = record["open"]
+        f_data["close"] = record["close"]
+        f_data["high"] = record["high"]
+        f_data["low"] = record["low"]
+        f_data["volume"] = record["volume"]
+        f_data["change"] = record["change"]
+    
+    if (f_data):
         magnitude = 0
         vol = f_data["volume"]
         while abs(vol) >= 1000:
@@ -664,7 +674,7 @@ def F_data(ticker, graphDate, default=False):
         close_string = "--"
         high_string = "--"
         low_string = "--"
-
+    
     row = html.Div([
         dateString,
         html.Div([
@@ -891,8 +901,8 @@ def Score(ticker, graphDate, default=False):
         if graphDate in dates:
             scores = {}
             for record in db.find({"date": graphDate}):
-                bert = record["3_day_bert_sentiment_score"]
-                blob = record["3_day_sentiment_score"] + 1
+                bert = record["7_day_bert_sentiment_score"]
+                blob = record["7_day_sentiment_score"] + 1
                 bert *= 100
                 blob /= 2
                 blob *= 100
@@ -1011,7 +1021,7 @@ graph = html.Div(
     style={
         'margin-top':'0.8%',
     },
-    children= dcc.Graph(id='click-graph', config={'displayModeBar':False})
+    children= dcc.Graph(id='click-graph', config={'editable':False,'displaylogo':False,'displayModeBar':True,'modeBarButtonsToRemove':['toImage','zoom2d','pan2d','resetScale2d','hoverCompareCartesian','hoverClosestCartesian','toggleSpikelines']})
 )
 
 
@@ -1164,7 +1174,7 @@ def update_finance(clickData,ticker):
         }
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     stock_price_db = db_client.stock_data
-    for record in stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(2):
+    for record in stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1):
         graphDate = record["date"]
     return F_data(ticker,graphDate,True),Tweets(ticker,graphDate,True)
 
@@ -1214,4 +1224,4 @@ def on_button_click(n):
 # Debugging
 if __name__ == "__main__":
     app.title = "SenTrade"
-    app.run_server(debug=False, host='0.0.0.0', port=80)
+    app.run_server(debug=True, host='0.0.0.0', port=80)
