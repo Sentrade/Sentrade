@@ -10,6 +10,7 @@ import emoji
 import time
 import sys
 import spacy
+import os
 from datetime import datetime, timedelta
 from textblob import TextBlob
 from pathlib import Path

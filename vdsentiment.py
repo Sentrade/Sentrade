@@ -4,6 +4,7 @@
 __author__ = "Davide Locatelli, Ziyou Zhang"
 __status__ = "Production"
 
+import os
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from pymongo import MongoClient, errors
 import time

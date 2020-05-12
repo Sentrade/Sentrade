@@ -6,7 +6,9 @@ __status__ = "Production"
 
 import yfinance as yf
 import json
+import os
 from pymongo import MongoClient
+
 
 # import pandas as pd
 

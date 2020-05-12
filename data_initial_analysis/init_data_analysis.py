@@ -4,6 +4,7 @@
 from pymongo import MongoClient
 import matplotlib.pyplot as plt
 from pathlib import Path
+import os
 
 __author__ = "Yiwen Sun, Ziyou Zhang"
 __status__ = "Development"
