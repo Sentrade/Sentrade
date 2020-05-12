@@ -87,12 +87,10 @@ def Topbar(ticker):
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     stock_price_db = db_client.stock_data
-    records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(2)
-    prices = []
+    records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1)
     for record in records:
-        prices.append(record['close'])
-    price = prices[0]
-    gain = price - prices[1]
+        price = record['close']
+        gain = price - record['open']
     gain_style = {
         'margin-left':'7px',
         'margin-top':'5px',
@@ -271,12 +269,10 @@ def Graph(ticker):
         score /= 2
         sentiment.append(score)
 
-    records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(2)
-    prices = []
+    records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1)
     for record in records:
-        prices.append(record['close'])
-    price = prices[0]
-    gain = price - prices[1]
+        price = record['close']
+        gain = price - record['open']
     stock_color = 'rgb(57,126,46)'
     if gain <= 0:
         stock_color = 'rgb(204,36,34)'
