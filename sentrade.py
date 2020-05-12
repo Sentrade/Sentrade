@@ -51,7 +51,25 @@ easter_egg_message = """
 后世人们为了纪念这个故事，将此事编为歌谣，传颂至今。歌名唤作‘三踹得’
 """
 
+
+company_db_name = {
+    "AMZN" : "amazon",
+    "AAPL"  : "apple", 
+    "FB"    : "facebook",
+    "GOOG"  : "google",
+    "MSFT"  : "microsoft",
+    "NFLX"  : "netflix",
+    "TSLA"  : "tesla",
+    "UBER"  : "uber"
+}
+
 def Topbar(ticker):
+    """
+    Returns the topbar.
+
+    :param ticker: string of the ticker
+    :return topbar: hmtl.Div
+    """
 
     if not ticker:
         return
@@ -65,17 +83,6 @@ def Topbar(ticker):
         "NFLX"  : "Netflix Inc.",
         "TSLA"  : "Tesla Inc.",
         "UBER"  : "Uber Technologies Inc."
-    }
-
-    company_db_name = {
-    "AMZN" : "amazon",
-    "AAPL"  : "apple", 
-    "FB"    : "facebook",
-    "GOOG"  : "google",
-    "MSFT"  : "microsoft",
-    "NFLX"  : "netflix",
-    "TSLA"  : "tesla",
-    "UBER"  : "uber"
     }
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
@@ -186,12 +193,29 @@ instruction = html.H6(
 )
 
 def collect_stock_data(db,company,close,date):
+    """
+    Collects stock data from database and populates corresponding arrays with data.
+
+    :param db: the database
+    :param company: the company
+    :param close: the array of close data that needs to be populated
+    :param date: the array of dates that needs to be populated
+    """
 
     for record in db[company].find().sort("date"):
         close.append(record["close"])
         date.append(record["date"])
 
 def collect_sentiment_data(db,company,bert,blob,date):
+    """
+    Collects sentiment data from database and populates corresponding arrays with data.
+
+    :param db: the database
+    :param company: the company
+    :param bert: the array of bert sentiment data that needs to be populated
+    :param blob: the array of blob sentiment data that needs to be populated
+    :param date: the array of dates that needs to be populated
+    """
 
     for record in db[company].find({"7_day_sentiment_score":{"$exists":True}}).sort("date"):
         if record["7_day_sentiment_score"] != 0:
@@ -209,23 +233,18 @@ def collect_sentiment_data(db,company,bert,blob,date):
 
 
 def Graph(ticker):
+    """
+    Returns the graph figure.
+
+    :param ticker: string of the ticker
+    :return fig: plotly.graph_object figure
+    """
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
 
     if not ticker:
 
         ticker = "AAPL"
-
-    company_db_name = {
-        "AMZN"  : "amazon",
-        "AAPL"  : "apple", 
-        "FB"    : "facebook",
-        "GOOG"  : "google",
-        "MSFT"  : "microsoft",
-        "NFLX"  : "netflix",
-        "TSLA"  : "tesla",
-        "UBER"  : "uber"
-    }
 
     stock_price_db = db_client.stock_data
     sentiment_db = db_client.sentiment_data
@@ -335,17 +354,13 @@ def Graph(ticker):
     return fig
 
 def Prediction(ticker):
+    """
+    Returns the prediction of the stock movement.
 
-    company_db_name = {
-        "AMZN"  : "amazon",
-        "AAPL"  : "apple", 
-        "FB"    : "facebook",
-        "GOOG"  : "google",
-        "MSFT"  : "microsoft",
-        "NFLX"  : "netflix",
-        "TSLA"  : "tesla",
-        "UBER"  : "uber"
-    }
+    :param ticker: string of the ticker
+    :return prediction: the prediction
+    :return colour: the colour the prediction needs to be displayed in
+    """
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     stock_price_db = db_client.stock_data
@@ -382,6 +397,14 @@ def Prediction(ticker):
     return string, colour
 
 def Tweets(ticker, graphDate,default=False):
+    """
+    Returns the tweets section.
+
+    :param ticker: string of the ticker
+    :param graphDate: the date of the tweets
+    :param default: default flag, True if section is in default
+    :return news: html.Div
+    """
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     
@@ -397,16 +420,6 @@ def Tweets(ticker, graphDate,default=False):
         )
 
     else:
-        company_db_name = {
-            "AMZN" : "amazon",
-            "AAPL"  : "apple", 
-            "FB"    : "facebook",
-            "GOOG"  : "google",
-            "MSFT"  : "microsoft",
-            "NFLX"  : "netflix",
-            "TSLA"  : "tesla",
-            "UBER"  : "uber"
-        }
 
         if default:
             api = NewsApiClient(api_key='954c05db19404ee99531875f66d9d138')
@@ -557,6 +570,14 @@ def Tweets(ticker, graphDate,default=False):
         return news
 
 def tweetstyle(tweets_polarity, i,default=False):
+    """
+    Determines the colour of a tweet based on its polarity.
+
+    :param tweets_polarity: the array of polarities
+    :param i: the position of the tweet polarity in the array
+    :param default: default flag, True if section is in default
+    :return style: dict
+    """
     
     if default:
         style = {
@@ -608,6 +629,14 @@ def tweetstyle(tweets_polarity, i,default=False):
     return style
 
 def F_data(ticker, graphDate, default=False):
+    """
+    Returns the financial data section.
+
+    :param ticker: string of the ticker
+    :param graphDate: the date of the data
+    :param default: the default flag, True if section is in default
+    :return data: html.Div
+    """
 
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     db = db_client.stock_data
@@ -615,17 +644,6 @@ def F_data(ticker, graphDate, default=False):
     if not ticker:
 
         ticker = "AAPL"
-
-    company_db_name = {
-            "AMZN" : "amazon",
-            "AAPL"  : "apple", 
-            "FB"    : "facebook",
-            "GOOG"  : "google",
-            "MSFT"  : "microsoft",
-            "NFLX"  : "netflix",
-            "TSLA"  : "tesla",
-            "UBER"  : "uber"
-        }
 
     stock_price_collection = db[company_db_name[ticker]]
 
@@ -849,17 +867,15 @@ def F_data(ticker, graphDate, default=False):
     return data
 
 def Score(ticker, graphDate, default=False):
+    """
+    Returns the score progress bar.
+
+    :param ticker: string of the ticker
+    :param graphDate: the date of the score
+    :param default: default flag, True if section is in default
+    :return polarity: html.Div
+    """
     
-    company_db_name = {
-        "AMZN" : "amazon",
-        "AAPL"  : "apple", 
-        "FB"    : "facebook",
-        "GOOG"  : "google",
-        "MSFT"  : "microsoft",
-        "NFLX"  : "netflix",
-        "TSLA"  : "tesla",
-        "UBER"  : "uber"
-    }
     if default:
         api = NewsApiClient(api_key='954c05db19404ee99531875f66d9d138')
         three_days_ago = datetime.strptime(graphDate,'%Y-%m-%d') - timedelta(days=3)
@@ -928,6 +944,12 @@ def Score(ticker, graphDate, default=False):
     return polarity
 
 def score_style(polarity_value):
+    """
+    Returns colour of score progress bar based on polarity score.
+
+    :param polarity_value: the polarity
+    :return color: the colour of the progress bar
+    """
     color = 'warning'
     if polarity_value < 33:
         color = 'danger'
@@ -1092,6 +1114,11 @@ contents = html.Div(
 )
 
 def MainPage():
+    """
+    Returns the main page layout
+
+    :return layout: html.Div
+    """
     layout = html.Div([
         navbar,
         contents,
@@ -1119,6 +1146,12 @@ def update_graph(ticker):
     dash.dependencies.Output('question','style')],
     [dash.dependencies.Input('stock-ticker', 'value')])
 def show_graph(ticker):
+    """
+    Displays the graph based on ticker
+
+    :param ticker: the ticker
+    :return: two dicts setting visibility of graph and sentiment information
+    """
     if not ticker:
         return {
             'display':'none'
@@ -1133,6 +1166,12 @@ def show_graph(ticker):
     dash.dependencies.Output('instruction','style'),
     [dash.dependencies.Input('stock-ticker', 'value')])
 def show_instruction(ticker):
+    """
+    Displays initial instruction based on ticker insertion
+
+    :param ticker: the inserted ticker
+    :return: dict setting visibility of instruction
+    """
     if not ticker:
         return {
             'margin-top':'25%',
@@ -1148,7 +1187,12 @@ def show_instruction(ticker):
     dash.dependencies.Output('topbar','children'),
     [dash.dependencies.Input('stock-ticker', 'value')])
 def update_topbar(ticker):
-    #print("im trying to display a graph")
+    """
+    Updates the topbar according to the ticker selected
+
+    :param ticker: the selected ticker
+    :return Topbar: html.Div
+    """
     return Topbar(ticker)
 
 @app.callback(
@@ -1156,22 +1200,19 @@ def update_topbar(ticker):
     dash.dependencies.Output('tweets','children')],
     [dash.dependencies.Input('click-graph', 'clickData')],
     [dash.dependencies.State('stock-ticker', 'value')])
-def update_finance(clickData,ticker):
+def update_finance_and_tweets(clickData,ticker):
+    """
+    Displays the tweets and finance sections according to clickData and ticker insertion
+
+    :param clickData: data of clicks on the graph
+    :param ticker: the ticker inserted
+    :return F_data,Tweets: two html.Div
+    """
     if not ticker:
         return html.Div(""),html.Div("")
     if clickData:
         graphDate = clickData["points"][0]["x"]
         return F_data(ticker,graphDate),Tweets(ticker,graphDate)
-    company_db_name = {
-        "AMZN" : "amazon",
-        "AAPL"  : "apple", 
-        "FB"    : "facebook",
-        "GOOG"  : "google",
-        "MSFT"  : "microsoft",
-        "NFLX"  : "netflix",
-        "TSLA"  : "tesla",
-        "UBER"  : "uber"
-        }
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     stock_price_db = db_client.stock_data
     for record in stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1):
@@ -1184,6 +1225,13 @@ def update_finance(clickData,ticker):
     [State("navbar-collapse", "is_open")],
 )
 def toggle_navbar_collapse(n, is_open):
+    """
+    Controls the state of the navbar collapse
+
+    :param n: number of clicks on collapse
+    :param is_open: open state
+    :return is_open: open/close state
+    """
     if n:
         return not is_open
     return is_open
@@ -1197,6 +1245,14 @@ def toggle_navbar_collapse(n, is_open):
     [State("modal-scroll", "is_open")],
 )
 def toggle_modal(n1, n2, is_open):
+    """
+    Controls the state of the modal collapse
+
+    :param n1: number of clicks on modal
+    :param n2: number of clicks on close button
+    :param is_open: open state
+    :return is_open: open/close state
+    """
     if n1 or n2:
         return not is_open
     return is_open
@@ -1205,7 +1261,13 @@ def toggle_modal(n1, n2, is_open):
     [Output('finance', 'style'),
     Output('tweets','style')],
     [Input('stock-ticker','value')])
-def hide_finance(input):
+def hide_finance_and_tweets(input):
+    """
+    Controls the visbility of the finance and tweets sections
+
+    :param input: the ticker selection
+    :return: two dicts setting the visibility
+    """
     if input:
         return {'display':'block'},{'display':'block'}
     else:
@@ -1215,7 +1277,13 @@ def hide_finance(input):
     Output("click-graph", "clickData"), 
     [Input("stock-ticker", "value")]
 )
-def on_button_click(n):
+def reset_clickData(n):
+    """
+    Resets the click data when new ticker is inserted
+
+    :param n: new ticker inserted
+    :return: None
+    """
     if n is None:
         pass
     else:
