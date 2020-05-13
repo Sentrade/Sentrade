@@ -17,8 +17,8 @@ import pymongo
 from sshtunnel import SSHTunnelForwarder
 from plotly.subplots import make_subplots
 from newsapi import NewsApiClient
-from currentsentiment import get_score
-from data_analysis.prediction_UI import get_prediction
+from app.currentsentiment import get_score
+from data.prediction_UI import get_prediction
 
 from textwrap import dedent as d
 from dash.dependencies import Input, Output, State
@@ -1288,4 +1288,4 @@ def reset_clickData(n):
 # Debugging
 if __name__ == "__main__":
     app.title = "SenTrade"
-    app.run_server(debug=False, host='0.0.0.0', port=80)
+    app.run_server(debug=True, host='0.0.0.0', port=80)
