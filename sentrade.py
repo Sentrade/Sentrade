@@ -29,8 +29,7 @@ from datetime import datetime, timedelta
 __author__ = "Davide Locatelli"
 __status__ = "Production"
 
-aboutus = """
-With Sentrade you can explore the correlation between financial data and sentiment analysis.
+aboutus = """With Sentrade you can explore the correlation between financial data and sentiment analysis.
 
 Once a ticker is selected, you will see its recent financial data as well as a sentiment analysis score based on the latest news.
 We use this sentiment score to predict the stock movement for the current day. To do this, we trained a machine learning model on historical Tweets. You can explore our historical data by clicking on the graph. You will be able to see the financial data, sentiment score and relevant tweets from the selected day.
@@ -1078,7 +1077,7 @@ question = html.Div([
               className="dot"),
 
          dbc.Tooltip(
-              "The sentiment score is the average of the Google BERT and TextBlob scores of the tweets about the selected ticker over a time period of seven days.",
+              "We calculate the sentiment score of a day using a combination of Google BERT and TextBlob scores over a time period of seven days. A score indicates the percentage of positivity of the sentiment.",
                target="tooltip-target",
          )
     ],
