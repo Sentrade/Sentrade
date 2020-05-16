@@ -14,12 +14,14 @@ def get_relativeday(date):
     return rel_days
 
 def get_num(num_dict):
-	if "$numberInt" in num_dict:
-		return float(num_dict["$numberInt"])
-	elif "$numberDouble" in num_dict:
-		return float(num_dict["$numberDouble"])
-	else:
-		return 0
+    if not isinstance(num_dict, dict):
+        return None
+    if "$numberInt" in num_dict:
+        return float(num_dict["$numberInt"])
+    elif "$numberDouble" in num_dict:
+        return float(num_dict["$numberDouble"])
+    else:
+        return 0
 
 def get_stock_df(company):
     stock_df = pd.read_json("./stock_price/{0}.json".format(company), lines=True)
@@ -42,7 +44,6 @@ def get_stock_df(company):
 
 def get_senti_df(company):
     senti_df = pd.read_json("./sentiment_score/{0}.json".format(company), lines=True)
-    senti_df.dropna(inplace=True)
     senti_df.insert(loc=1, column="relative_day", value=None)
     for index, row in senti_df.iterrows():
         senti_df.loc[index, "relative_day"] = get_relativeday(row["date"].date())
@@ -89,4 +90,5 @@ for company in company_list:
 total_df = pd.concat([total_df, pd.get_dummies(total_df['company'], 
                                                prefix='company')], axis=1)
 total_df.drop(columns=['company'], inplace=True)
+# total_df.dropna(inplace=True)
 total_df.to_csv("./total_data.csv", index=False)

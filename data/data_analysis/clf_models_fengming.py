@@ -21,50 +21,44 @@ def classifier_run(clf, name, x_train, x_test, y_train, y_test):
     y_pred = clf.predict(x_test)
     return [accuracy_score(y_test, y_pred), clf]
 
-def write_result_csv(csv_file, alg_name, accuracy, cm, n_cat=5):
-    result_csv.write(alg_name + ',' + str(accuracy) + ',\n')
+def write_result(csv_file, alg_name, accuracy, cm, n_cat=5):
+    result.write(alg_name + ',' + str(accuracy) + ',\n')
     for i in range(n_cat):
         for j in range(n_cat):
-            result_csv.write(str(cm[i][j]) + ',')
-        result_csv.write('\n')
-    result_csv.write('\n')
+            result.write(str(cm[i][j]) + ',')
+        result.write('\n')
+    result.write('\n')
 
 
 ##### Main #####
 total_df = pd.read_csv("./total_data.csv")
 total_df.dropna(inplace=True)
 response = "up_cat"
-feat_date_company = ["relative_day", "company_amazon", "company_apple", 
+fea_date_company = ["relative_day", "company_amazon", "company_apple", 
                     "company_facebook", "company_google", "company_microsoft", 
-                    "company_netflix", "company_tesla", "company_uber"]
-distinct_features_list = [
-                          # ["7_day_sentiment_score"],
-                          # ["7_day_bert_sentiment_score"],
-                          ["7_day_bert_sentiment_score", "7_day_sentiment_score"],
-                          # ["3_day_sentiment_score"],
-                          # ["3_day_bert_sentiment_score"],
-                          # ["1_day_sentiment_score"],
-                          # ["1_day_bert_sentiment_score"],
-                        ]
+                    "company_netflix", "company_tesla"]
+features_list = [fea_date_company + ["7_day_sentiment_score"],
+                 fea_date_company + ["7_day_bert_sentiment_score"],
+                 fea_date_company + ["3_day_sentiment_score"],
+                 fea_date_company + ["3_day_bert_sentiment_score"],
+                 ]
 
 
-result_csv = open("./results/clf_results.csv", "w")
-alg_dict = {
-            "KNN": KNeighborsClassifier(n_neighbors=7),
-            "DecisionTree": DecisionTreeClassifier(criterion='entropy', max_leaf_nodes=30, max_depth=20, min_impurity_decrease=0.005),
-            "SVM": SVC(C=2.6, gamma='auto'),
+result = open("./results/clf_results.csv", "w")
+alg_dict = {"KNN": KNeighborsClassifier(n_neighbors = 3,weights = 'distance',n_jobs = -1),
+            "DecisionTree": DecisionTreeClassifier(criterion='entropy',max_depth=10,min_samples_leaf=5),
+            "SVM": SVC(kernel='linear', gamma='auto'),
             }
 
 # ML
-for distinct_features in distinct_features_list:
-    features = distinct_features + feat_date_company
+for features in features_list:
     # record the information for each run
-    result_csv.write("features:,")
+    result.write("features:,")
     for feat in features:
-        result_csv.write(feat + ',')
-    result_csv.write('\n')
-    result_csv.write("response:," + response + '\n')
-    result_csv.write(" ,\n")
+        result.write(feat + ',')
+    result.write('\n')
+    result.write("response:," + response + '\n')
+    result.write(" ,\n")
     
     # prepare the data
     x_train, x_test, y_train, y_test = train_test_split(total_df[features].to_numpy(),
@@ -81,14 +75,14 @@ for distinct_features in distinct_features_list:
         disp.ax_.set_title(alg_name)
         plt.savefig("./results/{0}.png".format(alg_name))
         
-        print("distinct features:", distinct_features)
+        print("distinct features:", features)
         print("algorithm:", alg_name)
         print("accuracy:", accuracy)
         print(disp.confusion_matrix)
         print()
         
-        joblib.dump(clf, "./models/clf_{0}_model.joblib".format(alg_name))
-        write_result_csv(result_csv, alg_name, accuracy, disp.confusion_matrix)
-    result_csv.write('\n')
-result_csv.write('\n\n')
-result_csv.close()
+        joblib.dump(clf, "./models/clf_" + alg_name + "_model.joblib")
+        write_result(result, alg_name, accuracy, disp.confusion_matrix)
+    result.write('\n')
+result.write('\n\n')
+result.close()
