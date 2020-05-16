@@ -17,7 +17,7 @@ import pymongo
 from sshtunnel import SSHTunnelForwarder
 from plotly.subplots import make_subplots
 from newsapi import NewsApiClient
-from app.currentsentiment import get_blob
+from app.currentsentiment import get_score
 from data.prediction_UI import get_prediction
 
 from textwrap import dedent as d
@@ -29,7 +29,8 @@ from datetime import datetime, timedelta
 __author__ = "Davide Locatelli"
 __status__ = "Production"
 
-aboutus = """With Sentrade you can explore the correlation between financial data and sentiment analysis.
+aboutus = """
+With Sentrade you can explore the correlation between financial data and sentiment analysis.
 
 Once a ticker is selected, you will see its recent financial data as well as a sentiment analysis score based on the latest news.
 We use this sentiment score to predict the stock movement for the current day. To do this, we trained a machine learning model on historical Tweets. You can explore our historical data by clicking on the graph. You will be able to see the financial data, sentiment score and relevant tweets from the selected day.
@@ -203,24 +204,29 @@ def collect_stock_data(db,company,close,date):
         close.append(record["close"])
         date.append(record["date"])
 
-def collect_sentiment_data(db,company,blob,date):
+def collect_sentiment_data(db,company,bert,blob,date):
     """
     Collects sentiment data from database and populates corresponding arrays with data.
 
     :param db: the database
     :param company: the company
+    :param bert: the array of bert sentiment data that needs to be populated
     :param blob: the array of blob sentiment data that needs to be populated
     :param date: the array of dates that needs to be populated
     """
 
     for record in db[company].find({"7_day_sentiment_score":{"$exists":True}}).sort("date"):
         if record["7_day_sentiment_score"] != 0:
-            blob.append(((record["7_day_sentiment_score"]+1)/2)*100)
+            blob.append(record["7_day_sentiment_score"])
             date.append(record["date"])
+
+    for record in db[company].find({"7_day_bert_sentiment_score":{"$exists":True}}).sort("date"):
+        if record["7_day_bert_sentiment_score"] != 0:
+            bert.append(record["7_day_bert_sentiment_score"])
 
     for record in db[company].find({"sentiment_current":{"$exists":True}}).sort("date"):
         if record["sentiment_current"]:
-            blob.append(((record["sentiment_current"]+1)/2)*100)
+            blob.append(record["sentiment_current"])
             date.append(record["date"])
 
 
@@ -245,9 +251,23 @@ def Graph(ticker):
     stock_date = []
     collect_stock_data(stock_price_db,company_db_name[ticker],close,stock_date)
     
+    bert_polarity = []
     blob_polarity = []
     sent_date = []
-    collect_sentiment_data(sentiment_db,company_db_name[ticker],blob_polarity,sent_date)
+    collect_sentiment_data(sentiment_db,company_db_name[ticker],bert_polarity,blob_polarity,sent_date)
+
+    sentiment = []
+    for i in range(len(bert_polarity)):
+        bert = bert_polarity[i]
+        bert *= 100
+        bert_polarity[i] = bert
+        blob = blob_polarity[i] + 1
+        blob /= 2
+        blob *= 100
+        blob_polarity[i] = blob
+        score = bert + blob
+        score /= 2
+        sentiment.append(score)
 
     records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1)
     for record in records:
@@ -266,7 +286,7 @@ def Graph(ticker):
     )
 
     eth_polarity = go.Scatter(
-        y = blob_polarity,
+        y = sentiment,
         x = sent_date,
         name = "Sentiment",
         mode = "lines",
@@ -415,7 +435,7 @@ def Tweets(ticker, graphDate,default=False):
 
             scores = []
             for title in articles:
-                scores.append(((get_blob(title)+1)/2)*100)
+                scores.append(get_score(title))
 
             news = html.Div(
                 children = [
@@ -868,7 +888,7 @@ def Score(ticker, graphDate, default=False):
 
         scores = []
         for title in articles:
-            scores.append(((get_blob(title)+1)/2)*100)
+            scores.append(get_score(title))
             
         score = sum(scores)/len(scores)
         polarity_value_string = "{:.0f}%".format(score)
@@ -893,8 +913,14 @@ def Score(ticker, graphDate, default=False):
         if graphDate in dates:
             scores = {}
             for record in db.find({"date": graphDate}):
-                blob = record["7_day_sentiment_score"]
-                scores[graphDate] = ((blob + 1)/2) *100
+                bert = record["7_day_bert_sentiment_score"]
+                blob = record["7_day_sentiment_score"] + 1
+                bert *= 100
+                blob /= 2
+                blob *= 100
+                score = bert + blob
+                score /= 2
+                scores[graphDate] = score
 
             polarity_value = scores[graphDate]
 
@@ -1052,7 +1078,7 @@ question = html.Div([
               className="dot"),
 
          dbc.Tooltip(
-              "The sentiment score of a day is calculated using TextBlob. We take the average of the scores of the tweets over a period of 7 days to generate a single day score.",
+              "The sentiment score is the average of the Google BERT and TextBlob scores of the tweets about the selected ticker over a time period of seven days.",
                target="tooltip-target",
          )
     ],
