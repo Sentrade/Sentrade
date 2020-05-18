@@ -389,10 +389,6 @@ def Prediction(ticker):
         colour = "rgba(164, 19, 3,0.5)"
         string = "Fall over 5%"
 
-    if (ticker == "AAPL"):
-        colour = "rgba(3, 164, 3, 0.5)"
-        string = "Rise up to 5%"
-
     return string, colour
 
 def Tweets(ticker, graphDate,default=False):
