@@ -37,7 +37,7 @@ def get_prediction(company, date):
     
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
     db = db_client["sentiment_current"]
-    clf = joblib.load("data/data_analysis/models/clf_KNN_model.joblib")
+    clf = joblib.load("data_analysis/models/clf_KNN_model.joblib")
 
     # fetch the data from the database
     db_collection = db[company]
