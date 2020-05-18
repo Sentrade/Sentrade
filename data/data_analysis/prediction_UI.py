@@ -54,7 +54,7 @@ def trial(db, company, date):
 
 if __name__ == "__main__":    
     # load the pretrained model
-    clf = joblib.load("./models/models_v2/clf_KNN_model.joblib")
+    clf = joblib.load("data/data_analysis/models/clf_KNN_model.joblib")
     
     # connect to the database
     db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)

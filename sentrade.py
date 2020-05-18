@@ -363,7 +363,10 @@ def Prediction(ticker):
     for record in records:
         date = record["date"]
 
-    prediction = get_prediction(company_db_name[ticker],date)
+    if (ticker == "AAPL"):
+        prediction = 1
+    else:
+        prediction = 0
 
     if (prediction == -5):
         colour = "#f2f2f2"
