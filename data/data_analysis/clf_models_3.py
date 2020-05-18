@@ -38,9 +38,9 @@ feat_date_company = ["relative_day", "company_amazon", "company_apple",
                     "company_facebook", "company_google", "company_microsoft", 
                     "company_netflix", "company_tesla", "company_uber"]
 distinct_features_list = [
-                          # ["7_day_sentiment_score"],
+                          ["7_day_sentiment_score"],
                           # ["7_day_bert_sentiment_score"],
-                          ["7_day_bert_sentiment_score", "7_day_sentiment_score"],
+                          # ["7_day_bert_sentiment_score", "7_day_sentiment_score"],
                           # ["3_day_sentiment_score"],
                           # ["3_day_bert_sentiment_score"],
                           # ["1_day_sentiment_score"],
