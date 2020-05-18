@@ -46,7 +46,7 @@ def get_prediction(company, date):
         return -5
 
     # preprocess the data
-    distinct_features = ["7_day_bert_sentiment_score", "7_day_sentiment_score"]
+    distinct_features = ["7_day_sentiment_score"]
     x_test = preprocess_data(record, company, date, distinct_features) 
     
     # do the prediction
