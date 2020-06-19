@@ -1,6 +1,7 @@
 # Sentiment Analysis on Financial News
 
-An algo-trading product to faciliate investors on stock trading based on sentiment analyais of relevant financial news.
+An algo-trading product to faciliate investors on stock trading based on sentiment analyais of relevant financial news.  
+
 ![Sentrade UI](/archived/UI.png)
 
 
@@ -41,9 +42,13 @@ export CLIENT_ADDR=<database client address>
 Replace the <database client address> with the actual MongoDB client address.
 
 ## Built With
+### UI Framework
 * [Dash](https://plotly.com/dash/) -A framework for building ML and data science apps.
+### Data
 * [MongoDB](https://www.mongodb.com/) - A general purpose, document-based, distributed database system.
 * [Tweepy](https://www.tweepy.org/) - A python library for accessing twitter API.
+* [yfinance](https://pypi.org/project/yfinance/) - Yahoo! Finance market data downloader.
+### Sentiment Analysis
 * [TextBlob](https://textblob.readthedocs.io/en/dev/) - Sentiment analysis engine based on [nltk](https://www.nltk.org/).
 * [BERT](https://www.blog.google/products/search/search-language-understanding-bert/) - A technique for NLP pre-training developed by Google.
 * [Vadar](https://github.com/cjhutto/vaderSentiment) - A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text.
