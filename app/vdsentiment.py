@@ -172,7 +172,7 @@ def extend_vader_sentiment_database(company_name, client_address):
     client.close()
 
 if __name__ == "__main__":
-    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+    client_address = os.environ["CLIENT_ADDR"]
     analyser = SentimentIntensityAnalyzer()
     vader_sentiment_database("apple", client_address, analyser)
     generate_vader_sentiment_database("apple", client_address)

@@ -229,7 +229,7 @@ def extend_blob_sentiment_database(company_name, client_address):
     client.close()
 
 if __name__ == "__main__":
-    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+    client_address = os.environ["CLIENT_ADDR"]
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     
     for company in companies:

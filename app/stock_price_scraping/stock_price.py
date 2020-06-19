@@ -124,7 +124,7 @@ def stock_price_database(company_name, client_address):
 
 if __name__ == "__main__":
 
-    # client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    # client = MongoClient(os.environ["CLIENT_ADDR"])
     # stock_list = ['AAPL', 'TSLA', 'AMZN', 'FB', 'GOOG', 'MSFT', 'NFLX', 'UBER']
 
     # db = client.sentrade_db
@@ -137,7 +137,7 @@ if __name__ == "__main__":
 
     # client.close()
 
-    client_address = 'mongodb://admin:sentrade@45.76.133.175:27017'
+    client_address = os.environ["CLIENT_ADDR"]
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     for company in companies:
         stock_price_database(company, client_address)

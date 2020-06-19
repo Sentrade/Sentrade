@@ -35,7 +35,7 @@ def on_click(clf, x_test):
 
 def get_prediction(company, date):
     
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
     db = db_client["sentiment_current"]
     clf = joblib.load("data_analysis/models/clf_KNN_model.joblib")
 

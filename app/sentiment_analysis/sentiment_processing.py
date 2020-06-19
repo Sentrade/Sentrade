@@ -14,7 +14,7 @@ import json
 
 def process_sentiment():
 
-    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    client = MongoClient(os.environ["CLIENT_ADDR"])
     db = client.sentrade_db
     twitter_db = client.twitter_data
 

@@ -61,7 +61,7 @@ if __name__ == "__main__":
     clf = joblib.load("./models/SVM_model.joblib")
     
     # connect to the database
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
     db = db_client["sentiment_current"]
     
     # get the sentiment data for the company

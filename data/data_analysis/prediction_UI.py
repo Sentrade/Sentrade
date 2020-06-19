@@ -57,7 +57,7 @@ if __name__ == "__main__":
     clf = joblib.load("data/data_analysis/models/clf_KNN_model.joblib")
     
     # connect to the database
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
     db = db_client["sentiment_current"]
     
     trial(db, "apple", "2020-04-18")

@@ -38,7 +38,7 @@ month = {
 
 def get_twitter_date():
 
-    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    client = MongoClient(os.environ["CLIENT_ADDR"])
     db = client.sentrade_db
     news_db = db.news
     all_news = news_db.find()

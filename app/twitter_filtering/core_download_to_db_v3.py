@@ -16,8 +16,8 @@ import subprocess
 # day_start = int(sys.argv[3])
 # day_end = int(sys.argv[4])
 time_log_dir = create_dir("./time_log/")
-db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-# db_client = pymongo.MongoClient("mongodb://admin:sentrade@127.0.0.1", 27017)
+db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
+# db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
 # db = db_client["temp"]
 db = db_client["twitter_data"]
 keyword_list = ["uber"]

@@ -3,7 +3,7 @@ __status__ = "prototype"
 
 import pymongo
 
-db_client = pymongo.MongoClient("mongodb://admin:sentrade@127.0.0.1", 27017)
+db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
 db = db_client["sentrade_db"]
 collection = db["stock_price"]
 

@@ -6,8 +6,8 @@ from nltk.wsd import lesk
 from nltk.corpus import wordnet as wn
 
 # essential variables
-# db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-# db_client = pymongo.MongoClient("mongodb://admin:sentrade@127.0.0.1", 27017)
+# db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
+# db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
 # db_original = db_client["twitter_data"]
 # db_filtered = db_client["twitter_filtered"]
 # print("connected")

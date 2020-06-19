@@ -4,7 +4,7 @@ __status__ = "prototype"
 import pymongo
 from sshtunnel import SSHTunnelForwarder
 
-db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
 db = db_client["sentrade_db"]
 collection = db["stock_price"]
 

@@ -11,13 +11,13 @@ from multiprocessing import Process
 
       
 def test_connection():
-    with MongoClient('mongodb://admin:sentrade@45.76.133.175:27017') as client:
+    with MongoClient(os.environ["CLIENT_ADDR"]) as client:
         db=client.admin
         serverStatusResult=db.command("serverStatus")
         assert serverStatusResult["connections"]["active"] > 0
 
 def get_connection_count():
-    with MongoClient('mongodb://admin:sentrade@45.76.133.175:27017') as client:
+    with MongoClient(os.environ["CLIENT_ADDR"]) as client:
         db=client.admin
         serverStatusResult=db.command("serverStatus")
         return serverStatusResult["connections"]["active"]

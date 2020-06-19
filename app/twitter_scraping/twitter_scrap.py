@@ -299,7 +299,7 @@ def extend_blob_sentiment_database(company_name, client_address):
 
 if __name__ == "__main__":
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
-    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+    client_address = os.environ["CLIENT_ADDR"]
 
     for company in companies:
         add_current_twitter(company, client_address)

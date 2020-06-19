@@ -25,8 +25,8 @@ def is_org(nlp, text, company_name):
 
     
 # essential variables
-db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
-# db_client = pymongo.MongoClient("mongodb://admin:sentrade@127.0.0.1", 27017)
+db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
+# db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
 db_original = db_client["twitter_data"]
 print("connected")
 

@@ -24,7 +24,7 @@ def most_recent_business_day():
     return most_recent
 
 def test_date_existence():
-    with MongoClient('mongodb://admin:sentrade@45.76.133.175:27017') as client:
+    with MongoClient(os.environ["CLIENT_ADDR"]) as client:
         test_business_day = most_recent_business_day()
         db = client.sentrade_db
         stock_db = db.stock_price

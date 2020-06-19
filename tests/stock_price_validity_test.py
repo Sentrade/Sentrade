@@ -9,7 +9,7 @@ from pymongo import MongoClient
 
       
 def test_data_vlidity():
-    with MongoClient('mongodb://admin:sentrade@45.76.133.175:27017') as client:
+    with MongoClient(os.environ["CLIENT_ADDR"]) as client:
         db = client.sentrade_db
         stock_db = db.stock_price
         all_stock = stock_db.find()

@@ -5,6 +5,7 @@ __author__ = "Davide Locatelli, Ziyou Zhang"
 __status__ = "Production"
 
 import time
+import os
 import sys
 from time import ctime
 from BertLibrary import BertFTModel
@@ -187,7 +188,7 @@ def extend_bert_sentiment_database(company_name, client_address):
 
 
 if __name__ == "__main__":
-    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+    client_address = os.environ["CLIENT_ADDR"]
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     #bert = get_model()
     for company in companies:

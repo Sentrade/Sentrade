@@ -12,7 +12,7 @@ from pymongo import MongoClient
 import json
 
 
-client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+client = MongoClient(os.environ["CLIENT_ADDR"])
 
 db = client.twitter_current
 

@@ -71,7 +71,7 @@ def data_study(company_name, client_address, field):
 if __name__ == "__main__":
     import numpy as np
 
-    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+    client_address = os.environ["CLIENT_ADDR"]
     companies = ["apple", "amazon", "facebook", "google", "microsoft", "netflix", "tesla", "uber"]
     companies = ["microsoft"]
 

@@ -15,7 +15,7 @@ __status__ = "Prototype"
 def send_twitter(filename):
 
     # Setup the connection.
-    client = MongoClient('mongodb://admin:sentrade@45.76.133.175:27017')
+    client = MongoClient(os.environ["CLIENT_ADDR"])
 
     # Use the database sentrade_db.
     db = client.sentrade_db

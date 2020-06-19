@@ -12,7 +12,7 @@ __status__ = "Production"
 app = Flask(__name__)
 app.config["DEBUG"] = False
 
-client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+client_address = os.environ["CLIENT_ADDR"]
 
 @app.route('/data/apple', methods=['GET'])
 def apple_data():

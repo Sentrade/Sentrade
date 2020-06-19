@@ -84,7 +84,7 @@ def Topbar(ticker):
         "UBER"  : "Uber Technologies Inc."
     }
 
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
     stock_price_db = db_client.stock_data
     records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1)
     for record in records:
@@ -237,7 +237,7 @@ def Graph(ticker):
     :return fig: plotly.graph_object figure
     """
 
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
 
     if not ticker:
 
@@ -357,7 +357,7 @@ def Prediction(ticker):
     :return colour: the colour the prediction needs to be displayed in
     """
 
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
     stock_price_db = db_client.stock_data
     records = stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1)
     for record in records:
@@ -404,7 +404,7 @@ def Tweets(ticker, graphDate,default=False):
     :return news: html.Div
     """
 
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
     
     if not ticker:
 
@@ -636,7 +636,7 @@ def F_data(ticker, graphDate, default=False):
     :return data: html.Div
     """
 
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
     db = db_client.stock_data
 
     if not ticker:
@@ -902,7 +902,7 @@ def Score(ticker, graphDate, default=False):
             )
         return polarity
 
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
 
     if not ticker:
 
@@ -1211,7 +1211,7 @@ def update_finance_and_tweets(clickData,ticker):
     if clickData:
         graphDate = clickData["points"][0]["x"]
         return F_data(ticker,graphDate),Tweets(ticker,graphDate)
-    db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+    db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
     stock_price_db = db_client.stock_data
     for record in stock_price_db[company_db_name[ticker]].find().sort([("$natural", -1)]).limit(1):
         graphDate = record["date"]

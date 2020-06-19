@@ -9,7 +9,7 @@
 # __author__ = "Fengming Liu"
 # __status__ = "Development"
 
-# db_client = pymongo.MongoClient("mongodb://admin:sentrade@45.76.133.175", 27017)
+# db_client = pymongo.MongoClient(os.environ["CLIENT_ADDR"])
 # company = "amazon"
 # db_collection = db_client["sentiment_data"][company]
 # senti_df = pd.DataFrame()

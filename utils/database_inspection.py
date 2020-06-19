@@ -9,7 +9,7 @@ def get_database_count(client_address, database_name):
         print("In {:<15} {:<9} contains {:>6} entries".format(database_name, company, db[company].count_documents({})))
         
 if __name__ == "__main__":
-    client_address = "mongodb://admin:sentrade@45.76.133.175:27017"
+    client_address = os.environ["CLIENT_ADDR"]
     get_database_count(client_address, "twitter_filtered")
     get_database_count(client_address, "twitter_data")
 
