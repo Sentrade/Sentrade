@@ -108,10 +108,10 @@ def scrap_tweets_today(company_name):
     :return: a json object.
     """
     
-    consumer_key = "o62Qbz4RQcWoSlZwYAf8rk6Br"
-    consumer_secret = "rIA9adduzHxl6lude0lCNYoyNy00trNTsGmrlHNR1M5anasaeB"
-    access_token = "1079882101191778305-UxW9ONHBCHTsHYlfBcWBqsNVmJ7a70"
-    access_token_secret = "0TSs4ls9OYedbFBNhGr72vXgWPkWoFJxDd8Fwj8TpT9jD"
+    consumer_key = os.environ["CONSUMER_KEY"]
+    consumer_secret = os.environ["CONSUMER_SECRET"]
+    access_token = os.environ["ACCESS_TOKEN"]
+    access_token_secret = os.environ["ACCESS_TOKEN_SECRET"]
 
     auth = tw.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
