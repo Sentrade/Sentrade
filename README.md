@@ -1,6 +1,6 @@
 # Sentiment Analysis on Financial News
 
-An algo-trading product to faciliate investors on stock trading based on sentiment analyais of relevant financial news.  
+An algo-trading product to facilitate investors on stock trading based on sentiment analysis of relevant financial news.  
 
 ![Sentrade UI](/archived/UI.png)
 
