@@ -1,4 +1,26 @@
-# Sentiment Analysis on Financial News
+[![Contributors][contributors-shield]][contributors-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+
+<br />
+<p align="center">
+<!--   <a href="https://github.com/Sentrade/Sentrade">
+    <img src="assets/logo.jfif" alt="Logo" width="80" height="80">
+  </a> -->
+
+  <h3 align="center">Sentrade</h3>
+
+  <p align="center">
+    Sentiment Analysis on Financial News - an Imperial College Group Project
+    <br />
+    <a href="https://github.com/Sentrade/Sentrade/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Sentrade/Sentrade/issues">Request Feature</a>
+  </p>
+</p>
+
+## Overview
 
 An algo-trading product to facilitate investors on stock trading based on sentiment analysis of relevant financial news.  
 
@@ -70,3 +92,12 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Acknowledgments
 
 * This project is supervised by [Dr Anandha Gopalan](https://www.imperial.ac.uk/people/a.gopalan): a visionary, experienced and helpful mentor.
+
+[contributors-shield]: https://img.shields.io/github/contributors/Sentrade/Sentrade.svg?style=flat-square
+[contributors-url]: https://github.com/Sentrade/Sentrade/graphs/contributors
+[stars-shield]: https://img.shields.io/github/stars/Sentrade/Sentrade.svg?style=flat-square
+[stars-url]: https://github.com/Sentrade/Sentrade/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Sentrade/Sentrade.svg?style=flat-square
+[issues-url]: https://github.com/Sentrade/Sentrade/issues
+[license-shield]: https://img.shields.io/github/license/Sentrade/Sentrade.svg?style=flat-square
+[license-url]: https://github.com/Sentrade/Sentrade/blob/master/LICENSE.md
