@@ -44,7 +44,7 @@ pip install -r requirements.txt
 ### Data query
 To get access to the raw data, call REST API by:
 ```
-api-sentrade.doc.ic.ac.uk/data/<company_name>
+<web_app_url>/data/<company_name>
 ```
 where company name can be chosen from:
 apple, amazon, facebook, google, microsoft, netflix, tesla, uber.
