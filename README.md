@@ -87,7 +87,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 * **Nora Li** - *Financial data scraping, front end design* - [LinkedIn](https://www.linkedin.com/in/longzhen-nora-li-bb8a9312a/)
 * **Sara Yin** - *Social media business news scraping* - [LinkedIn](https://www.linkedin.com/in/shaomiao%EF%BC%88sara-y-1a44b7170/)
 * **Yiwen Sun** - *Financial data scraping and maintatining* - [LinkedIn](https://www.linkedin.com/in/yiwen-sun-120a9914b/)
-* **Ziyou Zhang** - *Group leader, database developmen, data study* - [LinkedIn](https://www.linkedin.com/in/ziyou-zhang/)
+* **Ziyou Zhang** - *Group leader, database development, data analysis* - [LinkedIn](https://www.linkedin.com/in/ziyou-zhang/)
 
 ## Acknowledgments
 
