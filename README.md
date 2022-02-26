@@ -26,6 +26,10 @@ An algo-trading product to facilitate investors on stock trading based on sentim
 
 ![Sentrade UI](/archived/UI.png)
 
+## Architecture Design
+
+The software workflow is as follows:
+![Sentrade Workflow](/archived/flow.png)
 
 ## Getting Started
 
